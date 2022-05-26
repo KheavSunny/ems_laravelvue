@@ -8,6 +8,7 @@ const store = createStore({
             data: {},
             token: sessionStorage.getItem("TOKEN"),
         },
+        currentUser: { data: {} },
     },
     getters: {
         sideBarOpen: (state) => {
@@ -36,6 +37,12 @@ const store = createStore({
                 return response;
             });
         },
+        getOneUser({ commit }) {
+            return axiosClient.get("/user").then((response) => {
+                commit("setCurrentUser", response.data);
+                return response;
+            });
+        },
     },
     mutations: {
         toggleSidebar(state) {
@@ -50,6 +57,9 @@ const store = createStore({
             state.user.token = userData.token;
             state.user.data = userData.user;
             sessionStorage.setItem("TOKEN", userData.token);
+        },
+        setCurrentUser(state, data) {
+            state.currentUser.data = data;
         },
     },
     modules: {},
