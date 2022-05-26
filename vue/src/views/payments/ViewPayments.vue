@@ -1,5 +1,5 @@
 <template>
-  <div>View payments</div>
+  <div class="text-5xl">View payments</div>
 </template>
 <script setup>
 </script>

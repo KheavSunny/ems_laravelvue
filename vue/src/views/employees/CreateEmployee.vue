@@ -1,9 +1,8 @@
 <template>
-  <div>Create Employee</div>
+  <div class="text-5xl">Create Employee</div>
 </template>
 
 <script setup>
-import Breadcrumb from "../../components/Breadcrumb.vue";
 </script>
 
 <style scoped>
