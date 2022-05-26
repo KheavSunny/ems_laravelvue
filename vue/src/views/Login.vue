@@ -11,7 +11,7 @@
       Log in
     </h2>
     <div class="mt-12">
-      <form>
+      <form @submit.prevent="login">
         <div>
           <div class="text-sm font-bold text-gray-700 tracking-wide">
             Email Address
@@ -21,10 +21,13 @@
               w-full
               text-lg
               py-2
+              mt-2
               border-b border-gray-300
               focus:outline-none focus:border-indigo-500
             "
-            type=""
+            type="email"
+            name="email"
+            v-model="user.email"
             placeholder="Enter your email"
           />
         </div>
@@ -33,7 +36,7 @@
             <div class="text-sm font-bold text-gray-700 tracking-wide">
               Password
             </div>
-            <div>
+            <!-- <div>
               <a
                 class="
                   text-xs
@@ -45,17 +48,20 @@
               >
                 Forgot Password?
               </a>
-            </div>
+            </div> -->
           </div>
           <input
             class="
               w-full
               text-lg
               py-2
+              mt-2
               border-b border-gray-300
               focus:outline-none focus:border-indigo-500
             "
-            type=""
+            name="password"
+            type="password"
+            v-model="user.password"
             placeholder="Enter your password"
           />
         </div>
@@ -73,6 +79,7 @@
               hover:bg-indigo-600
               shadow-lg
             "
+            type="submit"
           >
             Log In
           </button>
@@ -97,10 +104,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Login",
+<script setup>
+import store from "../store";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const user = {
+  email: "",
+  password: "",
 };
+
+function login() {
+  store.dispatch("login", user).then(({ data }) => {
+    router.push({ name: "Dashboard" });
+  });
+}
 </script>
 <style scoped>
 </style>

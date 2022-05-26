@@ -109,7 +109,6 @@
         text-gray-700
         rounded-b-lg
         w-48
-        bottom-10
         right-0
         mr-6
       "
