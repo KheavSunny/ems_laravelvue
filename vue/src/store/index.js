@@ -8,6 +8,9 @@ const store = createStore({
             data: {},
             token: sessionStorage.getItem("TOKEN"),
         },
+        employees: {
+            data: [],
+        },
         currentUser: { data: {} },
     },
     getters: {
@@ -43,6 +46,12 @@ const store = createStore({
                 return response;
             });
         },
+        getEmployees({ commit }) {
+            return axiosClient.get("/employees").then((res) => {
+                commit("setEmployees", res.data);
+                return res;
+            });
+        },
     },
     mutations: {
         toggleSidebar(state) {
@@ -60,6 +69,9 @@ const store = createStore({
         },
         setCurrentUser(state, data) {
             state.currentUser.data = data;
+        },
+        setEmployees(state, data) {
+            state.employees.data = data.data;
         },
     },
     modules: {},
