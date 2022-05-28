@@ -11,6 +11,12 @@ import ViewPayments from "../views/payments/ViewPayments.vue";
 import CreatePayment from "../views/payments/CreatePayment.vue";
 import ViewLoans from "../views/loans/ViewLoans.vue";
 import CreateLoan from "../views/loans/CreateLoan.vue";
+import ViewDepartments from "../views/others/departments/ViewDepartments.vue";
+import CreateDepartment from "../views/others/departments/CreateDepartment.vue";
+import ViewCountries from "../views/others/country/ViewCountries.vue";
+import CreateCountry from "../views/others/country/CreateCountry.vue";
+import ViewStates from "../views/others/state/ViewStates.vue";
+import CreateState from "../views/others/state/CreateState.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Nothing from "../components/Nothing.vue";
@@ -83,6 +89,51 @@ const routes = [{
                         path: "create",
                         name: "CreateLoan",
                         component: CreateLoan,
+                    },
+                ],
+            },
+            {
+                path: "/departments",
+                component: Nothing,
+                children: [{
+                        path: "views",
+                        name: "ViewDepartments",
+                        component: ViewDepartments,
+                    },
+                    {
+                        path: "create",
+                        name: "CreateDepartment",
+                        component: CreateDepartment,
+                    },
+                ],
+            },
+            {
+                path: "/countries",
+                component: Nothing,
+                children: [{
+                        path: "views",
+                        name: "ViewCountries",
+                        component: ViewCountries,
+                    },
+                    {
+                        path: "create",
+                        name: "CreateCountry",
+                        component: CreateCountry,
+                    },
+                ],
+            },
+            {
+                path: "/states",
+                component: Nothing,
+                children: [{
+                        path: "views",
+                        name: "ViewStates",
+                        component: ViewStates,
+                    },
+                    {
+                        path: "create",
+                        name: "CreateState",
+                        component: CreateState,
                     },
                 ],
             },

@@ -11,6 +11,15 @@ const store = createStore({
         employees: {
             data: [],
         },
+        departments: {
+            data: [],
+        },
+        countries: {
+            data: [],
+        },
+        states: {
+            data: [],
+        },
         currentUser: { data: {} },
     },
     getters: {
@@ -52,6 +61,38 @@ const store = createStore({
                 return res;
             });
         },
+        getDepartments({ commit }) {
+            return axiosClient.get("/departments").then((res) => {
+                commit("setDepartments", res.data);
+                return res;
+            });
+        },
+
+        createDepartment({ commit }, data) {
+            return axiosClient.post("/departments", data).then((res) => {
+                commit("setDepartments", res.data);
+                return res;
+            });
+        },
+
+        getCountries({ commit }) {
+            return axiosClient.get("/countries").then((res) => {
+                commit("setCountries", res.data);
+                return res;
+            });
+        },
+        createCountry({ commit }, data) {
+            return axiosClient.post("/countries", data).then((res) => {
+                commit("setCountries", res.data);
+                return res;
+            });
+        },
+        getStates({ commit }) {
+            return axiosClient.get("states").then((res) => {
+                commit("setStates", res.data);
+                return res;
+            });
+        },
     },
     mutations: {
         toggleSidebar(state) {
@@ -72,6 +113,15 @@ const store = createStore({
         },
         setEmployees(state, data) {
             state.employees.data = data.data;
+        },
+        setDepartments(state, data) {
+            state.departments.data = data.data;
+        },
+        setCountries(state, data) {
+            state.countries.data = data.data;
+        },
+        setStates(state, data) {
+            state.states.data = data.data;
         },
     },
     modules: {},

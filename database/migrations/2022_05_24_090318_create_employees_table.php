@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename')->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
             $table->foreignId('department_id')->constrained();
             $table->foreignId('city_id')->constrained();
             $table->foreignId('state_id')->constrained();

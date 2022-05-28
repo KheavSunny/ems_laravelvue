@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\CountryController;
+use App\Http\Controllers\Api\DepartmentController;
+use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\StateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +24,11 @@ Route::middleware('auth:sanctum')->group(function () {
         return request()->user();
     });
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::resource('employees', EmployeeController::class);
+    Route::resource('states', StateController::class);
+    Route::resource('cities', CityController::class);
+    Route::resource('countries', CountryController::class);
+    Route::resource('departments', DepartmentController::class);
 });
 
 
