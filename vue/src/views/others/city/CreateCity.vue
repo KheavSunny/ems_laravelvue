@@ -2,7 +2,7 @@
   <div>
     <div class="text-5xl">Create State</div>
     <div class="mt-5">
-      <form @submit.prevent="createState">
+      <form @submit.prevent="createCity">
         <div class="form-floating mb-3 xl:w-96">
           <input
             type="text"
@@ -27,11 +27,11 @@
               focus:outline-none
             "
             required
-            v-model="state.name"
+            v-model="city.name"
             id="floatingInput"
             placeholder="name@example.com"
           />
-          <label for="floatingInput" class="text-gray-700">State Name</label>
+          <label for="floatingInput" class="text-gray-700">City Name</label>
         </div>
         <div class="form-floating mb-3 xl:w-96">
           <select
@@ -57,15 +57,15 @@
               focus:border-blue-600
               focus:outline-none
             "
-            v-model="state.country_id"
+            v-model="city.state_id"
           >
-            <option disabled selected>Select Country</option>
+            <option disabled selected>Select State</option>
             <option
-              v-for="(country, index) in countries"
+              v-for="(state, index) in states"
               :key="index"
-              :value="country.id"
+              :value="state.state_id"
             >
-              {{ country.country_name }}
+              {{ state.state_name }}
             </option>
           </select>
         </div>
@@ -101,18 +101,18 @@ import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
-const state = {
+const city = {
   name: "",
-  country_id: "",
+  state_id: "",
 };
 
-store.dispatch("getCountries");
+store.dispatch("getStates");
 
-const countries = computed(() => store.state.countries.data);
+const states = computed(() => store.state.states.data);
 
-function createState() {
-  store.dispatch("createState", state).then(() => {
-    router.push({ name: "ViewStates" });
+function createCity() {
+  store.dispatch("createCity", city).then(() => {
+    router.push({ name: "ViewCities" });
   });
 }
 </script>

@@ -33,6 +33,7 @@
         <thead>
           <tr>
             <th>State ID</th>
+            <th>Country Name</th>
             <th>State Name</th>
             <th>Action</th>
           </tr>
@@ -40,6 +41,7 @@
         <tbody>
           <tr v-for="state in states" :key="state.id">
             <td>{{ state.state_id }}</td>
+            <td class="capitalize">{{ state.country.name }}</td>
             <td class="capitalize">{{ state.state_name }}</td>
             <td>Edit</td>
           </tr>

@@ -20,6 +20,9 @@ const store = createStore({
         states: {
             data: [],
         },
+        cities: {
+            data: [],
+        },
         currentUser: { data: {} },
     },
     getters: {
@@ -88,8 +91,26 @@ const store = createStore({
             });
         },
         getStates({ commit }) {
-            return axiosClient.get("states").then((res) => {
+            return axiosClient.get("/states").then((res) => {
                 commit("setStates", res.data);
+                return res;
+            });
+        },
+        createState({ commit }, data) {
+            return axiosClient.post("/states", data).then((res) => {
+                commit("setStates", res.data);
+                return res;
+            });
+        },
+        getCities({ commit }) {
+            return axiosClient.get("/cities").then((res) => {
+                commit("setCities", res.data);
+                return res;
+            });
+        },
+        createCity({ commit }, data) {
+            return axiosClient.post("/cities", data).then((res) => {
+                commit("setCities", res.data);
                 return res;
             });
         },
@@ -122,6 +143,9 @@ const store = createStore({
         },
         setStates(state, data) {
             state.states.data = data.data;
+        },
+        setCities(state, data) {
+            state.cities.data = data.data;
         },
     },
     modules: {},

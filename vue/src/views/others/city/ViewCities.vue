@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-5xl">Views Countries</div>
+      <div class="text-5xl">Views Department</div>
       <div>
-        <router-link :to="{ name: 'CreateCountry' }">
+        <router-link :to="{ name: 'CreateCity' }">
           <button
             type="button"
             class="
@@ -23,7 +23,7 @@
               dark:focus:ring-green-800
             "
           >
-            Add new country
+            Add new city
           </button>
         </router-link>
       </div>
@@ -32,17 +32,17 @@
       <table>
         <thead>
           <tr>
-            <th>Country ID</th>
-            <th>Country Code</th>
-            <th>Country Name</th>
+            <th>City ID</th>
+            <th>State Name</th>
+            <th>City Name</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="country in countries" :key="country.id">
-            <td>{{ country.id }}</td>
-            <td>{{ country.country_code }}</td>
-            <td class="capitalize">{{ country.country_name }}</td>
+          <tr v-for="city in cities" :key="city.id">
+            <td>{{ city.city_id }}</td>
+            <td class="capitalize">{{ city.state.name }}</td>
+            <td class="capitalize">{{ city.city_name }}</td>
             <td>Edit</td>
           </tr>
         </tbody>
@@ -56,7 +56,8 @@ import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 
 const store = useStore();
-store.dispatch("getCountries");
-const countries = computed(() => store.state.countries.data);
-console.log(countries);
+
+store.dispatch("getCities");
+
+const cities = computed(() => store.state.cities.data);
 </script>

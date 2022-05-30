@@ -17,6 +17,8 @@ import ViewCountries from "../views/others/country/ViewCountries.vue";
 import CreateCountry from "../views/others/country/CreateCountry.vue";
 import ViewStates from "../views/others/state/ViewStates.vue";
 import CreateState from "../views/others/state/CreateState.vue";
+import ViewCities from "../views/others/city/ViewCities.vue";
+import CreateCity from "../views/others/city/CreateCity.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Nothing from "../components/Nothing.vue";
@@ -134,6 +136,21 @@ const routes = [{
                         path: "create",
                         name: "CreateState",
                         component: CreateState,
+                    },
+                ],
+            },
+            {
+                path: "/cities",
+                component: Nothing,
+                children: [{
+                        path: "views",
+                        name: "ViewCities",
+                        component: ViewCities,
+                    },
+                    {
+                        path: "create",
+                        name: "CreateCity",
+                        component: CreateCity,
                     },
                 ],
             },

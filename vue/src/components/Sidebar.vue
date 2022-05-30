@@ -385,7 +385,7 @@
           <span class="text-gray-700">State</span>
         </div></router-link
       >
-      <router-link :to="{ name: 'CreateLoan' }"
+      <router-link :to="{ name: 'ViewCities' }"
         ><div
           class="
             w-full
