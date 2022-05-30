@@ -24,7 +24,7 @@ class StoreStateRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_id' => 'required|string',
+            'country_id' => 'required',
             'name' => 'required|string'
         ];
     }

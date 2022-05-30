@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\State;
 
+use App\Models\Country;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class StateResource extends JsonResource
@@ -16,7 +17,7 @@ class StateResource extends JsonResource
     {
         return [
             'state_id' => $this->id,
-            'country_id' => $this->country_id,
+            'country' => Country::whereId($this->country_id)->first(),
             'state_name' => $this->name
         ];
     }

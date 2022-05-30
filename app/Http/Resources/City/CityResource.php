@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\City;
 
+use App\Models\State;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CityResource extends JsonResource
@@ -14,6 +15,10 @@ class CityResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'city_id' => $this->id,
+            'state' => State::whereId($this->state_id)->first(),
+            'city_name' => $this->name
+        ];
     }
 }

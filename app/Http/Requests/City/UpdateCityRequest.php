@@ -13,7 +13,7 @@ class UpdateCityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class UpdateCityRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'state_id' => 'numeric',
+            'name' => 'string'
         ];
     }
 }

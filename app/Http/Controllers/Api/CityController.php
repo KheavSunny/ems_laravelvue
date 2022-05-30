@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\City\StoreCityRequest;
+use App\Http\Requests\City\UpdateCityRequest;
+use App\Http\Resources\City\CityResource;
+use App\Models\City;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -14,7 +18,9 @@ class CityController extends Controller
      */
     public function index()
     {
-        //
+        $cities = City::orderBy('id')->get();
+
+        return CityResource::collection($cities);
     }
 
     /**
@@ -33,9 +39,13 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCityRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $city = City::create($data);
+
+        return new CityResource($city);
     }
 
     /**
@@ -46,7 +56,15 @@ class CityController extends Controller
      */
     public function show($id)
     {
-        //
+        $city = City::whereId($id)->first();
+
+        if ($city) {
+            return new CityResource($city);
+        } else {
+            return response([
+                'message' => 'Data not found!!'
+            ]);
+        }
     }
 
     /**
@@ -67,9 +85,13 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCityRequest $request, City $city)
     {
-        //
+        $data = $request->validated();
+
+        $city->update($data);
+
+        return new CityResource($city);
     }
 
     /**
@@ -78,8 +100,12 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(City $city)
     {
-        //
+        $city->delete();
+
+        return response([
+            'message' => 'City ' . $city->name . ' has been deleted.'
+        ]);
     }
 }

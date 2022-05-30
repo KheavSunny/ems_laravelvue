@@ -24,7 +24,7 @@ class UpdateStateRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_id' => 'string',
+            'country_id' => 'numeric',
             'name' => 'string'
         ];
     }
