@@ -32,6 +32,9 @@ class StoreEmployeeRequest extends FormRequest
             'city_id' => 'required',
             'country_id' => 'required',
             'zip_code' => 'required|string',
+            'address' => 'string',
+            'birthdate' => 'string',
+            'date_hired' => 'string'
         ];
     }
 }

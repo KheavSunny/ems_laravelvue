@@ -64,6 +64,20 @@ const store = createStore({
                 return res;
             });
         },
+        createEmployee({ commit }, data) {
+            return axiosClient.post("/employees", data).then((res) => {
+                commit("setEmployees", res.data);
+                return res;
+            });
+        },
+        updateEmployee({ commit }, data) {
+            return axiosClient
+                .put(`/employees/${data.id}`, data)
+                .then((res) => {
+                    commit("setEmployees", res.data);
+                    return res;
+                });
+        },
         getDepartments({ commit }) {
             return axiosClient.get("/departments").then((res) => {
                 commit("setDepartments", res.data);

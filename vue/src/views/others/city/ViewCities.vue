@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-5xl">Views Department</div>
+      <div class="text-5xl">Views City</div>
       <div>
         <router-link :to="{ name: 'CreateCity' }">
           <button
@@ -56,8 +56,7 @@ import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 
 const store = useStore();
+const cities = computed(() => store.state.cities.data);
 
 store.dispatch("getCities");
-
-const cities = computed(() => store.state.cities.data);
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-5xl">Views Department</div>
+      <div class="text-5xl">Views State</div>
       <div>
         <router-link :to="{ name: 'CreateState' }">
           <button

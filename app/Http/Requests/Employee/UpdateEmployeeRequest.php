@@ -26,8 +26,15 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             'firstname' => 'string',
             'lastname' => 'string',
-            'phone' => 'digits_between:9,10|unique:employees',
-            'address' => 'nullable'
+            'phone' => 'digits_between:9,10|unique:employees,phone',
+            'department_id' => 'numeric',
+            'state_id' => 'numeric',
+            'city_id' => 'numeric',
+            'country_id' => 'numeric',
+            'zip_code' => 'string',
+            'address' => 'string',
+            'birthdate' => 'string',
+            'date_hired' => 'string'
         ];
     }
 }

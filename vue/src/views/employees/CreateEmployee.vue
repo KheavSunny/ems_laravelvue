@@ -2,8 +2,8 @@
   <div>
     <div class="text-5xl">Create Employee</div>
     <div class="mt-6">
-      <form>
-        <div class="grid xl:grid-cols-2 xl:gap-6">
+      <form @submit.prevent="createEmployee">
+        <div class="grid xl:gap-6">
           <div class="relative z-0 w-full mb-6 group">
             <input
               type="text"
@@ -232,22 +232,112 @@
               >Address</label
             >
           </div>
-          <div
-            class="datepicker relative form-floating mb-3 xl:w-96"
-            data-mdb-toggle-button="false"
-          >
+          <div class="relative z-0 w-full mb-6 group">
             <input
               type="text"
+              name="floating_last_name"
+              id="floating_last_name"
               class="
-                form-control
+                block
+                py-2.5
+                px-0
+                w-full
+                text-sm text-gray-900
+                bg-transparent
+                border-0 border-b-2 border-gray-300
+                appearance-none
+                dark:text-white dark:border-gray-600 dark:focus:border-blue-500
+                focus:outline-none focus:ring-0 focus:border-blue-600
+                peer
+              "
+              placeholder=" "
+              required=""
+              v-model="employee.zip_code"
+            />
+            <label
+              for="floating_last_name"
+              class="
+                peer-focus:font-medium
+                absolute
+                text-sm text-gray-500
+                dark:text-gray-400
+                duration-300
+                transform
+                -translate-y-6
+                scale-75
+                top-3
+                -z-10
+                origin-[0]
+                peer-focus:left-0
+                peer-focus:text-blue-600
+                peer-focus:dark:text-blue-500
+                peer-placeholder-shown:scale-100
+                peer-placeholder-shown:translate-y-0
+                peer-focus:scale-75 peer-focus:-translate-y-6
+              "
+              >Zip Code <span class="text-red-500">*</span></label
+            >
+          </div>
+          <div class="relative z-0 w-full mb-6 group">
+            <input
+              type="date"
+              name="floating_last_name"
+              id="floating_last_name"
+              class="
+                block
+                py-2.5
+                px-0
+                w-full
+                text-sm text-gray-900
+                bg-transparent
+                border-0 border-b-2 border-gray-300
+                appearance-none
+                dark:text-white dark:border-gray-600 dark:focus:border-blue-500
+                focus:outline-none focus:ring-0 focus:border-blue-600
+                peer
+              "
+              placeholder=" "
+              required=""
+              v-model="employee.birthdate"
+            />
+            <label
+              for="floating_last_name"
+              class="
+                peer-focus:font-medium
+                absolute
+                text-sm text-gray-500
+                dark:text-gray-400
+                duration-300
+                transform
+                -translate-y-6
+                scale-75
+                top-3
+                -z-10
+                origin-[0]
+                peer-focus:left-0
+                peer-focus:text-blue-600
+                peer-focus:dark:text-blue-500
+                peer-placeholder-shown:scale-100
+                peer-placeholder-shown:translate-y-0
+                peer-focus:scale-75 peer-focus:-translate-y-6
+              "
+              >Birthdate <span class="text-red-500">*</span></label
+            >
+          </div>
+          <div class="relative z-0 w-full group">
+            <select
+              class="
+                select
+                mb-3
+                appearance-none
                 block
                 w-full
-                px-3
-                py-1.5
+                px-4
+                py-2
                 text-base
                 font-normal
                 text-gray-700
-                bg-white bg-clip-padding
+                bg-white bg-clip-padding bg-no-repeat
                 border border-solid border-gray-300
                 rounded
                 transition
@@ -258,12 +348,125 @@
                 focus:border-blue-600
                 focus:outline-none
               "
-              placeholder="Select a date"
-              data-mdb-toggle="datepicker"
-            />
-            <label for="floatingInput" class="text-gray-700"
-              >Select a date</label
+              v-model="employee.city_id"
             >
+              <option disabled selected value="">Select City</option>
+              <option
+                v-for="city in cities"
+                :key="city.city_id"
+                :value="city.city_id"
+              >
+                {{ city.city_name }}
+              </option>
+            </select>
+          </div>
+          <div class="relative z-0 w-full group">
+            <select
+              class="
+                select
+                mb-3
+                appearance-none
+                block
+                w-full
+                px-4
+                py-2
+                text-base
+                font-normal
+                text-gray-700
+                bg-white bg-clip-padding bg-no-repeat
+                border border-solid border-gray-300
+                rounded
+                transition
+                ease-in-out
+                m-0
+                focus:text-gray-700
+                focus:bg-white
+                focus:border-blue-600
+                focus:outline-none
+              "
+              v-model="employee.state_id"
+            >
+              <option disabled selected value="">Select States</option>
+              <option
+                v-for="state in states"
+                :key="state.state_id"
+                :value="state.state_id"
+              >
+                {{ state.state_name }}
+              </option>
+            </select>
+          </div>
+          <div class="relative z-0 w-full group">
+            <select
+              class="
+                select
+                mb-3
+                appearance-none
+                block
+                w-full
+                px-4
+                py-2
+                text-base
+                font-normal
+                text-gray-700
+                bg-white bg-clip-padding bg-no-repeat
+                border border-solid border-gray-300
+                rounded
+                transition
+                ease-in-out
+                m-0
+                focus:text-gray-700
+                focus:bg-white
+                focus:border-blue-600
+                focus:outline-none
+              "
+              v-model="employee.country_id"
+            >
+              <option disabled selected value="">Select Country</option>
+              <option
+                v-for="country in countries"
+                :key="country.country_id"
+                :value="country.id"
+              >
+                {{ country.country_name }}
+              </option>
+            </select>
+          </div>
+          <div class="relative z-0 w-full group">
+            <select
+              class="
+                select
+                mb-3
+                appearance-none
+                block
+                w-full
+                px-4
+                py-2
+                text-base
+                font-normal
+                text-gray-700
+                bg-white bg-clip-padding bg-no-repeat
+                border border-solid border-gray-300
+                rounded
+                transition
+                ease-in-out
+                m-0
+                focus:text-gray-700
+                focus:bg-white
+                focus:border-blue-600
+                focus:outline-none
+              "
+              v-model="employee.department_id"
+            >
+              <option disabled selected value="">Select Departments</option>
+              <option
+                v-for="department in departments"
+                :key="department.department_id"
+                :value="department.department_id"
+              >
+                {{ department.department_name }}
+              </option>
+            </select>
           </div>
         </div>
         <button
@@ -293,6 +496,8 @@
 
 
 <script setup>
+import { computed } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
 import store from "../../store";
 
 const employee = {
@@ -301,7 +506,28 @@ const employee = {
   middlename: "",
   phone: "",
   address: "",
+  zip_code: "",
   birthdate: "",
+  city_id: "",
+  state_id: "",
+  country_id: "",
+  department_id: "",
 };
+const router = useRouter();
+
+store.dispatch("getCities");
+store.dispatch("getStates");
+store.dispatch("getCountries");
+store.dispatch("getDepartments");
+
+const cities = computed(() => store.state.cities.data);
+const states = computed(() => store.state.states.data);
+const countries = computed(() => store.state.countries.data);
+const departments = computed(() => store.state.departments.data);
+function createEmployee() {
+  store.dispatch("createEmployee", employee).then(() => {
+    router.push({ name: "ViewEmployees" });
+  });
+}
 </script>
 <style scoped></style>;

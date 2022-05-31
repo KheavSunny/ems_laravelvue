@@ -41,7 +41,7 @@
           <tr v-for="department in departments" :key="department.id">
             <td>{{ department.department_id }}</td>
             <td class="capitalize">{{ department.department_name }}</td>
-            <td>Edit</td>
+            <td><button>Edit</button></td>
           </tr>
         </tbody>
       </table>
