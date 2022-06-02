@@ -56,7 +56,13 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $department = Department::whereId($id)->first();
+
+        if ($department) {
+            return new DepartmentResource($department);
+        } else {
+            return response(['message' => 'No data found!!!!']);
+        }
     }
 
     /**

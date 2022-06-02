@@ -39,9 +39,23 @@
         </thead>
         <tbody>
           <tr v-for="department in departments" :key="department.id">
-            <td>{{ department.department_id }}</td>
-            <td class="capitalize">{{ department.department_name }}</td>
-            <td><button>Edit</button></td>
+            <td>{{ department.id }}</td>
+            <td class="capitalize">{{ department.name }}</td>
+            <td v-if="department.id">
+              <router-link
+                :to="{
+                  name: 'UpdateDepartment',
+                  params: { id: department.id },
+                }"
+                ><button class="badge badge-accent">Edit</button></router-link
+              >
+              <button
+                @click.prevent="DeleteDepartment(department.id)"
+                class="badge badge-error ml-2"
+              >
+                Delete
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -56,6 +70,14 @@ import store from "../../../store";
 store.dispatch("getDepartments");
 
 const departments = computed(() => store.state.departments.data);
+
+function DeleteDepartment(id) {
+  if (confirm(`Are you sure to delete this department row ?`)) {
+    store.dispatch("deleteDepartment", id).then(() => {
+      store.dispatch("getDepartments");
+    });
+  }
+}
 </script>
 
 <style scoped>

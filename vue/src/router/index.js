@@ -12,7 +12,7 @@ import CreatePayment from "../views/payments/CreatePayment.vue";
 import ViewLoans from "../views/loans/ViewLoans.vue";
 import CreateLoan from "../views/loans/CreateLoan.vue";
 import ViewDepartments from "../views/others/departments/ViewDepartments.vue";
-import CreateDepartment from "../views/others/departments/CreateDepartment.vue";
+import SaveDepartment from "../views/others/departments/SaveDepartment.vue";
 import ViewCountries from "../views/others/country/ViewCountries.vue";
 import CreateCountry from "../views/others/country/CreateCountry.vue";
 import ViewStates from "../views/others/state/ViewStates.vue";
@@ -105,7 +105,12 @@ const routes = [{
                     {
                         path: "create",
                         name: "CreateDepartment",
-                        component: CreateDepartment,
+                        component: SaveDepartment,
+                    },
+                    {
+                        path: ":id",
+                        name: "UpdateDepartment",
+                        component: SaveDepartment,
                     },
                 ],
             },

@@ -85,11 +85,39 @@ const store = createStore({
             });
         },
 
-        createDepartment({ commit }, data) {
-            return axiosClient.post("/departments", data).then((res) => {
+        getDepartment({ commit }, id) {
+            return axiosClient.get(`/departments/${id}`).then((res) => {
                 commit("setDepartments", res.data);
                 return res;
             });
+        },
+        saveDepartment({ commit }, data) {
+            let response;
+            if (data.id) {
+                response = axiosClient
+                    .put(
+                        `/departments/
+                        ${data.id}`,
+                        data
+                    )
+                    .then((res) => {
+                        commit("setDepartments", res.data);
+                        return res;
+                    });
+            } else {
+                response = axiosClient
+                    .post("/departments", data)
+                    .then((res) => {
+                        commit("setDepartments", res.data);
+                        return res;
+                    });
+            }
+
+            return response;
+        },
+
+        deleteDepartment({ commit }, id) {
+            return axiosClient.delete(`/departments/${id}`);
         },
 
         getCountries({ commit }) {

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div class="text-5xl">Create Department</div>
+    <div class="text-5xl">
+      {{ route.params.id ? department.name : "Create Department" }}
+    </div>
     <div class="mt-5">
-      <form @submit.prevent="createDepartment">
+      <form @submit.prevent="saveDepartment">
         <div class="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -66,7 +68,7 @@
             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
           "
         >
-          Create
+          {{ route.params.id ? "Save" : "Create" }}
         </button>
       </form>
     </div>
@@ -74,18 +76,32 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { ref, watch } from "vue";
 
 const store = useStore();
+const route = useRoute();
 const router = useRouter();
 
-const department = {
+let department = ref({
   name: "",
-};
+});
+watch(
+  () => store.state.departments.data,
+  (newVal, oldVal) => {
+    department.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+    };
+  }
+);
 
-function createDepartment() {
-  store.dispatch("createDepartment", department).then(() => {
+if (route.params.id) {
+  store.dispatch("getDepartment", route.params.id);
+}
+
+function saveDepartment() {
+  store.dispatch("saveDepartment", department.value).then(() => {
     router.push({ name: "ViewDepartments" });
   });
 }
