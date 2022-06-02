@@ -40,10 +40,17 @@
         </thead>
         <tbody>
           <tr v-for="state in states" :key="state.id">
-            <td>{{ state.state_id }}</td>
-            <td class="capitalize">{{ state.country.name }}</td>
-            <td class="capitalize">{{ state.state_name }}</td>
-            <td>Edit</td>
+            <td>{{ state.id }}</td>
+            <td class="capitalize" v-if="state.id">
+              {{ state.id }}
+            </td>
+            <td class="capitalize">{{ state.name }}</td>
+            <td>
+              <router-link
+                :to="{ name: 'UpdateState', params: { id: state.id } }"
+                >Edit</router-link
+              >
+            </td>
           </tr>
         </tbody>
       </table>

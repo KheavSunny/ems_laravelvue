@@ -138,11 +138,29 @@ const store = createStore({
                 return res;
             });
         },
-        createState({ commit }, data) {
-            return axiosClient.post("/states", data).then((res) => {
+        getState({ commit }, id) {
+            return axiosClient.get(`/states/${id}`).then((res) => {
                 commit("setStates", res.data);
                 return res;
             });
+        },
+        createState({ commit }, data) {
+            let response;
+            if (data.id) {
+                response = axiosClient
+                    .put(`/states/${data.id}`, data)
+                    .then((res) => {
+                        commit("setStates", res.data);
+                        return res;
+                    });
+            } else {
+                response = axiosClient.post("/states", data).then((res) => {
+                    commit("setStates", res.data);
+                    return res;
+                });
+            }
+
+            return response;
         },
         getCities({ commit }) {
             return axiosClient.get("/cities").then((res) => {

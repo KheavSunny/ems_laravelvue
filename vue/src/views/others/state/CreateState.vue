@@ -80,7 +80,7 @@
               :key="index"
               :value="country.id"
             >
-              {{ country.country_name }}
+              {{ country.name }}
             </option>
           </select>
         </div>
@@ -102,7 +102,7 @@
             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
           "
         >
-          Create
+          {{ route.params.id ? "Save" : "Create" }}
         </button>
       </form>
     </div>
@@ -111,22 +111,36 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { computed } from "vue";
-import { useRouter } from "vue-router";
+import { computed, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
-const state = {
+const route = useRoute();
+let state = ref({
   name: "",
   country_id: "",
-};
+});
 
 store.dispatch("getCountries");
+
+watch(
+  () => store.state.states.data,
+  (newVal, oldVal) => {
+    state.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+    };
+  }
+);
+
+if (route.params.id) {
+  store.dispatch("getState", route.params.id);
+}
 
 const countries = computed(() => store.state.countries.data);
 
 function createState() {
-  store.dispatch("createState", state).then(() => {
+  store.dispatch("createState", state.value).then(() => {
     router.push({ name: "ViewStates" });
   });
 }

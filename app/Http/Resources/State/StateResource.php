@@ -16,9 +16,9 @@ class StateResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'state_id' => $this->id,
+            'id' => $this->id,
             'country' => Country::whereId($this->country_id)->first(),
-            'state_name' => $this->name
+            'name' => $this->name
         ];
     }
 }

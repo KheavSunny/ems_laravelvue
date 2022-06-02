@@ -56,7 +56,13 @@ class StateController extends Controller
      */
     public function show($id)
     {
-        //
+        $state = State::whereId($id)->first();
+
+        if ($state) {
+            return new StateResource($state);
+        } else {
+            return response(['message' => 'Data not found!!!!']);
+        }
     }
 
     /**

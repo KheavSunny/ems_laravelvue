@@ -142,6 +142,11 @@ const routes = [{
                         name: "CreateState",
                         component: CreateState,
                     },
+                    {
+                        path: ":id",
+                        name: "UpdateState",
+                        component: CreateState,
+                    },
                 ],
             },
             {
