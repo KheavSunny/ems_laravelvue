@@ -34,11 +34,10 @@
             text-blue-400
             h-10
             pl-4
-            bg-gray-200
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[$route.name === 'Dashboard' ? activeClass : inactiveClass]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -67,10 +66,12 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'ViewEmployees' ? activeClass : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,10 +99,12 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'CreateEmployee' ? activeClass : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -130,10 +133,12 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'ViewAttendances' ? activeClass : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -161,10 +166,12 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'CreateAttendance' ? activeClass : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -196,10 +203,12 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'ViewPayments' ? activeClass : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -227,10 +236,12 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'CreatePayment' ? activeClass : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -262,10 +273,10 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[$route.name === 'ViewLoans' ? activeClass : inactiveClass]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -293,10 +304,10 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[$route.name === 'CreateLoan' ? activeClass : inactiveClass]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -327,10 +338,16 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'ViewDepartments' ||
+            $route.name === 'CreateDepartment' ||
+            $route.name === 'UpdateDepartment'
+              ? activeClass
+              : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -358,10 +375,16 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'ViewStates' ||
+            $route.name === 'CreateState' ||
+            $route.name === 'UpdateState'
+              ? activeClass
+              : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -394,10 +417,16 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'ViewCities' ||
+            $route.name === 'CreateCity' ||
+            $route.name === 'UpdateCity'
+              ? activeClass
+              : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -430,10 +459,16 @@
             text-blue-400
             h-10
             pl-4
-            hover:bg-gray-200
             rounded-lg
             cursor-pointer
           "
+          :class="[
+            $route.name === 'ViewCountries' ||
+            $route.name === 'CreateCountry' ||
+            $route.name === 'UpdateCountry'
+              ? activeClass
+              : inactiveClass,
+          ]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -461,13 +496,21 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script setup>
+import { computed, ref } from "@vue/runtime-core";
+import { mapState, useStore } from "vuex";
 
-export default {
-  name: "Sidebar",
-  computed: {
-    ...mapState(["sideBarOpen"]),
-  },
-};
+// export default {
+//   computed: {
+//     ...mapState(["sideBarOpen"]),
+//   },
+// };
+const store = useStore();
+
+const sideBarOpen = computed(() => store.state.sideBarOpen);
+
+const activeClass = ref("bg-gray-600 bg-opacity-25 border-gray-100");
+const inactiveClass = ref(
+  "border-gray-900 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100"
+);
 </script>
