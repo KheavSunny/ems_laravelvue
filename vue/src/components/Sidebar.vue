@@ -502,11 +502,6 @@
 import { computed, ref } from "@vue/runtime-core";
 import { mapState, useStore } from "vuex";
 
-// export default {
-//   computed: {
-//     ...mapState(["sideBarOpen"]),
-//   },
-// };
 const store = useStore();
 
 const sideBarOpen = computed(() => store.state.sideBarOpen);
