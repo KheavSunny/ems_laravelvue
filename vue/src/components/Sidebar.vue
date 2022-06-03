@@ -39,7 +39,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[$route.name === 'Dashboard' ? activeClass : inactiveClass]"
+          :class="[$route.name === 'Dashboard' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +71,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[
-            $route.name === 'ViewEmployees' ? activeClass : inactiveClass,
-          ]"
+          :class="[$route.name === 'ViewEmployees' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -104,9 +102,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[
-            $route.name === 'CreateEmployee' ? activeClass : inactiveClass,
-          ]"
+          :class="[$route.name === 'CreateEmployee' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -138,9 +134,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[
-            $route.name === 'ViewAttendances' ? activeClass : inactiveClass,
-          ]"
+          :class="[$route.name === 'ViewAttendances' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -171,9 +165,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[
-            $route.name === 'CreateAttendance' ? activeClass : inactiveClass,
-          ]"
+          :class="[$route.name === 'CreateAttendance' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -208,9 +200,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[
-            $route.name === 'ViewPayments' ? activeClass : inactiveClass,
-          ]"
+          :class="[$route.name === 'ViewPayments' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -241,9 +231,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[
-            $route.name === 'CreatePayment' ? activeClass : inactiveClass,
-          ]"
+          :class="[$route.name === 'CreatePayment' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +266,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[$route.name === 'ViewLoans' ? activeClass : inactiveClass]"
+          :class="[$route.name === 'ViewLoans' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -309,7 +297,7 @@
             rounded-lg
             cursor-pointer
           "
-          :class="[$route.name === 'CreateLoan' ? activeClass : inactiveClass]"
+          :class="[$route.name === 'CreateLoan' ? active : inactive]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -347,8 +335,8 @@
             $route.name === 'ViewDepartments' ||
             $route.name === 'CreateDepartment' ||
             $route.name === 'UpdateDepartment'
-              ? activeClass
-              : inactiveClass,
+              ? active
+              : inactive,
           ]"
         >
           <svg
@@ -384,8 +372,8 @@
             $route.name === 'ViewStates' ||
             $route.name === 'CreateState' ||
             $route.name === 'UpdateState'
-              ? activeClass
-              : inactiveClass,
+              ? active
+              : inactive,
           ]"
         >
           <svg
@@ -426,8 +414,8 @@
             $route.name === 'ViewCities' ||
             $route.name === 'CreateCity' ||
             $route.name === 'UpdateCity'
-              ? activeClass
-              : inactiveClass,
+              ? active
+              : inactive,
           ]"
         >
           <svg
@@ -468,8 +456,8 @@
             $route.name === 'ViewCountries' ||
             $route.name === 'CreateCountry' ||
             $route.name === 'UpdateCountry'
-              ? activeClass
-              : inactiveClass,
+              ? active
+              : inactive,
           ]"
         >
           <svg
@@ -506,8 +494,8 @@ const store = useStore();
 
 const sideBarOpen = computed(() => store.state.sideBarOpen);
 
-const activeClass = ref("bg-gray-600 bg-opacity-25 border-gray-100");
-const inactiveClass = ref(
+const active = ref("bg-gray-600 bg-opacity-25 border-gray-100");
+const inactive = ref(
   "border-gray-900 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100"
 );
 </script>
