@@ -34,7 +34,12 @@
               <router-link
                 :to="{ name: 'UpdateEmployee', params: { id: employee.id } }"
                 ><button class="badge badge-accent">Edit</button></router-link
+              ><button
+                @click.prevent="deleteEmployee(employee.id)"
+                class="badge badge-error ml-2"
               >
+                Delete
+              </button>
             </td>
           </tr>
         </tbody>
@@ -52,6 +57,12 @@ store.dispatch("getEmployees");
 const employees = computed(() => store.state.employees.data);
 
 const theads = ["ID", "Firstname", "Lastname", "Phone", "Address"];
+
+function deleteEmployee(id) {
+  store.dispatch("deleteEmployee", id).then(() => {
+    store.dispatch("getEmployees");
+  });
+}
 </script>
 
 <style scoped>

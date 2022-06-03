@@ -87,6 +87,9 @@ const store = createStore({
             }
             return response;
         },
+        deleteEmployee({ commit }, id) {
+            return axiosClient.delete(`/employees/${id}`);
+        },
         getDepartments({ commit }) {
             return axiosClient.get("/departments").then((res) => {
                 commit("setDepartments", res.data);
