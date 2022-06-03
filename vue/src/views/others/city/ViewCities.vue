@@ -40,10 +40,22 @@
         </thead>
         <tbody>
           <tr v-for="city in cities" :key="city.id">
-            <td>{{ city.city_id }}</td>
-            <td class="capitalize">{{ city.state.name }}</td>
-            <td class="capitalize">{{ city.city_name }}</td>
-            <td>Edit</td>
+            <td>{{ city.id }}</td>
+            <td v-if="city.state" class="capitalize">{{ city.state.name }}</td>
+            <td class="capitalize">{{ city.name }}</td>
+            <td v-if="city.id">
+              <router-link
+                :to="{ name: 'UpdateCity', params: { id: city.id } }"
+              >
+                <button class="badge badge-accent">Edit</button>
+              </router-link>
+              <button
+                @click.prevent="deleteCity(city.id)"
+                class="badge badge-error ml-2"
+              >
+                Delete
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -57,6 +69,11 @@ import { useStore } from "vuex";
 
 const store = useStore();
 const cities = computed(() => store.state.cities.data);
-
 store.dispatch("getCities");
+
+function deleteCity(id) {
+  store.dispatch("deleteCity", id).then(() => {
+    store.dispatch("getCities");
+  });
+}
 </script>

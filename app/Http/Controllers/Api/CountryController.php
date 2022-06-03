@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Country\StoreCountryRequest;
+use App\Http\Requests\Country\UpdateCountryRequest;
 use App\Http\Resources\Country\CountryResource;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -42,9 +43,9 @@ class CountryController extends Controller
     {
         $data = $request->validated();
 
-        $countires = Country::create($data);
+        $country = Country::create($data);
 
-        return new CountryResource($countires);
+        return new CountryResource($country);
     }
 
     /**
@@ -55,7 +56,13 @@ class CountryController extends Controller
      */
     public function show($id)
     {
-        //
+        $country = Country::whereId($id)->first();
+
+        if ($country) {
+            return new CountryResource($country);
+        } else {
+            return response(['message' => 'Data not found !!!']);
+        }
     }
 
     /**
@@ -76,9 +83,16 @@ class CountryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCountryRequest $request, $id)
     {
-        //
+        $country = Country::whereId($id)->first();
+
+        if ($country) {
+            $country->update($request->validated());
+            return new CountryResource($country);
+        } else {
+            return response(['message' => 'Data not found !!!']);
+        }
     }
 
     /**
@@ -89,6 +103,13 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $country = Country::whereId($id)->first();
+
+        if ($country) {
+            $country->delete();
+            return response(['message' => 'Country ' . $country->name . ' has been deleted.']);
+        } else {
+            return response(['message' => 'Data not found !!!']);
+        }
     }
 }

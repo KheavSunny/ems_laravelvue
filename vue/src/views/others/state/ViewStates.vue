@@ -39,17 +39,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="state in states" :key="state.id">
+          <tr v-for="(state, index) in states" :key="index">
             <td>{{ state.id }}</td>
-            <td class="capitalize" v-if="state.id">
-              {{ state.id }}
+            <td v-if="state.country" class="capitalize">
+              {{ state.country.name }}
             </td>
             <td class="capitalize">{{ state.name }}</td>
-            <td>
+            <td v-if="state.id">
               <router-link
-                :to="{ name: 'UpdateState', params: { id: state.id } }"
-                >Edit</router-link
+                :to="{
+                  name: 'UpdateState',
+                  params: { id: state.id },
+                }"
+                ><button class="badge badge-accent">Edit</button></router-link
               >
+              <button
+                @click.prevent="deleteState(state.id)"
+                class="badge badge-error ml-2"
+              >
+                Delete
+              </button>
             </td>
           </tr>
         </tbody>
@@ -67,4 +76,10 @@ const store = useStore();
 store.dispatch("getStates");
 
 const states = computed(() => store.state.states.data);
+
+function deleteState(id) {
+  store.dispatch("deleteState", id).then(() => {
+    store.dispatch("getStates");
+  });
+}
 </script>

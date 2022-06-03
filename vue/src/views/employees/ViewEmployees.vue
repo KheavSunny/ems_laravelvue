@@ -30,16 +30,10 @@
             <td>
               {{ employee.address }}
             </td>
-            <td class="text-right">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
+            <td v-if="employee.id" class="text-right">
+              <router-link
+                :to="{ name: 'UpdateEmployee', params: { id: employee.id } }"
+                ><button class="badge badge-accent">Edit</button></router-link
               >
             </td>
           </tr>

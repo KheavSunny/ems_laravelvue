@@ -26,6 +26,7 @@ class StoreEmployeeRequest extends FormRequest
         return [
             'firstname' => 'required|string',
             'lastname' => 'required|string',
+            'middlename' => 'nullable',
             'phone' => 'required|digits_between:9,10|unique:employees',
             'department_id' => 'required',
             'state_id' => 'required',

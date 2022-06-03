@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Employee\StoreEmployeeRequest;
+use App\Http\Requests\Employee\UpdateEmployeeRequest;
 use App\Http\Resources\Employee\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Auth\Events\Validated;
@@ -56,7 +57,13 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = Employee::whereId($id)->first();
+
+        if ($employee) {
+            return new EmployeeResource($employee);
+        } else {
+            return response(['message' => 'Data not found !!!!']);
+        }
     }
 
     /**
@@ -77,9 +84,18 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEmployeeRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+
+        $employee = Employee::whereId($id)->first();
+
+        if ($employee) {
+            $employee->update($data);
+            return new EmployeeResource($employee);
+        } else {
+            return response(['message' => 'Data not found !!!']);
+        }
     }
 
     /**
@@ -90,6 +106,13 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = Employee::whereId($id)->first();
+
+        if ($employee) {
+            $employee->delete();
+            return response(['message' => 'Employee ' . $employee->firstname . ' ' . $employee->lastname . ' has been deleted.']);
+        } else {
+            return response(['message' => 'Data not found !!!!']);
+        }
     }
 }

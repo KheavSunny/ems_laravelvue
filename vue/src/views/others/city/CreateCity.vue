@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="text-5xl">Create City</div>
+    <div class="text-5xl">
+      {{ route.params.id ? city.name : "Create City" }}
+    </div>
     <div class="mt-5">
       <form @submit.prevent="createCity">
         <div class="relative z-0 w-full mb-6 group">
@@ -74,14 +76,13 @@
             "
             v-model="city.state_id"
           >
-            <option disabled value="">Select Country</option>
+            <option disabled value="">Select States</option>
             <option
               v-for="(state, index) in states"
               :key="index == 0"
-              :value="state.state_id"
-              :selected="index === 1 ? 'selected' : ''"
+              :value="state.id"
             >
-              {{ state.state_name }}
+              {{ state.name }}
             </option>
           </select>
         </div>
@@ -103,7 +104,7 @@
             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
           "
         >
-          Create
+          {{ route.params.id ? "Save" : "Create" }}
         </button>
       </form>
     </div>
@@ -112,22 +113,38 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { computed } from "vue";
-import { useRouter } from "vue-router";
+import { computed, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
-const city = {
+const route = useRoute();
+const city = ref({
   name: "",
   state_id: "",
-};
+  state: "",
+});
 
 store.dispatch("getStates");
+
+watch(
+  () => store.state.cities.data,
+  (newVal, oldVal) => {
+    city.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+    };
+    city.value.state_id = newVal.state.id;
+  }
+);
+
+if (route.params.id) {
+  store.dispatch("getCity", route.params.id);
+}
 
 const states = computed(() => store.state.states.data);
 
 function createCity() {
-  store.dispatch("createCity", city).then(() => {
+  store.dispatch("createCity", city.value).then(() => {
     router.push({ name: "ViewCities" });
   });
 }

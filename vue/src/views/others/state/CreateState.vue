@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="text-5xl">Create State</div>
+    <div class="text-5xl">
+      {{ route.params.id ? state.name : "Create State" }}
+    </div>
     <div class="mt-5">
       <form @submit.prevent="createState">
         <div class="relative z-0 mb-3 w-full">
@@ -73,6 +75,7 @@
               focus:outline-none
             "
             v-model="state.country_id"
+            v-if="countries"
           >
             <option disabled value="">Select Country</option>
             <option
@@ -120,6 +123,7 @@ const route = useRoute();
 let state = ref({
   name: "",
   country_id: "",
+  country: "",
 });
 
 store.dispatch("getCountries");
@@ -130,6 +134,7 @@ watch(
     state.value = {
       ...JSON.parse(JSON.stringify(newVal)),
     };
+    state.value.country_id = newVal.country.id;
   }
 );
 

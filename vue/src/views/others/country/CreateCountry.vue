@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="text-5xl">Create Country</div>
+    <div class="text-5xl">
+      {{ route.params.id ? country.name : "Create Country" }}
+    </div>
     <div class="mt-5">
       <form @submit.prevent="createCountry">
         <div class="relative z-0 w-full mb-6 group">
@@ -22,7 +24,7 @@
             "
             placeholder=" "
             required
-            v-model="country.country_code"
+            v-model="country.code"
           />
           <label
             for="floating_email"
@@ -111,7 +113,7 @@
             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
           "
         >
-          Create
+          {{ route.params.id ? "Save" : "Create" }}
         </button>
       </form>
     </div>
@@ -119,19 +121,36 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { ref } from "@vue/reactivity";
+import { watch } from "@vue/runtime-core";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 
-const country = {
-  country_code: "",
-  country_name: "",
-};
+const country = ref({
+  code: "",
+  name: "",
+});
+
+if (route.params.id) {
+  store.dispatch("getCountry", route.params.id);
+}
+
+watch(
+  () => store.state.countries.data,
+  (newVal, oldVal) => {
+    country.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+    };
+  }
+);
 
 function createCountry() {
-  store.dispatch("createCountry", country).then(() => {
+  console.log(country.value.code);
+  store.dispatch("createCountry", country.value).then(() => {
     router.push({ name: "ViewCountries" });
   });
 }

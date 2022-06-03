@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="text-5xl">Create Employee</div>
+    <div class="text-5xl">
+      {{ route.params.id ? employee.firstname : "Create Employee" }}
+    </div>
     <div class="mt-6">
       <form @submit.prevent="createEmployee">
         <div class="grid xl:gap-6">
@@ -351,12 +353,8 @@
               v-model="employee.city_id"
             >
               <option disabled selected value="">Select City</option>
-              <option
-                v-for="city in cities"
-                :key="city.city_id"
-                :value="city.city_id"
-              >
-                {{ city.city_name }}
+              <option v-for="city in cities" :key="city.id" :value="city.id">
+                {{ city.name }}
               </option>
             </select>
           </div>
@@ -387,12 +385,8 @@
               v-model="employee.state_id"
             >
               <option disabled selected value="">Select States</option>
-              <option
-                v-for="state in states"
-                :key="state.state_id"
-                :value="state.state_id"
-              >
-                {{ state.state_name }}
+              <option v-for="state in states" :key="state.id" :value="state.id">
+                {{ state.name }}
               </option>
             </select>
           </div>
@@ -425,10 +419,10 @@
               <option disabled selected value="">Select Country</option>
               <option
                 v-for="country in countries"
-                :key="country.country_id"
+                :key="country.id"
                 :value="country.id"
               >
-                {{ country.country_name }}
+                {{ country.name }}
               </option>
             </select>
           </div>
@@ -460,11 +454,11 @@
             >
               <option disabled selected value="">Select Departments</option>
               <option
-                v-for="department in departments"
-                :key="department.department_id"
-                :value="department.department_id"
+                v-for="(department, index) in departments"
+                :key="index"
+                :value="department.id"
               >
-                {{ department.department_name }}
+                {{ department.name }}
               </option>
             </select>
           </div>
@@ -487,7 +481,7 @@
             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
           "
         >
-          Submit
+          {{ route.params.id ? "Save" : "Create" }}
         </button>
       </form>
     </div>
@@ -496,11 +490,11 @@
 
 
 <script setup>
-import { computed } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
+import { computed, ref, watch } from "@vue/runtime-core";
+import { useRoute, useRouter } from "vue-router";
 import store from "../../store";
 
-const employee = {
+const employee = ref({
   firstname: "",
   lastname: "",
   middlename: "",
@@ -512,20 +506,34 @@ const employee = {
   state_id: "",
   country_id: "",
   department_id: "",
-};
+});
 const router = useRouter();
+const route = useRoute();
 
 store.dispatch("getCities");
 store.dispatch("getStates");
 store.dispatch("getCountries");
 store.dispatch("getDepartments");
 
+if (route.params.id) {
+  store.dispatch("getEmployee", route.params.id);
+}
+
+watch(
+  () => store.state.employees.data,
+  (newVal, oldVal) =>
+    (employee.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+    })
+);
+
 const cities = computed(() => store.state.cities.data);
 const states = computed(() => store.state.states.data);
 const countries = computed(() => store.state.countries.data);
 const departments = computed(() => store.state.departments.data);
+
 function createEmployee() {
-  store.dispatch("createEmployee", employee).then(() => {
+  store.dispatch("createEmployee", employee.value).then(() => {
     router.push({ name: "ViewEmployees" });
   });
 }

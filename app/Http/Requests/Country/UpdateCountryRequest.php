@@ -13,7 +13,7 @@ class UpdateCountryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class UpdateCountryRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_code' => 'string',
+            'code' => 'string',
             'name' => 'string'
         ];
     }

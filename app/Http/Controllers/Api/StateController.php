@@ -100,6 +100,10 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $state = State::whereId($id)->first();
+
+        $state->delete();
+
+        return response(['message' => 'State ' . $state->name . ' has been deleted.']);
     }
 }

@@ -64,19 +64,28 @@ const store = createStore({
                 return res;
             });
         },
-        createEmployee({ commit }, data) {
-            return axiosClient.post("/employees", data).then((res) => {
+        getEmployee({ commit }, id) {
+            return axiosClient.get(`/employees/${id}`).then((res) => {
                 commit("setEmployees", res.data);
                 return res;
             });
         },
-        updateEmployee({ commit }, data) {
-            return axiosClient
-                .put(`/employees/${data.id}`, data)
-                .then((res) => {
+        createEmployee({ commit }, data) {
+            let response;
+            if (data.id) {
+                return axiosClient
+                    .put(`/employees/${data.id}`, data)
+                    .then((res) => {
+                        commit("setEmployees", res.data);
+                        return res;
+                    });
+            } else {
+                return axiosClient.post("/employees", data).then((res) => {
                     commit("setEmployees", res.data);
                     return res;
                 });
+            }
+            return response;
         },
         getDepartments({ commit }) {
             return axiosClient.get("/departments").then((res) => {
@@ -95,11 +104,7 @@ const store = createStore({
             let response;
             if (data.id) {
                 response = axiosClient
-                    .put(
-                        `/departments/
-                        ${data.id}`,
-                        data
-                    )
+                    .put(`/departments/${data.id}`, data)
                     .then((res) => {
                         commit("setDepartments", res.data);
                         return res;
@@ -126,11 +131,31 @@ const store = createStore({
                 return res;
             });
         },
-        createCountry({ commit }, data) {
-            return axiosClient.post("/countries", data).then((res) => {
+        getCountry({ commit }, id) {
+            return axiosClient.get(`/countries/${id}`).then((res) => {
                 commit("setCountries", res.data);
                 return res;
             });
+        },
+        createCountry({ commit }, data) {
+            let response;
+            if (data.id) {
+                response = axiosClient
+                    .put(`/countries/${data.id}`, data)
+                    .then((res) => {
+                        commit("setCountries", res.data);
+                        return res;
+                    });
+            } else {
+                response = axiosClient.post("/countries", data).then((res) => {
+                    commit("setCountries", res.data);
+                    return res;
+                });
+            }
+            return response;
+        },
+        deleteCountry({ commit }, id) {
+            return axiosClient.delete(`/countries/${id}`);
         },
         getStates({ commit }) {
             return axiosClient.get("/states").then((res) => {
@@ -162,17 +187,40 @@ const store = createStore({
 
             return response;
         },
+        deleteState({ commit }, id) {
+            return axiosClient.delete(`/states/${id}`);
+        },
         getCities({ commit }) {
             return axiosClient.get("/cities").then((res) => {
                 commit("setCities", res.data);
                 return res;
             });
         },
-        createCity({ commit }, data) {
-            return axiosClient.post("/cities", data).then((res) => {
+        getCity({ commit }, id) {
+            return axiosClient.get(`/cities/${id}`).then((res) => {
                 commit("setCities", res.data);
                 return res;
             });
+        },
+        createCity({ commit }, data) {
+            let response;
+
+            if (data.id) {
+                return axiosClient
+                    .put(`/cities/${data.id}`, data)
+                    .then((res) => {
+                        commit("setCities", res.data);
+                        return res;
+                    });
+            } else {
+                return axiosClient.post("/cities", data).then((res) => {
+                    commit("setCities", res.data);
+                    return res;
+                });
+            }
+        },
+        deleteCity({ commit }, id) {
+            return axiosClient.delete(`/cities/${id}`);
         },
     },
     mutations: {

@@ -47,6 +47,11 @@ const routes = [{
                         name: "CreateEmployee",
                         component: CreateEmployee,
                     },
+                    {
+                        path: ":id",
+                        name: "UpdateEmployee",
+                        component: CreateEmployee,
+                    },
                 ],
             },
             {
@@ -127,6 +132,11 @@ const routes = [{
                         name: "CreateCountry",
                         component: CreateCountry,
                     },
+                    {
+                        path: ":id",
+                        name: "UpdateCountry",
+                        component: CreateCountry,
+                    },
                 ],
             },
             {
@@ -160,6 +170,11 @@ const routes = [{
                     {
                         path: "create",
                         name: "CreateCity",
+                        component: CreateCity,
+                    },
+                    {
+                        path: ":id",
+                        name: "UpdateCity",
                         component: CreateCity,
                     },
                 ],
@@ -198,7 +213,6 @@ router.beforeEach((to, from, next) => {
     ) {
         next({ name: "Dashboard" });
     } else {
-        console.log(to);
         next();
     }
 });

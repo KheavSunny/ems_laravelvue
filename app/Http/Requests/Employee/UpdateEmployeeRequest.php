@@ -13,7 +13,7 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,8 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             'firstname' => 'string',
             'lastname' => 'string',
-            'phone' => 'digits_between:9,10|unique:employees,phone',
+            'middlename' => 'nullable',
+            'phone' => 'digits_between:9,10|unique:employees,phone,' . $this->id,
             'department_id' => 'numeric',
             'state_id' => 'numeric',
             'city_id' => 'numeric',
@@ -34,7 +35,7 @@ class UpdateEmployeeRequest extends FormRequest
             'zip_code' => 'string',
             'address' => 'string',
             'birthdate' => 'string',
-            'date_hired' => 'string'
+            'date_hired' => 'nullable'
         ];
     }
 }

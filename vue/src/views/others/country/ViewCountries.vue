@@ -41,9 +41,19 @@
         <tbody>
           <tr v-for="country in countries" :key="country.id">
             <td>{{ country.id }}</td>
-            <td>{{ country.country_code }}</td>
-            <td class="capitalize">{{ country.country_name }}</td>
-            <td>Edit</td>
+            <td>{{ country.code }}</td>
+            <td class="capitalize">{{ country.name }}</td>
+            <td v-if="country.id">
+              <router-link
+                :to="{ name: 'UpdateCountry', params: { id: country.id } }"
+                ><button class="badge badge-accent">Edit</button></router-link
+              ><button
+                class="badge badge-error ml-2"
+                @click.prevent="deleteCountry(country.id)"
+              >
+                Delete
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -58,5 +68,10 @@ import { useStore } from "vuex";
 const store = useStore();
 store.dispatch("getCountries");
 const countries = computed(() => store.state.countries.data);
-console.log(countries);
+
+function deleteCountry(id) {
+  store.dispatch("deleteCountry", id).then(() => {
+    store.dispatch("getCountries");
+  });
+}
 </script>

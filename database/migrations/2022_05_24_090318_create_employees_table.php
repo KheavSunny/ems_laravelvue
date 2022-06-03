@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('middlename')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
-            $table->foreignId('department_id')->constrained();
-            $table->foreignId('city_id')->constrained();
-            $table->foreignId('state_id')->constrained();
-            $table->foreignId('country_id')->constrained();
+            $table->foreignId('department_id')->constrained()->nullOnDelete();
+            $table->foreignId('city_id')->constrained()->nullOnDelete();
+            $table->foreignId('state_id')->constrained()->nullOnDelete();
+            $table->foreignId('country_id')->constrained()->nullOnDelete();
             $table->char('zip_code', 10);
             $table->date('birthdate')->nullable();
             $table->date('date_hired')->nullable();
