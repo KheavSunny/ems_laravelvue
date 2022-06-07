@@ -6,6 +6,7 @@ import Dashboard from "../views/Dashboard.vue";
 import ViewEmployees from "../views/employees/ViewEmployees.vue";
 import CreateEmployee from "../views/employees/CreateEmployee.vue";
 import ViewAttendances from "../views/attendances/ViewAttendances.vue";
+import ViewAttendanceRecords from "../views/attendances/ViewAttendanceRecords.vue";
 import CreateAttendance from "../views/attendances/CreateAttendance.vue";
 import ViewPayments from "../views/payments/ViewPayments.vue";
 import CreatePayment from "../views/payments/CreatePayment.vue";
@@ -66,6 +67,11 @@ const routes = [{
                         path: "create",
                         name: "CreateAttendance",
                         component: CreateAttendance,
+                    },
+                    {
+                        path: "records",
+                        name: "ViewAttendanceRecords",
+                        component: ViewAttendanceRecords,
                     },
                 ],
             },

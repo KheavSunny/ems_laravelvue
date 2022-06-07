@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AttendanceController;
+use App\Http\Controllers\Api\AttendanceRecordController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\CountryController;
@@ -29,6 +31,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('cities', CityController::class);
     Route::resource('countries', CountryController::class);
     Route::resource('departments', DepartmentController::class);
+    Route::resource('attendances', AttendanceController::class);
+    Route::resource('attendance-records', AttendanceRecordController::class);
 });
 
 
