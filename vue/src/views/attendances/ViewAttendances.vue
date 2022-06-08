@@ -14,44 +14,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Sunny</td>
-            <td>2022-06-07</td>
-            <td>08:00</td>
-            <td>12:00</td>
-            <td>13:00</td>
-            <td>17:00</td>
-            <td>18:00</td>
-            <td>19:00</td>
-            <td>1</td>
-            <td>01:00:00</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Song</td>
-            <td>2022-06-07</td>
-            <td>08:00</td>
-            <td>12:00</td>
-            <td>13:00</td>
-            <td>17:00</td>
-            <td>18:00</td>
-            <td>19:00</td>
-            <td>1</td>
-            <td>01:00:00</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Manut</td>
-            <td>2022-06-07</td>
-            <td>08:00</td>
-            <td>12:00</td>
-            <td>13:00</td>
-            <td>17:00</td>
-            <td>18:00</td>
-            <td>19:00</td>
-            <td>1</td>
-            <td>01:00:00</td>
+          <tr v-for="(attendance, index) in attendances" :key="index">
+            <td>{{ attendance.id }}</td>
+            <td>
+              {{ attendance.employee.firstname }}
+              {{ attendance.employee.lastname }}
+            </td>
+            <td>{{ attendance.date }}</td>
+            <td :class="attendance.t1.time > '08:15:00' ? 'text-red-700' : ''">
+              {{ attendance.t1.time }}
+            </td>
+            <td>{{ attendance.t2.time }}</td>
+            <td :class="attendance.t3.time > '12:15:00' ? 'text-red-700' : ''">
+              {{ attendance.t3.time }}
+            </td>
+            <td>{{ attendance.t4.time }}</td>
+            <td>{{ attendance.t5.time }}</td>
+            <td>{{ attendance.t6.time }}</td>
+            <td>{{ attendance.total }}</td>
+            <td>{{ attendance.overtime }}</td>
           </tr>
         </tbody>
       </table>
@@ -60,6 +41,12 @@
 </template>
 
 <script setup>
+import { computed } from "@vue/runtime-core";
+import { useStore } from "vuex";
+
+const store = useStore();
+store.dispatch("getAttendances");
+const attendances = computed(() => store.state.attendances.data);
 </script>
 
 <style scoped>

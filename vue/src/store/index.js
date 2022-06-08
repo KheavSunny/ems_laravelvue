@@ -24,6 +24,9 @@ const store = createStore({
             data: [],
         },
         currentUser: { data: {} },
+        attendances: {
+            data: [],
+        },
     },
     getters: {
         sideBarOpen: (state) => {
@@ -225,6 +228,12 @@ const store = createStore({
         deleteCity({ commit }, id) {
             return axiosClient.delete(`/cities/${id}`);
         },
+        getAttendances({ commit }) {
+            return axiosClient.get("attendances").then((res) => {
+                commit("setAttendances", res.data);
+                return res;
+            });
+        },
     },
     mutations: {
         toggleSidebar(state) {
@@ -257,6 +266,9 @@ const store = createStore({
         },
         setCities(state, data) {
             state.cities.data = data.data;
+        },
+        setAttendances(state, data) {
+            state.attendances.data = data.data;
         },
     },
     modules: {},
