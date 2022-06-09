@@ -32,7 +32,7 @@
               :class="
                 attendance.t3 === null
                   ? ''
-                  : attendance.t3.time > '12:15:00'
+                  : attendance.t3.time > '13:15:00'
                   ? 'text-red-700'
                   : ''
               "
