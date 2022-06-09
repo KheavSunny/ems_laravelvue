@@ -43,10 +43,10 @@ class AttendanceController extends Controller
     {
         $data = $request->validated();
 
-        $attendanceExist = Attendance::whereDate('date', Carbon::parse($data['date'])->toDateString())->where('employee_id', $data['employee_id'])->exists();
+        $attendance = Attendance::whereDate('date', Carbon::parse($data['date'])->toDateString())->where('employee_id', $data['employee_id'])->first();
         // return new AttendanceResource($attendanceExist);
         // $attendance = '';
-        if (!$attendanceExist) {
+        if (!$attendance) {
 
             $attendance = new Attendance();
             $attendance->employee_id = $data['employee_id'];
@@ -62,9 +62,22 @@ class AttendanceController extends Controller
 
             return $this->show(Attendance::findOrFail($attendance->id));
         } else {
-            return 'have';
+            if ($attendance->t1 == null) {
+                $this->column($attendance, $data['date'], $data['note'], 't1');
+            } else if ($attendance->t2 == null) {
+                $this->column($attendance, $data['date'], $data['note'], 't2');
+            } elseif ($attendance->t3 == null) {
+                $this->column($attendance, $data['date'], $data['note'], 't3');
+            } elseif ($attendance->t4 == null) {
+                $this->column($attendance, $data['date'], $data['note'], 't4');
+            } elseif ($attendance->t5 == null) {
+                $this->column($attendance, $data['date'], $data['note'], 't5');
+            } elseif ($attendance->t6 == null) {
+                $this->column($attendance, $data['date'], $data['note'], 't6');
+            }
+
+            return $this->show(Attendance::findOrFail($attendance->id));
         }
-        // return new AttendanceResource($attendance->where('id', $attendance->id)->update(['t1' => $attendance_record->id]));
     }
 
     /**
@@ -110,5 +123,14 @@ class AttendanceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function column($constraints, $date, $request, $column)
+    {
+        $attendance_record = new AttendanceRecord();
+        $attendance_record->time = Carbon::parse($date)->toTimeString();
+        $attendance_record->note = $request ?? '';
+        $attendance_record->save();
+        Attendance::where('id', $constraints->id)->update([$column => $attendance_record->id]);
     }
 }
