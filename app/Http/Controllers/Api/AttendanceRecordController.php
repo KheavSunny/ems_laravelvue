@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AttendanceRecord\StoreAttendanceRecordRequest;
+use App\Http\Resources\Attendance\AttendanceRecordResource;
+use App\Models\Attendance;
+use App\Models\AttendanceRecord;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AttendanceRecordController extends Controller
@@ -14,7 +19,9 @@ class AttendanceRecordController extends Controller
      */
     public function index()
     {
-        //
+        $attendance_records = AttendanceRecord::orderBy('id')->get();
+
+        return AttendanceRecordResource::collection($attendance_records);
     }
 
     /**

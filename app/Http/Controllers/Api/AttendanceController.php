@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Attendance\StoreAttendanceRequest;
 use App\Http\Resources\Attendance\AttendanceResource;
 use App\Models\Attendance;
+use App\Models\AttendanceRecord;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -36,9 +39,32 @@ class AttendanceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAttendanceRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $attendanceExist = Attendance::whereDate('date', Carbon::parse($data['date'])->toDateString())->where('employee_id', $data['employee_id'])->exists();
+        // return new AttendanceResource($attendanceExist);
+        // $attendance = '';
+        if (!$attendanceExist) {
+
+            $attendance = new Attendance();
+            $attendance->employee_id = $data['employee_id'];
+            $attendance->date = Carbon::parse($data['date'])->toDateString();
+            $attendance->save();
+
+            $attendance_record = new AttendanceRecord();
+            $attendance_record->time = Carbon::parse($data['date'])->toTimeString();
+            $attendance_record->note = $data['note'] ?? null;
+            $attendance_record->save();
+
+            $attendance->where('id', $attendance->id)->update(['t1' => $attendance_record->id]);
+
+            return $this->show(Attendance::findOrFail($attendance->id));
+        } else {
+            return 'have';
+        }
+        // return new AttendanceResource($attendance->where('id', $attendance->id)->update(['t1' => $attendance_record->id]));
     }
 
     /**
@@ -47,9 +73,9 @@ class AttendanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Attendance $attendance)
     {
-        //
+        return new AttendanceResource($attendance);
     }
 
     /**

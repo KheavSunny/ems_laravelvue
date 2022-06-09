@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="text-5xl">ViewEmployees</div>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+    <div
+      class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5"
+      v-if="employees"
+    >
       <table>
         <thead>
           <tr>

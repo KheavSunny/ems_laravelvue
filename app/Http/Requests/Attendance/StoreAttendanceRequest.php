@@ -13,7 +13,7 @@ class StoreAttendanceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreAttendanceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'employee_id' => 'required|numeric',
+            'date' => 'required|string',
+            'note' => 'nullable|string',
         ];
     }
 }
