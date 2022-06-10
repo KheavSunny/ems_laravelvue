@@ -8,6 +8,7 @@
             <th>ID</th>
             <th>Time</th>
             <th>Note</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -18,6 +19,10 @@
             <td>{{ attendance.id }}</td>
             <td>{{ attendance.time }}</td>
             <td>{{ attendance.note }}</td>
+            <td>
+              <button class="btn-sm rounded-lg btn-primary mr-2">Edit</button>
+              <button class="btn-sm rounded-lg btn-error">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
