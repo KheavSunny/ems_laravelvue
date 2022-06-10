@@ -8,6 +8,9 @@
         md:w-1/3
         lg:w-64
         top-0
+        fixed
+        inset-0
+        overflow-y-auto
         min-h-screen
         md:top-0 md:left-0
         lg:block
@@ -18,7 +21,7 @@
       :class="sideBarOpen ? '' : 'hidden'"
       id="main-nav"
     >
-      <div class="w-full h-20 border-b flex px-4 items-center mb-8">
+      <div class="w-full h-20 border-b flex px-4 items-center mb-8 sticky">
         <p class="font-semibold text-2xl text-blue-400 pl-4">
           <router-link :to="{ name: 'Dashboard' }"
             >EMPLOYEE MANAGEMENT</router-link
