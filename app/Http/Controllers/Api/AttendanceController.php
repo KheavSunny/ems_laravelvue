@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Attendance\StoreAttendanceRequest;
+use App\Http\Requests\Attendance\UpdateAttendanceRequest;
+use App\Http\Requests\AttendanceRecord\UpdateAttendanceRecordRequest;
 use App\Http\Resources\Attendance\AttendanceResource;
 use App\Models\Attendance;
 use App\Models\AttendanceRecord;
@@ -110,9 +112,13 @@ class AttendanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAttendanceRequest $request, Attendance $attendance)
     {
-        //
+        $data = $request->validated();
+
+        $attendance->update($data);
+
+        return $this->show($attendance->id);
     }
 
     /**
@@ -123,7 +129,13 @@ class AttendanceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $attendance = Attendance::whereId($id)->first();
+        if($attendance){
+            $attendance->delete();
+            return response(['message' => 'Attendance '.$attendance->id.' has been deleted']);
+        }else{
+            return response(['message' => 'No data founded!!']);
+        }
     }
 
     private function column($constraints, $date, $request, $column)

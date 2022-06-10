@@ -24,7 +24,8 @@ class UpdateAttendanceRecordRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'time' => 'date_format:H:i:s',
+            'note' => 'string'
         ];
     }
 }

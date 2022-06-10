@@ -26,7 +26,6 @@ class UpdateAttendanceRequest extends FormRequest
         return [
             'employee_id' => 'numeric',
             'date' => 'string',
-            'note' => 'string',
         ];
     }
 }
