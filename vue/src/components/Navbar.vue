@@ -22,7 +22,7 @@
               focus:outline-none
               navbar-burger
             "
-            @click="toggleSidebar()"
+            @click.stop="toggleSidebar()"
           >
             <svg
               class="h-5 w-5"

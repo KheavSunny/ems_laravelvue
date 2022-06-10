@@ -1,11 +1,13 @@
 <template>
   <div class="leading-normal tracking-normal" id="main-body">
-    <Sidebar />
     <div class="flex flex-wrap">
+      <Sidebar />
+
       <div
         class="w-full bg-gray-100 pl-0 lg:pl-64 min-h-screen"
         :class="sideBarOpen ? 'overlay' : ''"
         id="main-content"
+        @click="toggleSidebar"
       >
         <Navbar />
 
@@ -40,22 +42,33 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script setup>
+import { mapState, useStore } from "vuex";
 
 import Sidebar from "./Sidebar.vue";
 import Navbar from "./Navbar.vue";
 import Footer from "./Footer.vue";
+import { computed } from "@vue/runtime-core";
 
-export default {
-  name: "Dashboard",
-  computed: {
-    ...mapState(["sideBarOpen"]),
-  },
-  components: {
-    Sidebar,
-    Navbar,
-    Footer,
-  },
+const store = useStore();
+
+const sideBarOpen = computed(() => store.state.sideBarOpen);
+
+const toggleSidebar = () => {
+  if (sideBarOpen.value) {
+    store.dispatch("toggleSidebar");
+  }
 };
+
+// export default {
+//   name: "Dashboard",
+//   computed: {
+//     ...mapState(["sideBarOpen"]),
+//   },
+//   components: {
+//     Sidebar,
+//     Navbar,
+//     Footer,
+//   },
+// };
 </script>
