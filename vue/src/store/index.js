@@ -29,6 +29,7 @@ const store = createStore({
         },
         attendance_records: {
             data: [],
+            links: [],
         },
     },
     getters: {
@@ -244,8 +245,9 @@ const store = createStore({
                 return res;
             });
         },
-        getAttendanceRecords({ commit }) {
-            return axiosClient.get("/attendance-records").then((res) => {
+        getAttendanceRecords({ commit }, { url = null } = {}) {
+            url = url || "/attendance-records";
+            return axiosClient.get(url).then((res) => {
                 commit("setAttendanceRecords", res.data);
                 return res;
             });
@@ -288,6 +290,7 @@ const store = createStore({
         },
         setAttendanceRecords(state, data) {
             state.attendance_records.data = data.data;
+            state.attendance_records.links = data.meta.links;
         },
     },
     modules: {},

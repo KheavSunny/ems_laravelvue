@@ -11,7 +11,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="attendance in attendance_records" :key="attendance.id">
+          <tr
+            v-for="attendance in attendance_records.data"
+            :key="attendance.id"
+          >
             <td>{{ attendance.id }}</td>
             <td>{{ attendance.time }}</td>
             <td>{{ attendance.note }}</td>
@@ -20,10 +23,16 @@
       </table>
     </div>
     <div class="flex justify-center mt-5 btn-group">
-      <button class="btn">1</button>
-      <button class="btn btn-active">2</button>
-      <button class="btn">3</button>
-      <button class="btn">4</button>
+      <button
+        v-for="(link, i) of attendance_records.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
     </div>
   </div>
 </template>
@@ -35,7 +44,14 @@ import { useStore } from "vuex";
 const store = useStore();
 
 store.dispatch("getAttendanceRecords");
-const attendance_records = computed(() => store.state.attendance_records.data);
+const attendance_records = computed(() => store.state.attendance_records);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getAttendanceRecords", { url: link.url });
+}
 </script>
 
 <style scoped>

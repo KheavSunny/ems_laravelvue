@@ -529,7 +529,6 @@
 <script setup>
 import { computed, ref } from "@vue/runtime-core";
 import { mapState, useStore } from "vuex";
-import { useSideBar } from "../hook/useSideBar.ts";
 
 const store = useStore();
 
@@ -539,8 +538,6 @@ function toggleSidebar() {
   store.dispatch("toggleSidebar");
   console.log("hello");
 }
-
-const { isOpen } = useSideBar();
 
 const active = ref("bg-gray-600 bg-opacity-25 border-gray-100");
 const inactive = ref(
