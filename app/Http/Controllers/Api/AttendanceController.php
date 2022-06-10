@@ -19,7 +19,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendances = Attendance::orderBy('id')->get();
+        $attendances = Attendance::orderBy('date', 'desc')->orderBy('id')->get();
         return AttendanceResource::collection($attendances);
     }
 
@@ -60,23 +60,23 @@ class AttendanceController extends Controller
 
             $attendance->where('id', $attendance->id)->update(['t1' => $attendance_record->id]);
 
-            return $this->show(Attendance::findOrFail($attendance->id));
+            return $this->show($attendance->id);
         } else {
             if ($attendance->t1 == null) {
-                $this->column($attendance, $data['date'], $data['note'], 't1');
+                $this->column($attendance, $data['date'], $data['note'] ?? null, 't1');
             } else if ($attendance->t2 == null) {
-                $this->column($attendance, $data['date'], $data['note'], 't2');
+                $this->column($attendance, $data['date'], $data['note'] ?? null, 't2');
             } elseif ($attendance->t3 == null) {
-                $this->column($attendance, $data['date'], $data['note'], 't3');
+                $this->column($attendance, $data['date'], $data['note'] ?? null, 't3');
             } elseif ($attendance->t4 == null) {
-                $this->column($attendance, $data['date'], $data['note'], 't4');
+                $this->column($attendance, $data['date'], $data['note'] ?? null, 't4');
             } elseif ($attendance->t5 == null) {
-                $this->column($attendance, $data['date'], $data['note'], 't5');
+                $this->column($attendance, $data['date'], $data['note'] ?? null, 't5');
             } elseif ($attendance->t6 == null) {
-                $this->column($attendance, $data['date'], $data['note'], 't6');
+                $this->column($attendance, $data['date'], $data['note'] ?? null, 't6');
             }
 
-            return $this->show(Attendance::findOrFail($attendance->id));
+            return $this->show($attendance->id);
         }
     }
 
@@ -86,8 +86,9 @@ class AttendanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Attendance $attendance)
+    public function show($id)
     {
+        $attendance = Attendance::findOrFail($id);
         return new AttendanceResource($attendance);
     }
 

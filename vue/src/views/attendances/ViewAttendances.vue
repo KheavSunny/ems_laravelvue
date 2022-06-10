@@ -7,7 +7,7 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Employee Name</th>
+            <th class="w-2/10">Employee Name</th>
             <th>Date</th>
             <th v-for="num in 6" :key="num">T{{ num }}</th>
             <th>Total</th>
@@ -18,11 +18,19 @@
           <tr v-for="(attendance, index) in attendances" :key="index">
             <td>{{ attendance.id }}</td>
             <td>
-              {{ attendance.employee.firstname }}
               {{ attendance.employee.lastname }}
+              {{ attendance.employee.firstname }}
             </td>
             <td>{{ attendance.date }}</td>
-            <td :class="attendance.t1.time > '08:15:00' ? 'text-red-700' : ''">
+            <td
+              :class="
+                attendance.t1 === null
+                  ? ''
+                  : attendance.t1.time > '08:15:00'
+                  ? 'text-red-700'
+                  : ''
+              "
+            >
               {{ attendance.t1.time ?? "No Data" }}
             </td>
             <td>
@@ -37,11 +45,11 @@
                   : ''
               "
             >
-              {{ attendance.t3 ?? "" }}
+              {{ attendance.t3 === null ? "" : attendance.t3.time }}
             </td>
-            <td>{{ attendance.t4 ?? "" }}</td>
-            <td>{{ attendance.t5 ?? "" }}</td>
-            <td>{{ attendance.t6 ?? "" }}</td>
+            <td>{{ attendance.t4 === null ? "" : attendance.t4.time }}</td>
+            <td>{{ attendance.t5 === null ? "" : attendance.t5.time }}</td>
+            <td>{{ attendance.t6 === null ? "" : attendance.t6.time }}</td>
             <td>{{ attendance.total }}</td>
             <td>{{ attendance.overtime }}</td>
           </tr>

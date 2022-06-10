@@ -40,6 +40,12 @@ table {
     color: rgb(107, 114, 128);
 }
 
+table,
+td {
+    border: 0.5px solid rgba(126, 112, 112, 0.993);
+    border-collapse: collapse;
+}
+
 table thead {
     font-size: 0.75rem;
     line-height: 1rem;
@@ -49,10 +55,11 @@ table thead {
 }
 
 table thead tr th {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1rem;
+    /* padding-right: 1.5rem; */
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
+    width: fit-content;
 }
 
 table tbody tr {
@@ -67,7 +74,7 @@ table tbody tr:hover {
 
 table tbody td {
     padding-right: 1.5rem;
-    padding-left: 1.5rem;
+    padding-left: 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
 }

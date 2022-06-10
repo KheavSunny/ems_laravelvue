@@ -240,7 +240,7 @@ const store = createStore({
         },
         createAttendance({ commit }, data) {
             return axiosClient.post("/attendances", data).then((res) => {
-                commit("setAttedances", res.data);
+                commit("setAttendances", res.data);
                 return res;
             });
         },
