@@ -24,11 +24,11 @@
               border-b border-gray-300
               focus:outline-none focus:border-indigo-500
             "
-            name="uname"
+            name="username"
             type=""
             required
             placeholder="Enter your name"
-            v-model="user.uname"
+            v-model="user.username"
           />
         </div>
         <div class="mt-8">
@@ -58,11 +58,11 @@
               border-b border-gray-300
               focus:outline-none focus:border-indigo-500
             "
-            name="fname"
+            name="firstname"
             type=""
             placeholder="Enter your firstname"
             required
-            v-model="user.fname"
+            v-model="user.firstname"
           />
         </div>
         <div class="mt-8">
@@ -92,11 +92,11 @@
               border-b border-gray-300
               focus:outline-none focus:border-indigo-500
             "
-            name="lname"
+            name="lastname"
             type=""
             required
             placeholder="Enter your lastname"
-            v-model="user.lname"
+            v-model="user.lastname"
           />
         </div>
         <div class="mt-8">
@@ -246,9 +246,9 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const user = {
-  uname: "",
-  fname: "",
-  lname: "",
+  username: "",
+  firstname: "",
+  lastname: "",
   email: "",
   password: "",
   password_confirmation: "",
