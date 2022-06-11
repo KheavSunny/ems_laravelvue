@@ -252,6 +252,23 @@ const store = createStore({
                 return res;
             });
         },
+        getAttendanceRecord({ commit }, id) {
+            return axiosClient.get(`/attendance-records/${id}`).then((res) => {
+                commit("setAttendanceRecords", res.data);
+                return res;
+            });
+        },
+        saveAttendanceRecord({ commit }, data) {
+            return axiosClient
+                .put(`/attendance-records/${data.id}`, data)
+                .then((res) => {
+                    commit("setAttendanceRecords", res.data);
+                    return res;
+                });
+        },
+        deleteAttendanceRecord({ commit }, id) {
+            return axiosClient.delete(`/attendance-records/${id}`);
+        },
     },
     mutations: {
         toggleSidebar(state) {

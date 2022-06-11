@@ -21,40 +21,74 @@
             <td>{{ attendance.note }}</td>
             <td>
               <label
-                for="editModal"
+                :for="'editModal' + attendance.id"
                 class="btn btn-sm btn-primary modal-button mr-2"
                 >Edit</label
               >
               <label
                 for="deleteModal"
                 class="btn btn-sm btn-error modal-button mr-2"
+                @click.prevent="deleteAttendanceRecord(attendance.id)"
                 >Delete</label
               >
             </td>
+            <!-- Modal Update -->
+            <input
+              type="checkbox"
+              :id="'editModal' + attendance.id"
+              class="modal-toggle"
+            />
+            <div class="modal modal-bottom sm:modal-middle">
+              <div class="modal-box h-auto relative">
+                <label
+                  :for="'editModal' + attendance.id"
+                  class="btn btn-sm btn-circle absolute right-2 top-2"
+                  >✕</label
+                >
+                <h3 class="text-lg font-bold mb-2">
+                  Edit Attendance Record {{ attendance.time }}
+                </h3>
+                <form @submit.prevent="saveAttendanceRecord">
+                  <div class="relative">
+                    <input
+                      class="
+                        input
+                        w-full
+                        border border-blue-400
+                        mb-2
+                        focus:border-blue-600
+                      "
+                      type="time"
+                      step="2"
+                      v-model="attendance.time"
+                    />
+                    <textarea
+                      cols="10"
+                      rows="5"
+                      class="
+                        w-full
+                        border border-blue-400
+                        text-gray-900
+                        focus:border-blue-600
+                        p-4
+                        rounded-lg
+                      "
+                      placeholder="Input Note"
+                      v-model="attendance.note"
+                    ></textarea>
+                  </div>
+                  <div class="modal-action">
+                    <button type="submit" class="btn btn-accent">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- / Modal Update -->
           </tr>
         </tbody>
       </table>
     </div>
-    <!-- Modal Update -->
-    <input type="checkbox" id="editModal" class="modal-toggle" />
-    <div class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box relative">
-        <label
-          for="editModal"
-          class="btn btn-sm btn-circle absolute right-2 top-2"
-          >✕</label
-        >
-        <h3 class="text-lg font-bold">Congratulations random Interner user!</h3>
-        <p class="py-4">
-          You've been selected for a chance to get one year of subscription to
-          use Wikipedia for free!
-        </p>
-        <div class="modal-action">
-          <label for="editModal" class="btn btn-accent">Save</label>
-        </div>
-      </div>
-    </div>
-    <!-- / Modal Update -->
+
     <div class="flex justify-center mt-5 btn-group">
       <button
         v-for="(link, i) of attendance_records.links"
@@ -71,12 +105,22 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/runtime-core";
+import { computed, ref, watch } from "@vue/runtime-core";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+const attendance = ref({
+  id: "",
+  time: "",
+  note: "",
+});
 
 store.dispatch("getAttendanceRecords");
+
 const attendance_records = computed(() => store.state.attendance_records);
 
 function getForPage(link) {
@@ -84,6 +128,19 @@ function getForPage(link) {
     return;
   }
   store.dispatch("getAttendanceRecords", { url: link.url });
+}
+
+function saveAttendanceRecord() {
+  console.log(attendance.value.time);
+  store.dispatch("saveAttendanceRecord", attendance.value).then(() => {
+    store.dispatch("getAttendanceRecords");
+  });
+}
+
+function deleteAttendanceRecord(id) {
+  store.dispatch("deleteAttendanceRecord", id).then(() => {
+    store.dispatch("getAttendanceRecords");
+  });
 }
 </script>
 
