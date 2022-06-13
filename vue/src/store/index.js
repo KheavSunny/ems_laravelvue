@@ -31,6 +31,9 @@ const store = createStore({
             data: [],
             links: [],
         },
+        attendance_record: {
+            data: [],
+        },
     },
     getters: {
         sideBarOpen: (state) => {
@@ -254,7 +257,7 @@ const store = createStore({
         },
         getAttendanceRecord({ commit }, id) {
             return axiosClient.get(`/attendance-records/${id}`).then((res) => {
-                commit("setAttendanceRecords", res.data);
+                commit("setAttendanceRecord", res.data);
                 return res;
             });
         },
@@ -262,7 +265,7 @@ const store = createStore({
             return axiosClient
                 .put(`/attendance-records/${data.id}`, data)
                 .then((res) => {
-                    commit("setAttendanceRecords", res.data);
+                    commit("setAttendanceRecord", res.data);
                     return res;
                 });
         },
@@ -308,6 +311,9 @@ const store = createStore({
         setAttendanceRecords(state, data) {
             state.attendance_records.data = data.data;
             state.attendance_records.links = data.meta.links;
+        },
+        setAttendanceRecord(state, data) {
+            state.attendance_record.data = data.data;
         },
     },
     modules: {},

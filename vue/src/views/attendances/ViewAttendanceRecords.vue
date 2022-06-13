@@ -23,6 +23,7 @@
               <label
                 :for="'editModal' + attendance.id"
                 class="btn btn-sm btn-primary modal-button mr-2"
+                @click="editAttendanceRecord(attendance.id)"
                 >Edit</label
               >
               <label
@@ -48,7 +49,7 @@
                 <h3 class="text-lg font-bold mb-2">
                   Edit Attendance Record {{ attendance.time }}
                 </h3>
-                <form @submit.prevent="saveAttendanceRecord">
+                <form>
                   <div class="relative">
                     <input
                       class="
@@ -60,7 +61,7 @@
                       "
                       type="time"
                       step="2"
-                      v-model="attendance.time"
+                      v-model="attendance_record.time"
                     />
                     <textarea
                       cols="10"
@@ -74,11 +75,17 @@
                         rounded-lg
                       "
                       placeholder="Input Note"
-                      v-model="attendance.note"
+                      v-model="attendance_record.note"
                     ></textarea>
                   </div>
                   <div class="modal-action">
-                    <button type="submit" class="btn btn-accent">Save</button>
+                    <label
+                      :for="'editModal' + attendance.id"
+                      class="btn btn-accent cursor-pointer"
+                      @click="saveAttendanceRecord"
+                    >
+                      Save
+                    </label>
                   </div>
                 </form>
               </div>
@@ -113,7 +120,7 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const attendance = ref({
+const attendance_record = ref({
   id: "",
   time: "",
   note: "",
@@ -121,7 +128,9 @@ const attendance = ref({
 
 store.dispatch("getAttendanceRecords");
 
-const attendance_records = computed(() => store.state.attendance_records);
+let attendance_records = ref([]);
+
+attendance_records = computed(() => store.state.attendance_records);
 
 function getForPage(link) {
   if (!link.url || link.active) {
@@ -130,15 +139,28 @@ function getForPage(link) {
   store.dispatch("getAttendanceRecords", { url: link.url });
 }
 
+function editAttendanceRecord(id) {
+  store.dispatch("getAttendanceRecord", id);
+}
+
+watch(
+  () => store.state.attendance_record.data,
+  (newVal, oldVal) => {
+    attendance_record.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+    };
+  }
+);
+
 function saveAttendanceRecord() {
-  console.log(attendance.value.time);
-  store.dispatch("saveAttendanceRecord", attendance.value).then(() => {
+  store.dispatch("saveAttendanceRecord", attendance_record.value).then(() => {
     store.dispatch("getAttendanceRecords");
   });
 }
 
 function deleteAttendanceRecord(id) {
   store.dispatch("deleteAttendanceRecord", id).then(() => {
+    console.log(attendance_records);
     store.dispatch("getAttendanceRecords");
   });
 }

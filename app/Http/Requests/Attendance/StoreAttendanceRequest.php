@@ -26,7 +26,7 @@ class StoreAttendanceRequest extends FormRequest
         return [
             'employee_id' => 'required|numeric',
             'date' => 'required|string',
-            'note' => 'string',
+            'note' => 'nullable',
         ];
     }
 }
