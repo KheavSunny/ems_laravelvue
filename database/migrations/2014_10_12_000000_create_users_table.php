@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -25,6 +26,16 @@ return new class extends Migration
             $table->timestamps();
             $table->timestamp('delete_at')->nullable();
         });
+
+        DB::table('users')->insert([
+            'username' => 'Admin',
+            'firstname' => 'Sunny',
+            'lastname' => 'Kheav',
+            'email' => 'kheavsunny0521@gmail.com',
+            'password' => bcrypt('123456789'),
+            'created_at' => '2021-05-24 08:00:00',
+            'updated_at' => now()
+        ]);
     }
 
     /**
