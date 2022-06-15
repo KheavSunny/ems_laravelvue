@@ -103,6 +103,11 @@ const routes = [{
                         name: "CreateLoan",
                         component: CreateLoan,
                     },
+                    {
+                        path: ":id",
+                        name: "UpdateLoan",
+                        component: CreateLoan,
+                    },
                 ],
             },
             {

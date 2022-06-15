@@ -536,7 +536,6 @@ const sideBarOpen = computed(() => store.state.sideBarOpen);
 
 function toggleSidebar() {
   store.dispatch("toggleSidebar");
-  console.log("hello");
 }
 
 const active = ref("bg-gray-600 bg-opacity-25 border-gray-100");

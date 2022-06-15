@@ -73,8 +73,28 @@ table tbody tr:hover {
 }
 
 table tbody td {
-    padding-right: 1.5rem;
+    padding-right: 0.5rem;
     padding-left: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    height: 60px;
+}
+
+.corner-id {
+    position: relative;
+    overflow: hidden;
+}
+
+.corner-id:after {
+    content: var(--id);
+    display: block;
+    height: 15px;
+    width: 12px;
+    padding-left: 2px;
+    position: absolute;
+    top: -27px;
+    left: -18px;
+    transform: skewX(0deg);
+}
+
+.corner-red:after {
+    background: #d40000;
 }

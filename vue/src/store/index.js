@@ -34,6 +34,9 @@ const store = createStore({
         attendance_record: {
             data: [],
         },
+        loans: {
+            data: [],
+        },
     },
     getters: {
         sideBarOpen: (state) => {
@@ -272,6 +275,40 @@ const store = createStore({
         deleteAttendanceRecord({ commit }, id) {
             return axiosClient.delete(`/attendance-records/${id}`);
         },
+        getLoans({ commit }) {
+            return axiosClient.get("/loans").then((res) => {
+                commit("setLoans", res.data);
+                return res;
+            });
+        },
+        getLoan({ commit }, id) {
+            return axiosClient.get(`/loans/${id}`).then((res) => {
+                commit("setLoans", res.data);
+                return res;
+            });
+        },
+        saveLoan({ commit }, data) {
+            let response;
+
+            if (data.id) {
+                response = axiosClient
+                    .put(`/loans/${data.id}`, data)
+                    .then((res) => {
+                        commit("setLoans", res.data);
+                        return res;
+                    });
+            } else {
+                response = axiosClient.post("/loans", data).then((res) => {
+                    commit("setLoans", res.data);
+                    return res;
+                });
+            }
+
+            return response;
+        },
+        deleteLoan({ commit }, id) {
+            return axiosClient.delete(`/loans/${id}`);
+        },
     },
     mutations: {
         toggleSidebar(state) {
@@ -314,6 +351,9 @@ const store = createStore({
         },
         setAttendanceRecord(state, data) {
             state.attendance_record.data = data.data;
+        },
+        setLoans(state, data) {
+            state.loans.data = data.data;
         },
     },
     modules: {},
