@@ -20,23 +20,41 @@ return new class extends Migration
                 LANGUAGE plpgsql
                     NOT LEAKPROOF
                 AS $BODY$
+                    declare
+                        t1 double precision;
+                        t2 double precision;
+                        t3 double precision;
+                        t4 double precision;
+
                     BEGIN
-                        IF new."t1" IS NOT NULL and new."t2" IS NULL and new."t3" IS NULL and new."t4" IS NULL THEN
-                            new."t" = 0.25;
-                        ELSEIF new."t1" IS NOT NULL and new."t2" IS NOT NULL and new."t3" IS NULL and new."t4" IS NULL THEN
-                            new."t" = 0.50;
-                        ELSEIF new."t1" IS NOT NULL and new."t2" IS NOT NULL and new."t3" IS NOT NULL and new."t4" IS NULL THEN
-                            new."t" = 0.75;
+                        IF (new."t1" IS NULL ) THEN
+                            t1 = 0;
                         ELSE
-                            new."t" = 1;
+                            t1 = 0.25;
+                        END IF;
+                        IF (new."t2" IS NULL) THEN
+                            t2 = 0;
+                        ELSE
+                            t2 = 0.25;
+                        END IF;
+                        IF (new."t3" IS NULL) THEN
+                            t3 = 0;
+                        ELSE
+                            t3 = 0.25;
+                        END IF;
+                        IF (new."t4" IS NULL) THEN
+                            t4 = 0;
+                        ELSE
+                            t4 = 0.25;
                         END IF;
 
+                        new."t" = t1 + t2 + t3 + t4;
                         return new;
                     END;
                 $BODY$;
 
             ALTER FUNCTION public.att_insert()
-            OWNER TO postgres;
+            OWNER TO pmnmsfaxftihpr;
         ');
 
         DB::unprepared('
@@ -70,7 +88,7 @@ return new class extends Migration
         $BODY$;
 
         ALTER FUNCTION public.overtime()
-        OWNER TO postgres;
+        OWNER TO pmnmsfaxftihpr;
         ');
 
         DB::unprepared('

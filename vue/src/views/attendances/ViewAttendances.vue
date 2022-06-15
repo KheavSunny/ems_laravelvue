@@ -31,10 +31,18 @@
                   : ''
               "
             >
-              {{ attendance.t1.time ?? "No Data" }}
+              {{
+                attendance.t1 === null
+                  ? ""
+                  : `${attendance.t1.id} ` + attendance.t1.time
+              }}
             </td>
             <td>
-              {{ attendance.t2 === null ? "" : attendance.t2.time }}
+              {{
+                attendance.t2 === null
+                  ? ""
+                  : `${attendance.t2.id} ` + attendance.t2.time
+              }}
             </td>
             <td
               :class="
@@ -45,11 +53,33 @@
                   : ''
               "
             >
-              {{ attendance.t3 === null ? "" : attendance.t3.time }}
+              {{
+                attendance.t3 === null
+                  ? ""
+                  : `${attendance.t3.id} ` + attendance.t3.time
+              }}
             </td>
-            <td>{{ attendance.t4 === null ? "" : attendance.t4.time }}</td>
-            <td>{{ attendance.t5 === null ? "" : attendance.t5.time }}</td>
-            <td>{{ attendance.t6 === null ? "" : attendance.t6.time }}</td>
+            <td>
+              {{
+                attendance.t4 === null
+                  ? ""
+                  : `${attendance.t4.id} ` + attendance.t4.time
+              }}
+            </td>
+            <td>
+              {{
+                attendance.t5 === null
+                  ? ""
+                  : `${attendance.t5.id} ` + attendance.t5.time
+              }}
+            </td>
+            <td>
+              {{
+                attendance.t6 === null
+                  ? ""
+                  : `${attendance.t6.id} ` + attendance.t6.time
+              }}
+            </td>
             <td>{{ attendance.total }}</td>
             <td>{{ attendance.overtime }}</td>
           </tr>

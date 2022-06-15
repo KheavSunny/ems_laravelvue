@@ -33,7 +33,7 @@
             <td>
               {{ employee.address }}
             </td>
-            <td v-if="employee.id" class="text-right">
+            <td v-if="employee.id" class="text-center">
               <router-link
                 :to="{ name: 'UpdateEmployee', params: { id: employee.id } }"
                 ><button class="badge badge-accent">Edit</button></router-link
