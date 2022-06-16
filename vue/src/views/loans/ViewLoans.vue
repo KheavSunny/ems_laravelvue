@@ -21,7 +21,21 @@
             <td v-if="loan.employee">{{ loan.employee.firstname }}</td>
             <td>{{ loan.amount }}</td>
             <td>{{ loan.date }}</td>
-            <td>Edit</td>
+            <td v-if="loan.id">
+              <router-link :to="{ name: 'UpdateLoan', params: { id: loan.id } }"
+                ><button
+                  class="btn-xs btn-accent rounded hover:btn-primary mr-2"
+                >
+                  Edit
+                </button></router-link
+              >
+              <button
+                @click.prevent="deleteLoan(loan.id)"
+                class="btn-xs btn-error rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -37,6 +51,12 @@ const store = useStore();
 store.dispatch("getLoans");
 
 const loans = computed(() => store.state.loans.data);
+
+function deleteLoan(id) {
+  store.dispatch("deleteLoan", id).then(() => {
+    store.dispatch("getLoans");
+  });
+}
 </script>
 <style scoped>
 </style>

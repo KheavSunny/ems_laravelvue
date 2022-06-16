@@ -31,6 +31,7 @@
             "
             v-model="loan.employee_id"
             v-if="employees"
+            required
           >
             <option disabled value="">Select Employees</option>
             <option
@@ -88,7 +89,12 @@
           >
         </div>
         <div class="relative z-0 mb-3 w-full">
-          <input type="date" class="input w-full" v-model="loan.date" />
+          <input
+            type="date"
+            class="input w-full"
+            v-model="loan.date"
+            required
+          />
         </div>
         <button
           type="submit"
@@ -116,7 +122,7 @@
 </template>
 <script setup>
 import { ref } from "@vue/reactivity";
-import { computed } from "@vue/runtime-core";
+import { computed, watch } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -128,7 +134,31 @@ const loan = ref({
   employee_id: "",
   amount: "",
   date: "",
+  employee: "",
 });
+
+if (route.params.id) {
+  store.dispatch("getLoan", route.params.id);
+}
+
+watch(
+  () => store.state.loans.data,
+  (newVal, oldVal) => {
+    loan.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+    };
+    loan.value.employee_id = newVal.employee.id;
+  }
+);
+
+watch(
+  () => route.name == "CreateLoan",
+  () => {
+    loan.value.employee_id = "";
+    loan.value.amount = "";
+    loan.value.date = "";
+  }
+);
 
 store.dispatch("getEmployees");
 

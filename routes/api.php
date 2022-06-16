@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\LoanController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\StateController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('attendances', AttendanceController::class);
     Route::resource('attendance-records', AttendanceRecordController::class);
     Route::resource('loans', LoanController::class);
+    Route::resource('payments', PaymentController::class);
 });
 
 

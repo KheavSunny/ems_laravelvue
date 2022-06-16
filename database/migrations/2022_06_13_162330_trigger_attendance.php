@@ -98,6 +98,30 @@ return new class extends Migration
                 FOR EACH ROW
                 EXECUTE FUNCTION public.overtime();
         ');
+
+        DB::unprepared('
+        CREATE FUNCTION public.ref_no_auto_increment()
+        RETURNS trigger
+        LANGUAGE plpgsql
+            NOT LEAKPROOF
+        AS $BODY$
+            BEGIN
+                new."ref_no" = DATE_PART(\'YEAR\',CURRENT_DATE),\'_\',\'payments\';
+                return new;
+            END;
+        $BODY$;
+
+        ALTER FUNCTION public.ref_no_auto_increment()
+        OWNER TO pmnmsfaxftihpr;
+        ');
+
+        DB::unprepared('
+            CREATE TRIGGER ref_no_auto_increment
+                BEFORE INSERT OR UPDATE OF ref_no
+                ON public.payments
+                FOR EACH ROW
+                EXECUTE FUNCTION public.ref_no_auto_increment();
+        ');
     }
 
     /**
