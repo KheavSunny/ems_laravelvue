@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="text-5xl">Create payments</div>
-    <form @submit.prevent="createPayment">
+    <div class="text-5xl">Edit payments</div>
+    <form @submit.prevent="savePayment">
       <div class="mt-5 p-20 bg-white shadow-xl rounded-xl">
         <div class="form-control mb-5">
           <select
@@ -47,24 +47,37 @@
   </div>
 </template>
 <script setup>
-import { computed } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
+import { computed, ref, watch } from "@vue/runtime-core";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 
-const payment = {
+const payment = ref({
   employee_id: "",
   date_from: "",
   date_to: "",
   employee: "",
-};
+});
 store.dispatch("getEmployees");
 const employees = computed(() => store.state.employees.data);
 
-function createPayment() {
-  store.dispatch("savePayment", payment).then(() => {
+store.dispatch("getPayment", route.params.id);
+
+watch(
+  () => store.state.payments.data,
+  (newVal, oldVal) => {
+    payment.value = newVal;
+    console.log(newVal);
+
+    payment.value.employee_id = newVal.employee.id;
+  }
+);
+
+function savePayment() {
+  store.dispatch("savePayment", payment.value).then(() => {
     router.push({ name: "ViewPayments" });
   });
 }

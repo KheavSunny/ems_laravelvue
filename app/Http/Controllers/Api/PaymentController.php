@@ -111,4 +111,17 @@ class PaymentController extends Controller
             return response(['message' => 'Data not found !!!']);
         }
     }
+
+    public function paid($id)
+    {
+
+        $payment = Payment::whereId($id)->first();
+
+        if ($payment->status == false) {
+            $payment->update(['status' => true]);
+            return $payment;
+        } else {
+            return response(['message' => 'This payment already paid !!']);
+        }
+    }
 }

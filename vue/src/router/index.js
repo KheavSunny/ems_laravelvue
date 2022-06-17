@@ -10,6 +10,7 @@ import ViewAttendanceRecords from "../views/attendances/ViewAttendanceRecords.vu
 import CreateAttendance from "../views/attendances/CreateAttendance.vue";
 import ViewPayments from "../views/payments/ViewPayments.vue";
 import CreatePayment from "../views/payments/CreatePayment.vue";
+import EditPayment from "../views/payments/EditPayment.vue";
 import ViewLoans from "../views/loans/ViewLoans.vue";
 import CreateLoan from "../views/loans/CreateLoan.vue";
 import ViewDepartments from "../views/others/departments/ViewDepartments.vue";
@@ -87,6 +88,11 @@ const routes = [{
                         path: "create",
                         name: "CreatePayment",
                         component: CreatePayment,
+                    },
+                    {
+                        path: ":id",
+                        name: "EditPayment",
+                        component: EditPayment,
                     },
                 ],
             },

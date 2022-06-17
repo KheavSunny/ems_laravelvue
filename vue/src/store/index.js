@@ -37,6 +37,9 @@ const store = createStore({
         loans: {
             data: [],
         },
+        payments: {
+            data: [],
+        },
     },
     getters: {
         sideBarOpen: (state) => {
@@ -309,6 +312,43 @@ const store = createStore({
         deleteLoan({ commit }, id) {
             return axiosClient.delete(`/loans/${id}`);
         },
+        getPayments({ commit }) {
+            return axiosClient.get("/payments").then((res) => {
+                commit("setPayments", res.data);
+                return res;
+            });
+        },
+        getPayment({ commit }, id) {
+            return axiosClient.get(`/payments/${id}`).then((res) => {
+                commit("setPayments", res.data);
+                return res;
+            });
+        },
+        savePayment({ commit }, data) {
+            let response;
+            if (data.id) {
+                response = axiosClient
+                    .put(`/payments/${data.id}`, data)
+                    .then((res) => {
+                        commit("setPayments", res.data);
+                        return res;
+                    });
+            } else {
+                response = axiosClient.post("/payments", data).then((res) => {
+                    commit("setPayments", res.data);
+                    return res;
+                });
+            }
+        },
+        deletePayment({ commit }, id) {
+            return axiosClient.delete(`/payments/${id}`);
+        },
+        changeToPaid({ commit }, id) {
+            return axiosClient.get(`/payments/${id}/paid`).then((res) => {
+                commit("setPayments", res.data);
+                return res;
+            });
+        },
     },
     mutations: {
         toggleSidebar(state) {
@@ -354,6 +394,9 @@ const store = createStore({
         },
         setLoans(state, data) {
             state.loans.data = data.data;
+        },
+        setPayments(state, data) {
+            state.payments.data = data.data;
         },
     },
     modules: {},
