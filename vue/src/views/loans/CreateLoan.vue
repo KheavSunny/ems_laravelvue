@@ -45,7 +45,7 @@
         </div>
         <div class="relative z-0 mb-3 w-full">
           <input
-            type="number"
+            type="text"
             name="amount"
             class="
               block
