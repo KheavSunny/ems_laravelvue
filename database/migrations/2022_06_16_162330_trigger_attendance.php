@@ -106,7 +106,7 @@ return new class extends Migration
             NOT LEAKPROOF
         AS $BODY$
             BEGIN
-                new."ref_no" = CONCAT(DATE_PART(\'YEAR\',CURRENT_DATE),\'_\',(LPAD(new."id"::text,5,\'0\'));
+                new."ref_no" = CONCAT(DATE_PART(\'YEAR\',CURRENT_DATE),\'_\',(LPAD(new."id"::text,5,\'0\')));
                 return new;
             END;
         $BODY$;
@@ -146,6 +146,9 @@ return new class extends Migration
         ');
         DB::unprepared('
             DROP FUNCTION public.overtime() IF EXISTS;
+        ');
+        DB::unprepared('
+            DROP FUNCTION public.ref_no_auto_increment() IF EXISTS;
         ');
     }
 };
