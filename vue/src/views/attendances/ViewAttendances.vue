@@ -61,16 +61,39 @@
         </tbody>
       </table>
     </div>
+    <div v-if="attendances.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of attendances.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from "@vue/runtime-core";
+import { computed, ref } from "@vue/runtime-core";
 import { useStore } from "vuex";
 
 const store = useStore();
 store.dispatch("getAttendances");
-const attendances = computed(() => store.state.attendances);
+
+let attendances = ref({});
+
+attendances = computed(() => store.state.attendances);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getAttendances", { url: link.url });
+}
+
 </script>
 
 <style scoped>

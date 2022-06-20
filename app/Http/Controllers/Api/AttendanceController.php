@@ -21,7 +21,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendances = Attendance::orderBy('date', 'desc')->orderBy('id')->get();
+        $attendances = Attendance::orderBy('date', 'desc')->orderBy('id')->paginate(10);
         return AttendanceResource::collection($attendances);
     }
 
@@ -90,7 +90,7 @@ class AttendanceController extends Controller
      */
     public function show($id)
     {
-        $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::whereId($id)->first();
         return new AttendanceResource($attendance);
     }
 

@@ -132,7 +132,6 @@ let attendance_records = ref([]);
 attendance_records = computed(() => store.state.attendance_records);
 
 function getForPage(link) {
-  console.log("HEoll");
   if (!link.url || link.active) {
     return;
   }
@@ -160,7 +159,6 @@ function saveAttendanceRecord() {
 
 function deleteAttendanceRecord(id) {
   store.dispatch("deleteAttendanceRecord", id).then(() => {
-    console.log(attendance_records);
     store.dispatch("getAttendanceRecords");
   });
 }
