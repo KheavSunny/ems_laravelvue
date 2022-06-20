@@ -26,6 +26,7 @@ const store = createStore({
         currentUser: { data: {} },
         attendances: {
             data: [],
+            links: [],
         },
         attendance_records: {
             data: [],
@@ -242,8 +243,9 @@ const store = createStore({
         deleteCity({ commit }, id) {
             return axiosClient.delete(`/cities/${id}`);
         },
-        getAttendances({ commit }) {
-            return axiosClient.get("/attendances").then((res) => {
+        getAttendances({ commit }, { url = null } = {}) {
+            url = url || "/attendances";
+            return axiosClient.get(url).then((res) => {
                 commit("setAttendances", res.data);
                 return res;
             });
@@ -344,7 +346,7 @@ const store = createStore({
             return axiosClient.delete(`/payments/${id}`);
         },
         changeToPaid({ commit }, id) {
-            return axiosClient.get(`/payments/${id}/paid`).then((res) => {
+            return axiosClient.put(`/payments/${id}/paid`).then((res) => {
                 commit("setPayments", res.data);
                 return res;
             });
@@ -384,6 +386,7 @@ const store = createStore({
         },
         setAttendances(state, data) {
             state.attendances.data = data.data;
+            state.attendances.links = data.meta.links;
         },
         setAttendanceRecords(state, data) {
             state.attendance_records.data = data.data;

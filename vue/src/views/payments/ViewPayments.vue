@@ -13,10 +13,14 @@
             <th></th>
           </tr>
         </thead>
-        <tbody v-if="payments">
-          <tr v-for="payment in payments" :key="payment.id" class="text-center">
+        <tbody>
+          <tr
+            v-for="(payment, index) in payments"
+            :key="index"
+            class="text-center"
+          >
             <td>{{ payment.ref_no }}</td>
-            <td v-if="payment.employee">{{ payment.employee.firstname }}</td>
+            <td>{{ payment.employee.firstname }}</td>
             <td>{{ formatDate(payment.date_from) }}</td>
             <td>{{ formatDate(payment.date_to) }}</td>
             <td v-if="payment.status == false" class="text-center">
@@ -28,7 +32,7 @@
             <td>
               <div class="btn-group">
                 <a
-                  href="#my-modal"
+                  :href="`#mymodal${payment.id}`"
                   v-if="payment.status == false"
                   class="
                     btn-sm
@@ -58,7 +62,7 @@
                 </button>
               </div>
             </td>
-            <div class="modal" id="my-modal">
+            <div class="modal" :id="`mymodal${payment.id}`">
               <div class="modal-box">
                 <h3 class="font-bold text-lg">
                   Payments ( {{ formatDate(payment.date_from) }} -
@@ -74,7 +78,8 @@
                     "
                     >Cancel</a
                   >
-                  <a
+                  <button
+                    type=" button"
                     @click="paid(payment.id)"
                     class="
                       btn btn-sm btn-success
@@ -83,7 +88,7 @@
                     "
                   >
                     Paid
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('attendance-records', AttendanceRecordController::class);
     Route::resource('loans', LoanController::class);
     Route::resource('payments', PaymentController::class);
-    Route::get('/payments/{id}/paid', [PaymentController::class, 'paid']);
+    Route::put('/payments/{id}/paid', [PaymentController::class, 'paid']);
 });
 
 

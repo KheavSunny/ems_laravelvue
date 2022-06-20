@@ -95,7 +95,6 @@
         </tbody>
       </table>
     </div>
-
     <div class="flex justify-center mt-5 btn-group">
       <button
         v-for="(link, i) of attendance_records.links"
@@ -133,6 +132,7 @@ let attendance_records = ref([]);
 attendance_records = computed(() => store.state.attendance_records);
 
 function getForPage(link) {
+  console.log("HEoll");
   if (!link.url || link.active) {
     return;
   }

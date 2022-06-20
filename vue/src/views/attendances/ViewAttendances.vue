@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody v-if="attendances">
-          <tr v-for="(attendance, index) in attendances" :key="index">
+          <tr v-for="(attendance, index) in attendances.data" :key="index">
             <td>{{ attendance.id }}</td>
             <td>
               {{ attendance.employee.lastname }}
@@ -70,7 +70,7 @@ import { useStore } from "vuex";
 
 const store = useStore();
 store.dispatch("getAttendances");
-const attendances = computed(() => store.state.attendances.data);
+const attendances = computed(() => store.state.attendances);
 </script>
 
 <style scoped>
