@@ -68,7 +68,7 @@
                   Payments ( {{ formatDate(payment.date_from) }} -
                   {{ formatDate(payment.date_to) }} )
                 </h3>
-                <p class="py-4">Payments Pending</p>
+                <p class="py-4">Payments = {{ payment.subtotal }} $</p>
                 <div class="modal-action">
                   <a
                     href="#"
@@ -87,7 +87,7 @@
                       hover:bg-green-700 hover:text-white
                     "
                   >
-                    Paid
+                    Pay
                   </button>
                 </div>
               </div>
