@@ -18,7 +18,7 @@ class LoanController extends Controller
      */
     public function index()
     {
-        $loans = Loan::all();
+        $loans = Loan::orderBy('id')->paginate(10);
 
         return LoanResource::collection($loans);
     }

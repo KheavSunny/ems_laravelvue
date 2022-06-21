@@ -67,7 +67,7 @@
         :key="i"
         :disabled="!link.url"
         v-html="link.label"
-        @click="getForPage(link)"
+        @click.prevent="getForPage(link)"
         aria-current="page"
         class="btn"
         :class="[link.active ? 'btn-active' : '']"
@@ -83,9 +83,9 @@ import { useStore } from "vuex";
 const store = useStore();
 store.dispatch("getAttendances");
 
-let attendances = ref({});
+// let attendances = ref({});
 
-attendances = computed(() => store.state.attendances);
+const attendances = computed(() => store.state.attendances);
 
 function getForPage(link) {
   if (!link.url || link.active) {
@@ -93,7 +93,6 @@ function getForPage(link) {
   }
   store.dispatch("getAttendances", { url: link.url });
 }
-
 </script>
 
 <style scoped>

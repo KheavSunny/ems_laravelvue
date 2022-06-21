@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(state, index) in states" :key="index">
+          <tr v-for="(state, index) in states.data" :key="index">
             <td>{{ state.id }}</td>
             <td v-if="state.country" class="capitalize">
               {{ state.country.name }}
@@ -64,6 +64,18 @@
         </tbody>
       </table>
     </div>
+    <div v-if="states.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of states.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click.prevent="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 
@@ -75,7 +87,14 @@ const store = useStore();
 
 store.dispatch("getStates");
 
-const states = computed(() => store.state.states.data);
+const states = computed(() => store.state.states);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getStates", { url: link.url });
+}
 
 function deleteState(id) {
   store.dispatch("deleteState", id).then(() => {

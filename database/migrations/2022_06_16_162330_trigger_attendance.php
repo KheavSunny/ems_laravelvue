@@ -14,48 +14,48 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::unprepared('
-            CREATE FUNCTION public.att_insert()
-                RETURNS trigger
-                LANGUAGE plpgsql
-                    NOT LEAKPROOF
-                AS $BODY$
-                    declare
-                        t1 double precision;
-                        t2 double precision;
-                        t3 double precision;
-                        t4 double precision;
+        // DB::unprepared('
+        //     CREATE FUNCTION public.att_insert()
+        //         RETURNS trigger
+        //         LANGUAGE plpgsql
+        //             NOT LEAKPROOF
+        //         AS $BODY$
+        //             declare
+        //                 t1 double precision;
+        //                 t2 double precision;
+        //                 t3 double precision;
+        //                 t4 double precision;
 
-                    BEGIN
-                        IF (new."t1" IS NULL ) THEN
-                            t1 = 0;
-                        ELSE
-                            t1 = 0.25;
-                        END IF;
-                        IF (new."t2" IS NULL) THEN
-                            t2 = 0;
-                        ELSE
-                            t2 = 0.25;
-                        END IF;
-                        IF (new."t3" IS NULL) THEN
-                            t3 = 0;
-                        ELSE
-                            t3 = 0.25;
-                        END IF;
-                        IF (new."t4" IS NULL) THEN
-                            t4 = 0;
-                        ELSE
-                            t4 = 0.25;
-                        END IF;
+        //             BEGIN
+        //                 IF (new."t1" IS NULL ) THEN
+        //                     t1 = 0;
+        //                 ELSE
+        //                     t1 = 0.25;
+        //                 END IF;
+        //                 IF (new."t2" IS NULL) THEN
+        //                     t2 = 0;
+        //                 ELSE
+        //                     t2 = 0.25;
+        //                 END IF;
+        //                 IF (new."t3" IS NULL) THEN
+        //                     t3 = 0;
+        //                 ELSE
+        //                     t3 = 0.25;
+        //                 END IF;
+        //                 IF (new."t4" IS NULL) THEN
+        //                     t4 = 0;
+        //                 ELSE
+        //                     t4 = 0.25;
+        //                 END IF;
 
-                        new."t" = t1 + t2 + t3 + t4;
-                        return new;
-                    END;
-                $BODY$;
+        //                 new."t" = t1 + t2 + t3 + t4;
+        //                 return new;
+        //             END;
+        //         $BODY$;
 
-            ALTER FUNCTION public.att_insert()
-            OWNER TO pmnmsfaxftihpr;
-        ');
+        //     ALTER FUNCTION public.att_insert()
+        //     OWNER TO pmnmsfaxftihpr;
+        // ');
 
         DB::unprepared('
         CREATE TRIGGER attendance_count
@@ -65,31 +65,31 @@ return new class extends Migration
             EXECUTE FUNCTION public.att_insert();
         ');
 
-        DB::unprepared('
-        CREATE FUNCTION public.overtime()
-        RETURNS trigger
-        LANGUAGE plpgsql
-            NOT LEAKPROOF
-        AS $BODY$
-            declare
-                timein time;
-                timeout time;
-            BEGIN
-                IF new."t5" IS NULL OR new."t6" IS NULL THEN
-                    new."overtime" = \'00:00:00\';
-                    return new;
-                END IF;
-                    timein = (SELECT ar."time" FROM attendance_records as ar WHERE id = new."t5");
-                    timeout = (SELECT ar."time" FROM attendance_records as ar WHERE id = new."t6");
+        // DB::unprepared('
+        // CREATE FUNCTION public.overtime()
+        // RETURNS trigger
+        // LANGUAGE plpgsql
+        //     NOT LEAKPROOF
+        // AS $BODY$
+        //     declare
+        //         timein time;
+        //         timeout time;
+        //     BEGIN
+        //         IF new."t5" IS NULL OR new."t6" IS NULL THEN
+        //             new."overtime" = \'00:00:00\';
+        //             return new;
+        //         END IF;
+        //             timein = (SELECT ar."time" FROM attendance_records as ar WHERE id = new."t5");
+        //             timeout = (SELECT ar."time" FROM attendance_records as ar WHERE id = new."t6");
 
-                    new."overtime" = timeout - timein ;
-                    return new;
-            END;
-        $BODY$;
+        //             new."overtime" = timeout - timein ;
+        //             return new;
+        //     END;
+        // $BODY$;
 
-        ALTER FUNCTION public.overtime()
-        OWNER TO pmnmsfaxftihpr;
-        ');
+        // ALTER FUNCTION public.overtime()
+        // OWNER TO pmnmsfaxftihpr;
+        // ');
 
         DB::unprepared('
             CREATE TRIGGER overtime
@@ -99,21 +99,21 @@ return new class extends Migration
                 EXECUTE FUNCTION public.overtime();
         ');
 
-        DB::unprepared('
-        CREATE FUNCTION public.ref_no_auto_increment()
-        RETURNS trigger
-        LANGUAGE plpgsql
-            NOT LEAKPROOF
-        AS $BODY$
-            BEGIN
-                new."ref_no" = CONCAT(DATE_PART(\'YEAR\',CURRENT_DATE),\'_\',(LPAD(new."id"::text,5,\'0\')));
-                return new;
-            END;
-        $BODY$;
+        // DB::unprepared('
+        // CREATE FUNCTION public.ref_no_auto_increment()
+        // RETURNS trigger
+        // LANGUAGE plpgsql
+        //     NOT LEAKPROOF
+        // AS $BODY$
+        //     BEGIN
+        //         new."ref_no" = CONCAT(DATE_PART(\'YEAR\',CURRENT_DATE),\'_\',(LPAD(new."id"::text,5,\'0\')));
+        //         return new;
+        //     END;
+        // $BODY$;
 
-        ALTER FUNCTION public.ref_no_auto_increment()
-        OWNER TO pmnmsfaxftihpr;
-        ');
+        // ALTER FUNCTION public.ref_no_auto_increment()
+        // OWNER TO pmnmsfaxftihpr;
+        // ');
 
         DB::unprepared('
             CREATE TRIGGER ref_no_auto_increment

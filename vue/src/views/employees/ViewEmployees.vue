@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="employee in employees" :key="employee.id">
+          <tr v-for="employee in employees.data" :key="employee.id">
             <td>
               {{ employee.id }}
             </td>
@@ -48,6 +48,18 @@
         </tbody>
       </table>
     </div>
+    <div v-if="employees.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of employees.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click.prevent="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 
@@ -57,9 +69,16 @@ import store from "../../store";
 
 store.dispatch("getEmployees");
 
-const employees = computed(() => store.state.employees.data);
+const employees = computed(() => store.state.employees);
 
 const theads = ["ID", "Firstname", "Lastname", "Phone", "Address"];
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getEmployees", { url: link.url });
+}
 
 function deleteEmployee(id) {
   store.dispatch("deleteEmployee", id).then(() => {

@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="department in departments" :key="department.id">
+          <tr v-for="department in departments.data" :key="department.id">
             <td>{{ department.id }}</td>
             <td class="capitalize">{{ department.name }}</td>
             <td v-if="department.id">
@@ -60,6 +60,18 @@
         </tbody>
       </table>
     </div>
+    <div v-if="departments.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of departments.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click.prevent="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 
@@ -69,7 +81,14 @@ import store from "../../../store";
 
 store.dispatch("getDepartments");
 
-const departments = computed(() => store.state.departments.data);
+const departments = computed(() => store.state.departments);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getDepartments", { url: link.url });
+}
 
 function DeleteDepartment(id) {
   if (confirm(`Are you sure to delete this department row ?`)) {

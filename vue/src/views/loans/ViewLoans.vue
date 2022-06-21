@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="loan in loans" :key="loan.id">
+          <tr v-for="loan in loans.data" :key="loan.id">
             <td>{{ loan.id }}</td>
             <td v-if="loan.employee">{{ loan.employee.firstname }}</td>
             <td>{{ loan.amount }}</td>
@@ -40,6 +40,18 @@
         </tbody>
       </table>
     </div>
+    <div v-if="loans.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of loans.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click.prevent="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 <script setup>
@@ -50,7 +62,14 @@ const store = useStore();
 
 store.dispatch("getLoans");
 
-const loans = computed(() => store.state.loans.data);
+const loans = computed(() => store.state.loans);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getLoans", { url: link.url });
+}
 
 function deleteLoan(id) {
   store.dispatch("deleteLoan", id).then(() => {

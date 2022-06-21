@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="country in countries" :key="country.id">
+          <tr v-for="country in countries.data" :key="country.id">
             <td>{{ country.id }}</td>
             <td>{{ country.code }}</td>
             <td class="capitalize">{{ country.name }}</td>
@@ -58,6 +58,18 @@
         </tbody>
       </table>
     </div>
+    <div v-if="countries.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of countries.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click.prevent="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 
@@ -67,7 +79,14 @@ import { useStore } from "vuex";
 
 const store = useStore();
 store.dispatch("getCountries");
-const countries = computed(() => store.state.countries.data);
+const countries = computed(() => store.state.countries);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getCountries", { url: link.url });
+}
 
 function deleteCountry(id) {
   store.dispatch("deleteCountry", id).then(() => {

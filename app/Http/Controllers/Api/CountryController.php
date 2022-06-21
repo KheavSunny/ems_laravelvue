@@ -18,7 +18,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $countries = Country::orderBy('id')->get();
+        $countries = Country::orderBy('id')->paginate(10);
 
         return CountryResource::collection($countries);
     }

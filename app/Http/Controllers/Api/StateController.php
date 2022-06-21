@@ -18,7 +18,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = State::orderBy('id')->get();
+        $states = State::orderBy('id')->paginate(10);
 
         return StateResource::collection($states);
     }

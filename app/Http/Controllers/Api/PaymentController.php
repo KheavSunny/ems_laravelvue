@@ -19,7 +19,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::all();
+        $payments = Payment::orderBy('id')->paginate(10);
 
         return PaymentResource::collection($payments);
     }

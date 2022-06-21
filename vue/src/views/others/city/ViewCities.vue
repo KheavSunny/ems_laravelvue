@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="city in cities" :key="city.id">
+          <tr v-for="city in cities.data" :key="city.id">
             <td>{{ city.id }}</td>
             <td v-if="city.state" class="capitalize">{{ city.state.name }}</td>
             <td class="capitalize">{{ city.name }}</td>
@@ -60,6 +60,18 @@
         </tbody>
       </table>
     </div>
+    <div v-if="cities.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of cities.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click.prevent="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 
@@ -68,7 +80,13 @@ import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 
 const store = useStore();
-const cities = computed(() => store.state.cities.data);
+const cities = computed(() => store.state.cities);
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getCities", { url: link.url });
+}
 store.dispatch("getCities");
 
 function deleteCity(id) {

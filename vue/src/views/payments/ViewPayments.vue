@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(payment, index) in payments"
+            v-for="(payment, index) in payments.data"
             :key="index"
             class="text-center"
           >
@@ -96,6 +96,18 @@
         </tbody>
       </table>
     </div>
+    <div v-if="payments.links" class="flex justify-center mt-5 btn-group">
+      <button
+        v-for="(link, i) of payments.links"
+        :key="i"
+        :disabled="!link.url"
+        v-html="link.label"
+        @click.prevent="getForPage(link)"
+        aria-current="page"
+        class="btn"
+        :class="[link.active ? 'btn-active' : '']"
+      ></button>
+    </div>
   </div>
 </template>
 <script setup>
@@ -110,7 +122,15 @@ function formatDate(date) {
 const store = useStore();
 
 store.dispatch("getPayments");
-const payments = computed(() => store.state.payments.data);
+const payments = computed(() => store.state.payments);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+
+  store.dispatch("getPayments", { url: link.url });
+}
 
 function deletePayment(id) {
   store.dispatch("deletePayment", id).then(() => {
