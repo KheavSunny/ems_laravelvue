@@ -43,7 +43,21 @@
                     pt-1.5
                   "
                 >
-                  Pay
+                  Pay </a
+                ><a
+                  :href="`#mymodal${payment.id}`"
+                  v-else
+                  class="
+                    btn-sm
+                    mr-2
+                    bg-green-800
+                    text-white
+                    hover:btn-secondary
+                    rounded
+                    pt-1.5
+                  "
+                >
+                  View
                 </a>
                 <router-link
                   :to="{ name: 'EditPayment', params: { id: payment.id } }"
@@ -62,13 +76,54 @@
                 </button>
               </div>
             </td>
-            <div class="modal" :id="`mymodal${payment.id}`">
-              <div class="modal-box">
-                <h3 class="font-bold text-lg">
+            <div class="modal modal-bottom sm:modal-middle" :id="`mymodal${payment.id}`">
+              <div class="modal-box bg-base-300">
+                <h3 class="font-bold text-lg mb-3">
                   Payments ( {{ formatDate(payment.date_from) }} -
                   {{ formatDate(payment.date_to) }} )
                 </h3>
-                <p class="py-4">Payments = {{ payment.subtotal }} $</p>
+                <div class="card w-auto bg-slate-500 text-white">
+                  <div class="card-body">
+                    <h2 class="card-title items-center justify-center">
+                      {{
+                        payment.status == -false
+                          ? "Not yet to pay!"
+                          : "Paid already!"
+                      }}
+                    </h2>
+                    <div class="text-left flex justify-between">
+                      <div class="text-lg">Name :</div>
+                      <div class="text-lg">
+                        {{ payment.employee.firstname }}
+                        {{ payment.employee.lastname }}
+                      </div>
+                    </div>
+                    <div class="text-left flex justify-between">
+                      <div class="text-lg">Phone :</div>
+                      <div class="text-lg">
+                        {{ payment.employee.phone }}
+                      </div>
+                    </div>
+                    <div class="text-left flex justify-between">
+                      <div class="text-lg">Day Work :</div>
+                      <div class="text-lg">
+                        {{ payment.working_day }} day(s)
+                      </div>
+                    </div>
+                    <div class="text-left flex justify-between">
+                      <div class="text-lg">Loan :</div>
+                      <div class="text-lg">
+                        {{ payment.loan_repay }} $
+                      </div>
+                    </div>
+                    <div class="text-left flex justify-between">
+                      <div class="text-lg">SubTotal :</div>
+                      <div class="text-lg">
+                        {{ payment.subtotal }} $
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="modal-action">
                   <a
                     href="#"
