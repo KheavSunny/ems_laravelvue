@@ -1,46 +1,25 @@
 <template>
   <div>
-    <div class="text-5xl">View loans</div>
-    <div
-      class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5"
-      v-if="loans"
-    >
+    <div class="text-5xl">View loan lists</div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Action</th>
+            <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="loan in loans.data" :key="loan.id">
+          <tr v-for="loan in loans" :key="loan.id">
             <td>{{ loan.id }}</td>
-            <td v-if="loan.employee">{{ loan.employee.firstname }}</td>
+            <td>{{ loan.employee.firstname }}</td>
             <td>{{ loan.amount }}</td>
-            <td>{{ loan.date }}</td>
-            <td v-if="loan.id">
-              <router-link :to="{ name: 'UpdateLoan', params: { id: loan.id } }"
-                ><button
-                  class="btn-xs btn-accent rounded hover:btn-primary mr-2"
-                >
-                  Edit
-                </button></router-link
-              >
-              <button
-                @click.prevent="deleteLoan(loan.id)"
-                class="btn-xs btn-error rounded hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </td>
+            <td>{{ loan.repay }}</td>
+            <td>{{ loan.remain }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div v-if="loans.links" class="flex justify-center mt-5 btn-group">
+    <!-- <div v-if="loans.links" class="flex justify-center mt-5 btn-group">
       <button
         v-for="(link, i) of loans.links"
         :key="i"
@@ -51,31 +30,20 @@
         class="btn"
         :class="[link.active ? 'btn-active' : '']"
       ></button>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup>
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 
+const theads = ["ID", "Employee", "Amount", "Repay", "Remian"];
+
 const store = useStore();
 
-store.dispatch("getLoans");
+store.dispatch("getLoanDetails");
 
-const loans = computed(() => store.state.loans);
-
-function getForPage(link) {
-  if (!link.url || link.active) {
-    return;
-  }
-  store.dispatch("getLoans", { url: link.url });
-}
-
-function deleteLoan(id) {
-  store.dispatch("deleteLoan", id).then(() => {
-    store.dispatch("getLoans");
-  });
-}
+const loans = computed(() => store.state.loans_details.data);
 </script>
 <style scoped>
 </style>

@@ -72,6 +72,9 @@ const store = createStore({
         payment: {
             data: [],
         },
+        loans_details: {
+            data: [],
+        },
     },
     getters: {
         sideBarOpen: (state) => {
@@ -381,7 +384,13 @@ const store = createStore({
         },
         changeToPaid({ commit }, id) {
             return axiosClient.put(`/payments/${id}/paid`).then((res) => {
-                commit("setPayments", res.data);
+                commit("setPayment", res.data);
+                return res;
+            });
+        },
+        getLoanDetails({ commit }, id) {
+            return axiosClient.get("/loan-details").then((res) => {
+                commit("setLoanDetails", res.data);
                 return res;
             });
         },
@@ -466,6 +475,9 @@ const store = createStore({
         },
         setPayment(state, data) {
             state.payment.data = data.data;
+        },
+        setLoanDetails(state, data) {
+            state.loans_details.data = data.data;
         },
     },
     modules: {},

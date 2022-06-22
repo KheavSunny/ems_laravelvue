@@ -140,7 +140,7 @@ if (route.params.id) {
 }
 
 watch(
-  () => store.state.countries.data,
+  () => store.state.country.data,
   (newVal, oldVal) => {
     country.value = {
       ...JSON.parse(JSON.stringify(newVal)),

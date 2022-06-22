@@ -88,7 +88,7 @@ let department = ref({
   name: "",
 });
 watch(
-  () => store.state.departments.data,
+  () => store.state.department.data,
   (newVal, oldVal) => {
     department.value = {
       ...JSON.parse(JSON.stringify(newVal)),

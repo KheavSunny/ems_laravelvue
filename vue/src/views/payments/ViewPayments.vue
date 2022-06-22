@@ -76,7 +76,10 @@
                 </button>
               </div>
             </td>
-            <div class="modal modal-bottom sm:modal-middle" :id="`mymodal${payment.id}`">
+            <div
+              class="modal modal-bottom sm:modal-middle"
+              :id="`mymodal${payment.id}`"
+            >
               <div class="modal-box bg-base-300">
                 <h3 class="font-bold text-lg mb-3">
                   Payments ( {{ formatDate(payment.date_from) }} -
@@ -111,16 +114,27 @@
                       </div>
                     </div>
                     <div class="text-left flex justify-between">
-                      <div class="text-lg">Loan :</div>
+                      <div class="text-lg">Overtime :</div>
                       <div class="text-lg">
-                        {{ payment.loan_repay }} $
+                        {{ payment.overtime }}
                       </div>
                     </div>
                     <div class="text-left flex justify-between">
-                      <div class="text-lg">SubTotal :</div>
-                      <div class="text-lg">
-                        {{ payment.subtotal }} $
+                      <div class="text-lg">Loan Repay :</div>
+                      <div v-if="payment.status == true" class="text-lg">
+                        {{ payment.loan_repay }} $
                       </div>
+                      <input
+                        v-else
+                        type="number"
+                        class="text-black p-2"
+                        name="loan_repay"
+                        value="0"
+                      />
+                    </div>
+                    <div class="text-left flex justify-between">
+                      <div class="text-lg">SubTotal :</div>
+                      <div class="text-lg">{{ payment.subtotal }} $</div>
                     </div>
                   </div>
                 </div>
@@ -133,8 +147,9 @@
                     "
                     >Cancel</a
                   >
-                  <button
-                    type=" button"
+                  <a
+                    v-if="payment.status == false"
+                    href="#"
                     @click="paid(payment.id)"
                     class="
                       btn btn-sm btn-success
@@ -143,7 +158,7 @@
                     "
                   >
                     Pay
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -193,11 +208,11 @@ function deletePayment(id) {
   });
 }
 
-function paid(id) {
+const loan_repay = function paid(id) {
   store.dispatch("changeToPaid", id).then(() => {
     store.dispatch("getPayments");
   });
-}
+};
 </script>
 <style scoped>
 </style>

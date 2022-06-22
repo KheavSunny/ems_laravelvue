@@ -57,13 +57,13 @@ return new class extends Migration
         //     OWNER TO pmnmsfaxftihpr;
         // ');
 
-        DB::unprepared('
-        CREATE TRIGGER attendance_count
-            BEFORE INSERT OR UPDATE OF t1, t2, t3, t4
-            ON public.attendances
-            FOR EACH ROW
-            EXECUTE FUNCTION public.att_insert();
-        ');
+        // DB::unprepared('
+        // CREATE TRIGGER attendance_count
+        //     BEFORE INSERT OR UPDATE OF t1, t2, t3, t4
+        //     ON public.attendances
+        //     FOR EACH ROW
+        //     EXECUTE FUNCTION public.att_insert();
+        // ');
 
         // DB::unprepared('
         // CREATE FUNCTION public.overtime()
@@ -91,13 +91,13 @@ return new class extends Migration
         // OWNER TO pmnmsfaxftihpr;
         // ');
 
-        DB::unprepared('
-            CREATE TRIGGER overtime
-                BEFORE INSERT OR UPDATE OF t5, t6
-                ON public.attendances
-                FOR EACH ROW
-                EXECUTE FUNCTION public.overtime();
-        ');
+        // DB::unprepared('
+        //     CREATE TRIGGER overtime
+        //         BEFORE INSERT OR UPDATE OF t5, t6
+        //         ON public.attendances
+        //         FOR EACH ROW
+        //         EXECUTE FUNCTION public.overtime();
+        // ');
 
         // DB::unprepared('
         // CREATE FUNCTION public.ref_no_auto_increment()
@@ -115,13 +115,13 @@ return new class extends Migration
         // OWNER TO pmnmsfaxftihpr;
         // ');
 
-        DB::unprepared('
-            CREATE TRIGGER ref_no_auto_increment
-                BEFORE INSERT OR UPDATE OF ref_no
-                ON public.payments
-                FOR EACH ROW
-                EXECUTE FUNCTION public.ref_no_auto_increment();
-        ');
+        // DB::unprepared('
+        //     CREATE TRIGGER ref_no_auto_increment
+        //         BEFORE INSERT OR UPDATE OF ref_no
+        //         ON public.payments
+        //         FOR EACH ROW
+        //         EXECUTE FUNCTION public.ref_no_auto_increment();
+        // ');
     }
 
     /**

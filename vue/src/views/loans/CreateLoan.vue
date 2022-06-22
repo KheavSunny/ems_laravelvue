@@ -142,7 +142,7 @@ if (route.params.id) {
 }
 
 watch(
-  () => store.state.loans.data,
+  () => store.state.loan.data,
   (newVal, oldVal) => {
     loan.value = {
       ...JSON.parse(JSON.stringify(newVal)),

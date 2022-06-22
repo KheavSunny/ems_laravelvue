@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\StateController;
+use App\Http\Controllers\Api\LoanDetailsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('loans', LoanController::class);
     Route::resource('payments', PaymentController::class);
     Route::put('/payments/{id}/paid', [PaymentController::class, 'paid']);
+    Route::resource('loan-details', LoanDetailsController::class);
 });
 
 

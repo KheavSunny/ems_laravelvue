@@ -22,6 +22,7 @@ class Employee extends Model
         'date_hired',
         'zip_code',
         'phone',
-        'address'
+        'address',
+        'salary'
     ];
 }

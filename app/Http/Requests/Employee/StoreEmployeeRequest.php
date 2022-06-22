@@ -35,6 +35,7 @@ class StoreEmployeeRequest extends FormRequest
             'zip_code' => 'required|string',
             'address' => 'string',
             'birthdate' => 'string',
+            'salary' => 'string',
             'date_hired' => 'string'
         ];
     }

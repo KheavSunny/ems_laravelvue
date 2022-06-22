@@ -129,7 +129,7 @@ let state = ref({
 store.dispatch("getCountries");
 
 watch(
-  () => store.state.states.data,
+  () => store.state.state.data,
   (newVal, oldVal) => {
     state.value = {
       ...JSON.parse(JSON.stringify(newVal)),

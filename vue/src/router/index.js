@@ -13,6 +13,7 @@ import CreatePayment from "../views/payments/CreatePayment.vue";
 import EditPayment from "../views/payments/EditPayment.vue";
 import ViewLoans from "../views/loans/ViewLoans.vue";
 import CreateLoan from "../views/loans/CreateLoan.vue";
+import ViewLoanRecords from "../views/loans/ViewLoanRecords.vue";
 import ViewDepartments from "../views/others/departments/ViewDepartments.vue";
 import SaveDepartment from "../views/others/departments/SaveDepartment.vue";
 import ViewCountries from "../views/others/country/ViewCountries.vue";
@@ -113,6 +114,11 @@ const routes = [{
                         path: ":id",
                         name: "UpdateLoan",
                         component: CreateLoan,
+                    },
+                    {
+                        path: "records",
+                        name: "ViewLoanRecords",
+                        component: ViewLoanRecords,
                     },
                 ],
             },

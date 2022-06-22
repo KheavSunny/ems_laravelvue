@@ -16,7 +16,7 @@ class PaymentResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
 
-    private function attendance($dateFrom, $dateTo, $id)
+    private function attendanceWorkingDay($dateFrom, $dateTo, $id)
     {
         // $attendance = Attendance::whereBetween('date', [$dateFrom, $dateTo])->where('employee_id', $id)->get();
         $attendance = DB::table('attendances')
@@ -28,11 +28,23 @@ class PaymentResource extends JsonResource
         return $attendance;
     }
 
+    private function attendanceOvertime($dateFrom, $dateTo, $id)
+    {
+        $total_time = DB::table('attendances')
+            ->whereBetween('date', [$dateFrom, $dateTo])
+            ->where('employee_id', $id)
+            ->select(DB::raw('sum(cast(overtime as time))'))
+            ->first();
+
+        return $total_time;
+    }
+
 
 
     public function toArray($request)
     {
-        $sum = $this->attendance($this->date_from, $this->date_to, $this->employee_id)->sum;
+        $sum = $this->attendanceWorkingDay($this->date_from, $this->date_to, $this->employee_id);
+        $employee = Employee::whereId($this->employee_id)->first()->makeHidden(['created_at', 'updated_at', 'delete_at']);
         return [
             'id' => $this->id,
             'ref_no' => $this->ref_no,
@@ -41,9 +53,10 @@ class PaymentResource extends JsonResource
             'status' => $this->status,
             'loan_repay' => $this->loan_repay,
             'date_paid' => $this->date_paid,
-            'working_day' => $sum,
-            'subtotal' => $sum * 20,
-            'employee' => Employee::whereId($this->employee_id)->first()->makeHidden(['created_at', 'updated_at', 'delete_at'])
+            'overtime' => $this->attendanceOvertime($this->date_from, $this->date_to, $this->employee_id)->sum,
+            'working_day' => $sum->sum,
+            'subtotal' => $sum->sum * $employee->salary - $this->loan_repay,
+            'employee' => $employee
         ];
     }
 }

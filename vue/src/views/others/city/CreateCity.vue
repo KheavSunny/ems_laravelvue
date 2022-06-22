@@ -128,7 +128,7 @@ const city = ref({
 store.dispatch("getStates");
 
 watch(
-  () => store.state.cities.data,
+  () => store.state.city.data,
   (newVal, oldVal) => {
     city.value = {
       ...JSON.parse(JSON.stringify(newVal)),

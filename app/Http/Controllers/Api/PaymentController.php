@@ -118,7 +118,10 @@ class PaymentController extends Controller
         $payment = Payment::whereId($id)->first();
 
         if ($payment->status == false) {
-            $payment->update(['status' => true]);
+            $payment->update([
+                'status' => true,
+                'loan_repay' => request()->loan_repay ?? 0
+            ]);
             return $payment;
         } else {
             return response(['message' => 'This payment already paid !!']);

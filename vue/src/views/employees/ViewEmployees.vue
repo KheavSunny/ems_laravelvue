@@ -33,6 +33,7 @@
             <td>
               {{ employee.address }}
             </td>
+            <td>{{ employee.salary }}</td>
             <td v-if="employee.id" class="text-center">
               <router-link
                 :to="{ name: 'UpdateEmployee', params: { id: employee.id } }"
@@ -71,7 +72,7 @@ store.dispatch("getEmployees");
 
 const employees = computed(() => store.state.employees);
 
-const theads = ["ID", "Firstname", "Lastname", "Phone", "Address"];
+const theads = ["ID", "Firstname", "Lastname", "Phone", "Address", "Salary"];
 
 function getForPage(link) {
   if (!link.url || link.active) {

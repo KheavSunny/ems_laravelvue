@@ -67,10 +67,9 @@ const employees = computed(() => store.state.employees.data);
 store.dispatch("getPayment", route.params.id);
 
 watch(
-  () => store.state.payments.data,
+  () => store.state.payment.data,
   (newVal, oldVal) => {
     payment.value = newVal;
-    console.log(newVal);
 
     payment.value.employee_id = newVal.employee.id;
   }

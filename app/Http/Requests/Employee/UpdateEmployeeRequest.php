@@ -35,6 +35,7 @@ class UpdateEmployeeRequest extends FormRequest
             'zip_code' => 'string',
             'address' => 'string',
             'birthdate' => 'string',
+            'salary' => 'string',
             'date_hired' => 'nullable'
         ];
     }
