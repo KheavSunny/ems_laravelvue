@@ -74,6 +74,7 @@ const store = createStore({
         },
         loans_details: {
             data: [],
+            links: [],
         },
     },
     getters: {
@@ -390,8 +391,9 @@ const store = createStore({
                     return res;
                 });
         },
-        getLoanDetails({ commit }, id) {
-            return axiosClient.get("/loan-details").then((res) => {
+        getLoanDetails({ commit }, { url = null } = {}) {
+            url = url || "/loan-details";
+            return axiosClient.get(url).then((res) => {
                 commit("setLoanDetails", res.data);
                 return res;
             });
@@ -479,6 +481,7 @@ const store = createStore({
             state.payment.data = data.data;
         },
         setLoanDetails(state, data) {
+            state.loans_details.links = data.meta.links;
             state.loans_details.data = data.data;
         },
     },

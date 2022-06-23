@@ -9,7 +9,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="loan in loans" :key="loan.id">
+          <tr v-for="loan in loans.data" :key="loan.id">
             <td>{{ loan.id }}</td>
             <td>{{ loan.employee.firstname }}</td>
             <td>{{ loan.amount }}</td>
@@ -19,7 +19,7 @@
         </tbody>
       </table>
     </div>
-    <!-- <div v-if="loans.links" class="flex justify-center mt-5 btn-group">
+    <div v-if="loans.links" class="flex justify-center mt-5 btn-group">
       <button
         v-for="(link, i) of loans.links"
         :key="i"
@@ -30,7 +30,7 @@
         class="btn"
         :class="[link.active ? 'btn-active' : '']"
       ></button>
-    </div> -->
+    </div>
   </div>
 </template>
 <script setup>
@@ -43,7 +43,14 @@ const store = useStore();
 
 store.dispatch("getLoanDetails");
 
-const loans = computed(() => store.state.loans_details.data);
+const loans = computed(() => store.state.loans_details);
+
+function getForPage(link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getLoanDetails", { url: link.url });
+}
 </script>
 <style scoped>
 </style>

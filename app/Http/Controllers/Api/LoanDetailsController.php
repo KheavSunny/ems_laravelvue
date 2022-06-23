@@ -16,7 +16,7 @@ class LoanDetailsController extends Controller
      */
     public function index()
     {
-        $loan_details = LoanDetails::all();
+        $loan_details = LoanDetails::orderBy('id')->paginate(5);
 
         return LoanDetailsResource::collection($loan_details);
     }

@@ -27,6 +27,7 @@ class UpdatePaymentRequest extends FormRequest
             'employee_id' => 'numeric',
             'date_from' => 'date',
             'date_to' => 'date',
+            'loan_repay' => 'numeric'
         ];
     }
 }
