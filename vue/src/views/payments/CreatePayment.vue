@@ -5,7 +5,7 @@
       <div class="mt-5 p-20 bg-white shadow-xl rounded-xl">
         <div class="form-control mb-5">
           <select
-            class="select select-accent focus:input-primary w-full"
+            class="select border-blue-400 focus:input-accent w-full"
             v-model="payment.employee_id"
             required
           >
@@ -24,7 +24,7 @@
           <input
             type="date"
             placeholder="Type here"
-            class="input input-accent focus:input-primary w-full"
+            class="input border-blue-400 focus:input-accent w-full"
             v-model="payment.date_from"
             required
           />
@@ -34,13 +34,13 @@
           <input
             type="date"
             placeholder="Type here"
-            class="input input-accent focus:input-primary w-full"
+            class="input border-blue-400 focus:input-accent w-full"
             v-model="payment.date_to"
             required
           />
         </div>
         <div class="text-right">
-          <button class="btn btn-primary">Save</button>
+          <button class="btn bg-blue-400 btn-accent">Save</button>
         </div>
       </div>
     </form>

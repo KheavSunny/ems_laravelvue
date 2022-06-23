@@ -122,6 +122,31 @@ return new class extends Migration
         //         FOR EACH ROW
         //         EXECUTE FUNCTION public.ref_no_auto_increment();
         // ');
+        DB::unprepared('
+            CREATE FUNCTION public.cal_laon_remain()
+            RETURNS trigger
+            LANGUAGE plpgsql
+                NOT LEAKPROOF
+            AS $BODY$
+                BEGIN
+                    declare
+                        amount int;
+                        repay int;
+                    BEGIN
+                        amount = new."amount";
+                        repay = new."repay";
+                        new."remain" = amount - repay;
+                        return new;
+                    END;
+            $BODY$;
+        ');
+        DB::unprepared('
+            CREATE TRIGGER cal_loan_remain
+                BEFORE INSERT OR UPDATE OF amount, repay
+                ON public.payments
+                FOR EACH ROW
+                EXECUTE FUNCTION public.cal_loan_remain();
+        ');
     }
 
     /**

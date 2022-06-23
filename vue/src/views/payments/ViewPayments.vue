@@ -129,7 +129,8 @@
                         type="number"
                         class="text-black p-2"
                         name="loan_repay"
-                        value="0"
+                        v-model="loan_repay"
+                        min="0"
                       />
                     </div>
                     <div class="text-left flex justify-between">
@@ -181,7 +182,7 @@
   </div>
 </template>
 <script setup>
-import { computed } from "@vue/runtime-core";
+import { computed, ref } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import moment from "moment";
 
@@ -208,11 +209,14 @@ function deletePayment(id) {
   });
 }
 
-const loan_repay = function paid(id) {
-  store.dispatch("changeToPaid", id).then(() => {
-    store.dispatch("getPayments");
-  });
-};
+const loan_repay = ref(0);
+function paid(id) {
+  store
+    .dispatch("changeToPaid", { id: id, loan_repay: loan_repay.value })
+    .then(() => {
+      store.dispatch("getPayments");
+    });
+}
 </script>
 <style scoped>
 </style>

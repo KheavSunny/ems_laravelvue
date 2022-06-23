@@ -39,6 +39,18 @@
             required
           />
         </div>
+        <div class="form-control mb-5" v-if="payment.status == true">
+          <label class="label"
+            ><span class="label-text">Loan Repay</span></label
+          >
+          <input
+            type="number"
+            placeholder="Type here"
+            class="input input-accent focus:input-primary w-full"
+            v-model="payment.loan_repay"
+            required
+          />
+        </div>
         <div class="text-right">
           <button class="btn btn-primary">Save</button>
         </div>
@@ -59,6 +71,8 @@ const payment = ref({
   employee_id: "",
   date_from: "",
   date_to: "",
+  status: "",
+  loan_repay: "",
   employee: "",
 });
 store.dispatch("getEmployees");

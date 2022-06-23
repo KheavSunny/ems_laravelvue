@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\StorePaymentRequest;
 use App\Http\Requests\Payment\UpdatePaymentRequest;
 use App\Http\Resources\Payment\PaymentResource;
+use App\Models\LoanDetails;
 use App\Models\Payment;
 use Faker\Generator as Faker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -88,6 +90,7 @@ class PaymentController extends Controller
 
         if ($payment) {
             $payment->update($data);
+            $this->loan_repay($payment->employee_id);
             return new PaymentResource($payment);
         } else {
             return response(['message' => 'Data not found !!!']);
@@ -106,6 +109,7 @@ class PaymentController extends Controller
 
         if ($payment) {
             $payment->delete();
+            $this->loan_repay($payment->employee_id);
             return response(['message' => 'Payment has been deleted !!']);
         } else {
             return response(['message' => 'Data not found !!!']);
@@ -117,14 +121,32 @@ class PaymentController extends Controller
 
         $payment = Payment::whereId($id)->first();
 
+
+        // return $loan;
+
         if ($payment->status == false) {
             $payment->update([
                 'status' => true,
-                'loan_repay' => request()->loan_repay ?? 0
+                'loan_repay' => request()->loan_repay >= 0 ? request()->loan_repay : 0
             ]);
+
+            $this->loan_repay($payment->employee_id);
+
             return $payment;
         } else {
             return response(['message' => 'This payment already paid !!']);
         }
+    }
+
+    private function loan_repay($id)
+    {
+        $loan = LoanDetails::where('employee_id', $id)->first();
+
+        if ($loan) {
+            $repay = DB::table('payments')->where('employee_id', $id)->select(DB::raw('sum(cast(loan_repay as double precision))'))->first();
+            $loan->update(['repay' => $repay->sum]);
+        }
+
+        return $loan;
     }
 }

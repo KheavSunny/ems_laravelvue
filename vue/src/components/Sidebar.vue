@@ -239,7 +239,11 @@
               rounded-lg
               cursor-pointer
             "
-            :class="[$route.name === 'ViewPayments' ? active : inactive]"
+            :class="[
+              $route.name === 'ViewPayments' || $route.name === 'EditPayment'
+                ? active
+                : inactive,
+            ]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -382,11 +382,13 @@ const store = createStore({
         deletePayment({ commit }, id) {
             return axiosClient.delete(`/payments/${id}`);
         },
-        changeToPaid({ commit }, id) {
-            return axiosClient.put(`/payments/${id}/paid`).then((res) => {
-                commit("setPayment", res.data);
-                return res;
-            });
+        changeToPaid({ commit }, data) {
+            return axiosClient
+                .put(`/payments/${data.id}/paid`, data)
+                .then((res) => {
+                    commit("setPayment", res.data);
+                    return res;
+                });
         },
         getLoanDetails({ commit }, id) {
             return axiosClient.get("/loan-details").then((res) => {
