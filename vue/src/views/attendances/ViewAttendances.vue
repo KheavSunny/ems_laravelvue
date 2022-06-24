@@ -14,7 +14,12 @@
           </tr>
         </thead>
         <tbody v-if="attendances">
-          <tr v-for="(attendance, index) in attendances.data" :key="index">
+          <tr
+            v-for="attendance in attendances.data"
+            :key="attendance.id"
+            class="cursor-pointer"
+            @click="attendance_records_edit(attendance.id)"
+          >
             <td>{{ attendance.id }}</td>
             <td>
               {{ attendance.employee.lastname }}
@@ -78,9 +83,11 @@
 
 <script setup>
 import { computed, ref } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 const store = useStore();
+const router = useRouter();
 store.dispatch("getAttendances");
 
 // let attendances = ref({});
@@ -92,6 +99,10 @@ function getForPage(link) {
     return;
   }
   store.dispatch("getAttendances", { url: link.url });
+}
+
+function attendance_records_edit(id) {
+  router.push({ name: "EditAttendanceRecords", params: { id: id } });
 }
 </script>
 

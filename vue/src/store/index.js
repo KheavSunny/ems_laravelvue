@@ -286,6 +286,12 @@ const store = createStore({
                 return res;
             });
         },
+        getAttendance({ commit }, id) {
+            return axiosClient.get(`/attendances/${id}`).then((res) => {
+                commit("setAttendance", res.data);
+                return res;
+            });
+        },
         createAttendance({ commit }, data) {
             return axiosClient.post("/attendances", data).then((res) => {
                 commit("setAttendance", res.data);
@@ -456,8 +462,7 @@ const store = createStore({
             state.attendances.data = data.data;
         },
         setAttendance(state, data) {
-            console.log(data);
-            state.attendance.data.push(data.data);
+            state.attendance.data = data.data;
         },
         setAttendanceRecords(state, data) {
             state.attendance_records.links = data.meta.links;
