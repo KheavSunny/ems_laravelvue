@@ -3,8 +3,44 @@
     <div class="text-5xl">
       {{ route.params.id ? city.name : "Create City" }}
     </div>
-    <div class="mt-5">
+    <div class="mt-5 p-20 bg-white shadow-xl rounded-xl">
       <form @submit.prevent="createCity">
+        <div class="relative z-0 w-full mb-6 group">
+          <select
+            class="
+              select
+              mb-3
+              appearance-none
+              block
+              w-full
+              px-4
+              py-2
+              text-base
+              font-normal
+              text-gray-700
+              bg-white bg-clip-padding bg-no-repeat
+              border border-solid border-blue-400
+              rounded
+              transition
+              ease-in-out
+              m-0
+              focus:text-gray-700
+              focus:bg-white
+              focus:border-blue-600
+              focus:outline-none
+            "
+            v-model="city.state_id"
+          >
+            <option disabled value="">Select States</option>
+            <option
+              v-for="(state, index) in states"
+              :key="index == 0"
+              :value="state.id"
+            >
+              {{ state.name }}
+            </option>
+          </select>
+        </div>
         <div class="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -16,7 +52,7 @@
               w-full
               text-sm text-gray-900
               bg-transparent
-              border-0 border-b-2 border-gray-300
+              border-0 border-b-2 border-blue-400
               appearance-none
               dark:text-white dark:border-gray-600 dark:focus:border-blue-500
               focus:outline-none focus:ring-0 focus:border-blue-600
@@ -49,42 +85,6 @@
             "
             >City Name</label
           >
-        </div>
-        <div class="relative z-0 w-full mb-6 group">
-          <select
-            class="
-              select
-              mb-3
-              appearance-none
-              block
-              w-full
-              px-4
-              py-2
-              text-base
-              font-normal
-              text-gray-700
-              bg-white bg-clip-padding bg-no-repeat
-              border border-solid border-gray-300
-              rounded
-              transition
-              ease-in-out
-              m-0
-              focus:text-gray-700
-              focus:bg-white
-              focus:border-blue-600
-              focus:outline-none
-            "
-            v-model="city.state_id"
-          >
-            <option disabled value="">Select States</option>
-            <option
-              v-for="(state, index) in states"
-              :key="index == 0"
-              :value="state.id"
-            >
-              {{ state.name }}
-            </option>
-          </select>
         </div>
         <button
           type="submit"

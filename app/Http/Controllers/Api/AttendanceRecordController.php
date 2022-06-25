@@ -11,6 +11,7 @@ use App\Models\Attendance;
 use App\Models\AttendanceRecord;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceRecordController extends Controller
 {
@@ -21,7 +22,7 @@ class AttendanceRecordController extends Controller
      */
     public function index()
     {
-        $attendance_records = AttendanceRecord::orderBy('id','desc')->paginate(10);
+        $attendance_records = AttendanceRecord::orderBy('id', 'desc')->paginate(10);
 
         return AttendanceRecordResource::collection($attendance_records);
     }
@@ -57,9 +58,9 @@ class AttendanceRecordController extends Controller
     {
         $attendance_record = AttendanceRecord::whereId($id)->first();
 
-        if($attendance_record){
+        if ($attendance_record) {
             return new AttendanceRecordResource($attendance_record);
-        }else{
+        } else {
             return response(['message' => 'Data not founded']);
         }
     }
@@ -87,8 +88,15 @@ class AttendanceRecordController extends Controller
         $data = $request->validated();
         $attendance_record->update($data);
 
+        $t5 = DB::table('attendances')->where('t5', $attendance_record->id);
+        $t6 = DB::table('attendances')->where('t6', $attendance_record->id);
+        if ($t5->exists()) {
+            $t5->update(['t5' => $attendance_record->id]);
+        } elseif ($t6->exists()) {
+            $t6->update(['t6' => $attendance_record->id]);
+        }
+
         return new AttendanceRecordResource($attendance_record);
-        
     }
 
     /**
@@ -101,11 +109,11 @@ class AttendanceRecordController extends Controller
     {
         $attendance_record = AttendanceRecord::whereId($id)->first();
 
-        if($attendance_record){
+        if ($attendance_record) {
             $attendance_record->delete();
 
-            return response(['message' => 'Attendance Record '.$attendance_record->id.' has been deleted!!!']);
-        }else{
+            return response(['message' => 'Attendance Record ' . $attendance_record->id . ' has been deleted!!!']);
+        } else {
             return response(['message' => 'Data not found!!!']);
         }
     }

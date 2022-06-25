@@ -3,7 +3,7 @@
     <div class="text-5xl">
       {{ route.params.id ? loan.name : "Create Loan" }}
     </div>
-    <div class="mt-5">
+    <div class="mt-5 p-20 bg-white shadow-xl rounded-xl">
       <form @submit.prevent="saveLoan">
         <div class="relative z-0 mb-3 w-full">
           <select
@@ -19,7 +19,7 @@
               font-normal
               text-gray-700
               bg-white bg-clip-padding bg-no-repeat
-              border border-solid border-gray-300
+              border border-solid border-blue-400
               rounded
               transition
               ease-in-out
@@ -45,6 +45,19 @@
         </div>
         <div class="relative z-0 mb-3 w-full">
           <input
+            type="date"
+            class="
+              input
+              w-full
+              border-blue-400
+              focus:outline-none focus:border-blue-600
+            "
+            v-model="loan.date"
+            required
+          />
+        </div>
+        <div class="relative z-0 mb-3 w-full">
+          <input
             type="text"
             name="amount"
             class="
@@ -54,7 +67,7 @@
               w-full
               text-sm text-gray-900
               bg-transparent
-              border-0 border-b-2 border-gray-300
+              border-0 border-b-2 border-blue-400
               appearance-none
               dark:text-white dark:border-gray-600 dark:focus:border-blue-500
               focus:outline-none focus:ring-0 focus:border-blue-600
@@ -87,14 +100,6 @@
             "
             >Amount</label
           >
-        </div>
-        <div class="relative z-0 mb-3 w-full">
-          <input
-            type="date"
-            class="input w-full"
-            v-model="loan.date"
-            required
-          />
         </div>
         <button
           type="submit"

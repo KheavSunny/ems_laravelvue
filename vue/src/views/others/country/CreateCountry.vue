@@ -3,7 +3,7 @@
     <div class="text-5xl">
       {{ route.params.id ? country.name : "Create Country" }}
     </div>
-    <div class="mt-5">
+    <div class="mt-5 p-20 bg-white shadow-xl rounded-xl">
       <form @submit.prevent="createCountry">
         <div class="relative z-0 w-full mb-6 group">
           <input
@@ -16,7 +16,7 @@
               w-full
               text-sm text-gray-900
               bg-transparent
-              border-0 border-b-2 border-gray-300
+              border-0 border-b-2 border-blue-400
               appearance-none
               dark:text-white dark:border-gray-600 dark:focus:border-blue-500
               focus:outline-none focus:ring-0 focus:border-blue-600
@@ -61,7 +61,7 @@
               w-full
               text-sm text-gray-900
               bg-transparent
-              border-0 border-b-2 border-gray-300
+              border-0 border-b-2 border-blue-400
               appearance-none
               dark:text-white dark:border-gray-600 dark:focus:border-blue-500
               focus:outline-none focus:ring-0 focus:border-blue-600
