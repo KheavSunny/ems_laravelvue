@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="props.createAttendance">
+  <form @submit.prevent="createAttendance">
     <div class="grid xl:gap-6">
       <div class="relative z-0 w-full mb-6 group">
         <select
@@ -8,12 +8,12 @@
             border-2 border-blue-400
             focus:outline-none focus:border-blue-600
             w-full
-          "
-          v-model="props.attendance.employee_id"
+          " required
+          v-model="attendance.employee_id"
         >
           <option disabled selected value="">Select Employees</option>
           <option
-            v-for="employee in props.employees"
+            v-for="employee in employees"
             :key="employee.id"
             :value="employee.id"
           >
@@ -31,8 +31,8 @@
             focus:outline-none focus:border-blue-600
             cursor-pointer
             w-full
-          "
-          v-model="props.attendance.date"
+          " required
+          v-model="attendance.date"
         />
       </div>
       <div class="relative z-0 w-full mb-6 group">
@@ -50,7 +50,7 @@
           cols="30"
           rows="5"
           placeholder="Input Note"
-          v-model="props.attendance.note"
+          v-model="attendance.note"
         ></textarea>
         <label
           for="Input Note"
@@ -90,10 +90,28 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
+import { computed } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
-const props = defineProps({
-  employees: Array,
-  createAttendance: Function,
-  attendance: Object,
+const store = useStore();
+const router = useRouter();
+
+const attendance = ref({
+  employee_id: "",
+  date: "",
+  note: "",
 });
+
+store.dispatch("getEmployees");
+
+const employees = computed(() => store.state.employees.data);
+
+function createAttendance() {
+  store.dispatch("createAttendance", attendance.value).then(() => {
+    router.push({ name: "ViewAttendances" });
+  });
+}
+
+
 </script>

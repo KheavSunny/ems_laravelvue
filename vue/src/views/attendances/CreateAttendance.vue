@@ -73,11 +73,7 @@
           <div class="px-4 py-5 flex-auto">
             <div class="tab-content tab-space">
               <div :class="{ hidden: openTab !== 1, block: openTab === 1 }">
-                <create-attendance-tab
-                  :createAttendance="createAttendance"
-                  :employees="employees"
-                  :attendance="attendance"
-                ></create-attendance-tab>
+                <create-attendance-tab></create-attendance-tab>
               </div>
               <div :class="{ hidden: openTab !== 2, block: openTab === 2 }">
                 <create-permission-absent-tab></create-permission-absent-tab>
@@ -91,9 +87,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { ref } from "@vue/runtime-core";
 import CreateAttendanceTab from "../../components/tabAttendance/CreateAttendanceTab.vue";
 import CreatePermissionAbsentTab from "../../components/tabAttendance/CreatePermissionAbsentTab.vue";
 
@@ -103,23 +97,6 @@ function toggleTabs(tabNumber) {
   openTab.value = tabNumber;
 }
 
-const store = useStore();
-const router = useRouter();
-const attendance = {
-  employee_id: "",
-  date: "",
-  note: "",
-};
-
-store.dispatch("getEmployees");
-
-const employees = computed(() => store.state.employees.data);
-
-function createAttendance() {
-  store.dispatch("createAttendance", attendance).then(() => {
-    router.push({ name: "ViewAttendances" });
-  });
-}
 </script>
 
 <style scoped>

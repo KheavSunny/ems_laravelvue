@@ -23,6 +23,7 @@ class Employee extends Model
         'zip_code',
         'phone',
         'address',
-        'salary'
+        'salary',
+        'time_work'
     ];
 }

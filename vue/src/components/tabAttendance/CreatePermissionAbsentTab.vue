@@ -8,11 +8,10 @@
           focus:outline-none focus:border-blue-600
           w-full
         "
+        v-model="attendance.employee_id"
       >
         <option disabled selected value="">Select Employees</option>
-        <option value="">Sunny</option>
-        <option value="">Manut</option>
-        <option value="">Song</option>
+        <option v-for="employee in employees" :key="employee.id" :value="employee.id" >{{ employee.firstname }}</option>
       </select>
     </div>
     <div class="relative z-0 w-full mb-6 group">
@@ -23,10 +22,11 @@
           focus:outline-none focus:border-blue-600
           w-full
         "
+        v-model="attendance.half_or_full"
       >
-        <option disabled selected>Select Half or Full</option>
-        <option>Half Day</option>
-        <option>Full Day</option>
+        <option disabled selected value="">Select Half or Full</option>
+        <option value="2">Half Day</option>
+        <option value="4">Full Day</option>
       </select>
     </div>
     <div class="relative z-0 w-full mb-6 group">
@@ -37,10 +37,11 @@
           focus:outline-none focus:border-blue-600
           w-full
         "
+        v-model="attendance.p_or_a"
       >
-        <option disabled selected>Select Type</option>
-        <option>Permission</option>
-        <option>Absent</option>
+        <option disabled selected value="">Select Type</option>
+        <option value="permission">Permission</option>
+        <option value="absent">Absent</option>
       </select>
     </div>
     <div class="relative z-0 w-full mb-6 lg:mb-3 group">
@@ -58,6 +59,7 @@
                 cursor-pointer
                 w-full
               "
+              v-model="attendance.date_from"
             />
           </label>
         </div>
@@ -74,6 +76,7 @@
                 cursor-pointer
                 w-full
               "
+              v-model="attendance.date_to"
             />
           </label>
         </div>
@@ -94,6 +97,7 @@
         cols="30"
         rows="5"
         placeholder="Input Note"
+        v-model="attendance.note"
       ></textarea>
       <label
         for="Input Note"
@@ -129,3 +133,25 @@
     </div>
   </form>
 </template>
+
+<script setup>
+import { computed, ref } from "@vue/runtime-core";
+import { useStore } from "vuex";
+
+
+const store = useStore();
+
+const attendance = ref({
+  employee_id:"",
+  half_or_full:"",
+  p_or_a: "",
+  date_from: "",
+  date_to: "",
+  note: "",
+})
+
+store.dispatch('getEmployees');
+
+const employees = computed(() => store.state.employees.data);
+
+</script>

@@ -36,7 +36,8 @@ class StoreEmployeeRequest extends FormRequest
             'address' => 'string',
             'birthdate' => 'string',
             'salary' => 'string',
-            'date_hired' => 'string'
+            'date_hired' => 'string',
+            'time_work' => 'required|string'
         ];
     }
 }

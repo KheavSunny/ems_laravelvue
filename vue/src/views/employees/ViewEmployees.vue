@@ -27,6 +27,12 @@
             <td>
               {{ employee.lastname }}
             </td>
+            <td v-if="employee.time_work == '08:00:00'">
+              Office
+            </td>
+            <td v-else>
+              Industry
+            </td>
             <td>
               {{ employee.phone }}
             </td>
@@ -72,7 +78,7 @@ store.dispatch("getEmployees");
 
 const employees = computed(() => store.state.employees);
 
-const theads = ["ID", "Firstname", "Lastname", "Phone", "Address", "Salary"];
+const theads = ["ID", "Firstname", "Lastname","Type", "Phone", "Address", "Salary"];
 
 function getForPage(link) {
   if (!link.url || link.active) {

@@ -43,6 +43,12 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
         $data = $request->validated();
+        
+        if($data['time_work'] == 'office'){
+            $data['time_work'] = '08:00:00';
+        }elseif($data['time_work'] == 'industry'){
+            $data['time_work'] = '07:00:00';
+        }
 
         $employee = Employee::create($data);
 

@@ -28,7 +28,8 @@ class EmployeeResource extends JsonResource
             'date_hired' => $this->date_hired,
             'address' => $this->address,
             'phone' => $this->phone,
-            'salary' => $this->salary
+            'salary' => $this->salary,
+            'time_work' => $this->time_work
         ];
     }
 }

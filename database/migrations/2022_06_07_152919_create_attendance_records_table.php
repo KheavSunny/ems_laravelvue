@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->time('time');
             $table->text('note')->nullable();
+            $table->string('p_or_a')->nullable()->comment('p=permission,a=absent');
             $table->timestamps();
         });
     }

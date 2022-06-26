@@ -36,7 +36,8 @@ class UpdateEmployeeRequest extends FormRequest
             'address' => 'string',
             'birthdate' => 'string',
             'salary' => 'string',
-            'date_hired' => 'nullable'
+            'date_hired' => 'nullable',
+            'time_work' => 'string'
         ];
     }
 }

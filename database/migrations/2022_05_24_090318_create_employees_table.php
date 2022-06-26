@@ -27,6 +27,7 @@ return new class extends Migration
             $table->char('zip_code', 10);
             $table->date('birthdate')->nullable();
             $table->date('date_hired')->nullable();
+            $table->string('time_work');
             $table->timestamps();
             $table->timestamp('delete_at')->nullable();
         });
