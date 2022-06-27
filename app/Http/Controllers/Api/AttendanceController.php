@@ -47,9 +47,6 @@ class AttendanceController extends Controller
     {
         $data = $request->validated();
 
-        $date = Carbon::parse($data['date'])->toDateString();
-
-
         $time = Carbon::parse($data['date'])->toTimeString();
 
         $employee = Employee::whereId($data['employee_id'])->first();
@@ -68,7 +65,7 @@ class AttendanceController extends Controller
             }
         }
 
-        $this->createAttendance($employee->id, $date, $data['status'], $data['note']);
+        return $this->createAttendance($employee->id, $data['date'], $data['status'], $data['note'] ?? '');
     }
 
     public function store_permission_absent(StorePermissionAbsentRequest $request)
@@ -143,14 +140,14 @@ class AttendanceController extends Controller
 
     private function createAttendance($employee_id, $date, $status, $note)
     {
-
-        $attendance = Attendance::whereDate('date', $date)->where('employee_id', $employee_id)->first();
+        $getDate = Carbon::parse($date)->toDateString();
+        $attendance = Attendance::whereDate('date', $getDate)->where('employee_id', $employee_id)->first();
 
         if (!$attendance) {
 
             $attendance = new Attendance();
             $attendance->employee_id = $employee_id;
-            $attendance->date = $date;
+            $attendance->date = $getDate;
             $attendance->save();
 
             $this->column($attendance, $date, $status, $note ?? '', 't1');
