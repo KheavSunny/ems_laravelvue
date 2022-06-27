@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('departments', DepartmentController::class);
     Route::resource('attendances', AttendanceController::class);
     Route::resource('attendance-records', AttendanceRecordController::class);
+    Route::post('attendances/permission_absent', [AttendanceController::class, 'store_permission_absent']);
     Route::resource('loans', LoanController::class);
     Route::resource('payments', PaymentController::class);
     Route::put('/payments/{id}/paid', [PaymentController::class, 'paid']);

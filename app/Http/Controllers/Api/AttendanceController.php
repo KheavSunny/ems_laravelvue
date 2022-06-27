@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Attendance\StoreAttendanceRequest;
+use App\Http\Requests\Attendance\StorePermissionAbsentRequest;
 use App\Http\Requests\Attendance\UpdateAttendanceRequest;
 use App\Http\Requests\AttendanceRecord\UpdateAttendanceRecordRequest;
 use App\Http\Resources\Attendance\AttendanceResource;
 use App\Models\Attendance;
 use App\Models\AttendanceRecord;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -45,40 +47,41 @@ class AttendanceController extends Controller
     {
         $data = $request->validated();
 
-        $attendance = Attendance::whereDate('date', Carbon::parse($data['date'])->toDateString())->where('employee_id', $data['employee_id'])->first();
-        // return new AttendanceResource($attendanceExist);
-        // $attendance = '';
-        if (!$attendance) {
+        $date = Carbon::parse($data['date'])->toDateString();
 
-            $attendance = new Attendance();
-            $attendance->employee_id = $data['employee_id'];
-            $attendance->date = Carbon::parse($data['date'])->toDateString();
-            $attendance->save();
 
-            $attendance_record = new AttendanceRecord();
-            $attendance_record->time = Carbon::parse($data['date'])->toTimeString();
-            $attendance_record->note = $data['note'] ?? null;
-            $attendance_record->save();
+        $time = Carbon::parse($data['date'])->toTimeString();
 
-            $attendance->where('id', $attendance->id)->update(['t1' => $attendance_record->id]);
+        $employee = Employee::whereId($data['employee_id'])->first();
 
-            return $this->show($attendance->id);
-        } else {
-            if ($attendance->t1 == null) {
-                $this->column($attendance, $data['date'], $data['note'] ?? null, 't1');
-            } else if ($attendance->t2 == null) {
-                $this->column($attendance, $data['date'], $data['note'] ?? null, 't2');
-            } elseif ($attendance->t3 == null) {
-                $this->column($attendance, $data['date'], $data['note'] ?? null, 't3');
-            } elseif ($attendance->t4 == null) {
-                $this->column($attendance, $data['date'], $data['note'] ?? null, 't4');
-            } elseif ($attendance->t5 == null) {
-                $this->column($attendance, $data['date'], $data['note'] ?? null, 't5');
-            } elseif ($attendance->t6 == null) {
-                $this->column($attendance, $data['date'], $data['note'] ?? null, 't6');
+        $time15minutes = date('H:i:s', strtotime('+15 minutes', strtotime($employee->time_work)));
+
+        $time4hours = date('H:i:s', strtotime('+4 hours', strtotime($employee->time_work)));
+
+        if (!request()->status) {
+            if ($time > $time15minutes && $time <= $time4hours) {
+                $data['status'] = 'late';
+            } elseif ($time > '13:15:00') {
+                $data['status'] = 'late';
+            } else {
+                $data['status'] = 'present';
             }
+        }
 
-            return $this->show($attendance->id);
+        $this->createAttendance($employee->id, $date, $data['status'], $data['note']);
+    }
+
+    public function store_permission_absent(StorePermissionAbsentRequest $request)
+    {
+        $data = $request->validated();
+        $date_from = strtotime($data['date_from']);
+        $date_to = strtotime($data['date_to']);
+
+        if ($data['half_or_full'] == 2) {
+            for ($i = 1; $i <= 2; $i++) {
+                for ($date = $date_from; $date <= $date_to; $date += (86400)) {
+                }
+            }
         }
     }
 
@@ -130,19 +133,55 @@ class AttendanceController extends Controller
     public function destroy($id)
     {
         $attendance = Attendance::whereId($id)->first();
-        if($attendance){
+        if ($attendance) {
             $attendance->delete();
-            return response(['message' => 'Attendance '.$attendance->id.' has been deleted']);
-        }else{
+            return response(['message' => 'Attendance ' . $attendance->id . ' has been deleted']);
+        } else {
             return response(['message' => 'No data founded!!']);
         }
     }
 
-    private function column($constraints, $date, $request, $column)
+    private function createAttendance($employee_id, $date, $status, $note)
     {
+
+        $attendance = Attendance::whereDate('date', $date)->where('employee_id', $employee_id)->first();
+
+        if (!$attendance) {
+
+            $attendance = new Attendance();
+            $attendance->employee_id = $employee_id;
+            $attendance->date = $date;
+            $attendance->save();
+
+            $this->column($attendance, $date, $status, $note ?? '', 't1');
+
+            return $this->show($attendance->id);
+        } else {
+            if ($attendance->t1 == null) {
+                $this->column($attendance, $date, $status, $note ?? '', 't1');
+            } else if ($attendance->t2 == null) {
+                $this->column($attendance, $date, $status = '', $note ?? '', 't2');
+            } elseif ($attendance->t3 == null) {
+                $this->column($attendance, $date, $status, $note ?? '', 't3');
+            } elseif ($attendance->t4 == null) {
+                $this->column($attendance, $date, $status = '', $note ?? '', 't4');
+            } elseif ($attendance->t5 == null) {
+                $this->column($attendance, $date, $status = '', $note ?? '', 't5');
+            } elseif ($attendance->t6 == null) {
+                $this->column($attendance, $date, $status = '', $note ?? '', 't6');
+            }
+
+            return $this->show($attendance->id);
+        }
+    }
+
+    private function column($constraints, $time, $status, $note, $column)
+    {
+        $time = $time;
         $attendance_record = new AttendanceRecord();
-        $attendance_record->time = Carbon::parse($date)->toTimeString();
-        $attendance_record->note = $request ?? '';
+        $attendance_record->time = Carbon::parse($time)->toTimeString();
+        $attendance_record->note = $note;
+        $attendance_record->status = $status;
         $attendance_record->save();
         Attendance::where('id', $constraints->id)->update([$column => $attendance_record->id]);
     }

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class=" text-3xl lg:text-5xl">
+    <div class="text-3xl lg:text-5xl">
       Create
-      <span class=" text-2xl lg:text-4xl">{{
+      <span class="text-2xl lg:text-4xl">{{
         openTab === 1 ? "Attendance" : "Permission & Absent"
       }}</span>
     </div>
@@ -96,7 +96,6 @@ let openTab = ref(1);
 function toggleTabs(tabNumber) {
   openTab.value = tabNumber;
 }
-
 </script>
 
 <style scoped>

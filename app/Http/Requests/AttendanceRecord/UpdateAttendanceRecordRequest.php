@@ -25,6 +25,7 @@ class UpdateAttendanceRecordRequest extends FormRequest
     {
         return [
             'time' => 'date_format:H:i:s',
+            'status' => 'in:absent,permission,present,late',
             'note' => 'nullable'
         ];
     }

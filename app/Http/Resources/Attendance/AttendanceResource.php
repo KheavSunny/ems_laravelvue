@@ -20,14 +20,23 @@ class AttendanceResource extends JsonResource
             'id' => $this->id,
             'date' => $this->date,
             'employee' => Employee::whereId($this->employee_id)->first(),
-            't1' => AttendanceRecord::whereId($this->t1)->first(['id', 'time', 'note']),
-            't2' => AttendanceRecord::whereId($this->t2)->first(['id', 'time', 'note']),
-            't3' => AttendanceRecord::whereId($this->t3)->first(['id', 'time', 'note']),
-            't4' => AttendanceRecord::whereId($this->t4)->first(['id', 'time', 'note']),
-            't5' => AttendanceRecord::whereId($this->t5)->first(['id', 'time', 'note']),
-            't6' => AttendanceRecord::whereId($this->t6)->first(['id', 'time', 'note']),
+            // 't1' => AttendanceRecord::whereId($this->t1)->first(['id', 'time', 'note']),
+            't1' => $this->attendance_record($this->t1, $this->employee_id),
+            't2' => $this->attendance_record($this->t2, $this->employee_id),
+            't3' => $this->attendance_record($this->t3, $this->employee_id),
+            't4' => $this->attendance_record($this->t4, $this->employee_id),
+            't5' => $this->attendance_record($this->t5, $this->employee_id),
+            't6' => $this->attendance_record($this->t6, $this->employee_id),
             'total' => $this->t,
             'overtime' => $this->overtime,
         ];
+    }
+
+    private function attendance_record($id, $employee_id)
+    {
+        $employeeTime = Employee::whereId($employee_id)->first('time_work');
+        $attendance_record = AttendanceRecord::whereId($id)->first();
+
+        return $attendance_record;
     }
 }

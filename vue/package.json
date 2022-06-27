@@ -13,7 +13,6 @@
         "@tailwindcss/forms": "^0.5.2",
         "axios": "^0.27.2",
         "moment": "^2.29.3",
-        "tw-elements": "^1.0.0-alpha12",
         "vue": "^3.2.25",
         "vue-router": "^4.0.13",
         "vuex": "^4.0.2"

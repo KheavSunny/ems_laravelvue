@@ -14,10 +14,11 @@ class AttendanceRecordResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'time' => $this->time,
-            'note' => $this->note
+            'note' => $this->note,
         ];
     }
 }

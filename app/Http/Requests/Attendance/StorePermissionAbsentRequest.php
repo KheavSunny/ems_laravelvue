@@ -4,7 +4,7 @@ namespace App\Http\Requests\Attendance;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAttendanceRequest extends FormRequest
+class StorePermissionAbsentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,11 @@ class StoreAttendanceRequest extends FormRequest
     {
         return [
             'employee_id' => 'required|numeric',
-            'date' => 'required|string',
-            'status' => 'in:absent,permission',
+            'date_from' => 'required|string',
+            'date_to' => 'required|string',
             'note' => 'nullable',
+            'status' => 'in:absent,permission',
+            'half_or_full' => 'required|in:2,4'
         ];
     }
 }

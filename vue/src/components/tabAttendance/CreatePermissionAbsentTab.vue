@@ -11,7 +11,13 @@
         v-model="attendance.employee_id"
       >
         <option disabled selected value="">Select Employees</option>
-        <option v-for="employee in employees" :key="employee.id" :value="employee.id" >{{ employee.firstname }}</option>
+        <option
+          v-for="employee in employees"
+          :key="employee.id"
+          :value="employee.id"
+        >
+          {{ employee.firstname }}
+        </option>
       </select>
     </div>
     <div class="relative z-0 w-full mb-6 group">
@@ -37,9 +43,9 @@
           focus:outline-none focus:border-blue-600
           w-full
         "
-        v-model="attendance.p_or_a"
+        v-model="attendance.status"
       >
-        <option disabled selected value="">Select Type</option>
+        <option disabled selected value="">Select Status</option>
         <option value="permission">Permission</option>
         <option value="absent">Absent</option>
       </select>
@@ -138,20 +144,18 @@
 import { computed, ref } from "@vue/runtime-core";
 import { useStore } from "vuex";
 
-
 const store = useStore();
 
 const attendance = ref({
-  employee_id:"",
-  half_or_full:"",
-  p_or_a: "",
+  employee_id: "",
+  half_or_full: "",
+  status: "",
   date_from: "",
   date_to: "",
   note: "",
-})
+});
 
-store.dispatch('getEmployees');
+store.dispatch("getEmployees");
 
 const employees = computed(() => store.state.employees.data);
-
 </script>

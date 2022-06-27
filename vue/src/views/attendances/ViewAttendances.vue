@@ -30,7 +30,7 @@
               :class="
                 attendance.t1 === null
                   ? ''
-                  : attendance.t1.time > '08:15:00'
+                  : attendance.t1.status == 'late'
                   ? 'text-red-700'
                   : ''
               "
@@ -44,7 +44,7 @@
               :class="
                 attendance.t3 === null
                   ? ''
-                  : attendance.t3.time > '13:15:00'
+                  : attendance.t3.status == 'late'
                   ? 'text-red-700'
                   : ''
               "
