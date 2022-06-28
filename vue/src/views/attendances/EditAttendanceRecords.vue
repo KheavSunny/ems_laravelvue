@@ -9,6 +9,7 @@
             <tr>
               <th>ID</th>
               <th>Time</th>
+              <th>Status</th>
               <th>Note</th>
               <th>Actions</th>
             </tr>
@@ -20,6 +21,9 @@
               </td>
               <td v-if="attendance?.[`t${i}`]">
                 {{ attendance?.[`t${i}`]?.time ?? "" }}
+              </td>
+              <td v-if="attendance?.[`t${i}`]">
+                {{ attendance?.[`t${i}`]?.status ?? "" }}
               </td>
               <td v-if="attendance?.[`t${i}`]">
                 {{ attendance?.[`t${i}`]?.note ?? "" }}

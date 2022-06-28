@@ -7,6 +7,7 @@
           <tr>
             <th>ID</th>
             <th>Time</th>
+            <th>Status</th>
             <th>Note</th>
             <th>Action</th>
           </tr>
@@ -18,6 +19,7 @@
           >
             <td>{{ attendance.id }}</td>
             <td>{{ attendance.time }}</td>
+            <td>{{ attendance.status }}</td>
             <td>{{ attendance.note }}</td>
             <td>
               <label

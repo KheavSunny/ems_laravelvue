@@ -71,12 +71,22 @@ class AttendanceController extends Controller
     public function store_permission_absent(StorePermissionAbsentRequest $request)
     {
         $data = $request->validated();
+        $employee = Employee::whereId($data['employee_id'])->first();
         $date_from = strtotime($data['date_from']);
         $date_to = strtotime($data['date_to']);
 
         if ($data['half_or_full'] == 2) {
             for ($i = 1; $i <= 2; $i++) {
-                for ($date = $date_from; $date <= $date_to; $date += (86400)) {
+                for ($current = $date_from; $current <= $date_to; $current += (86400)) {
+                    $date = date('Y-m-d', $current);
+                    $this->createAttendance($employee->id, $date, $data['status'], $data['note'] ?? '');
+                }
+            }
+        } else {
+            for ($i = 1; $i <= 4; $i++) {
+                for ($current = $date_from; $current <= $date_to; $current += (86400)) {
+                    $date = date('Y-m-d', $current);
+                    $this->createAttendance($employee->id, $date, $data['status'], $data['note'] ?? '');
                 }
             }
         }
@@ -157,15 +167,15 @@ class AttendanceController extends Controller
             if ($attendance->t1 == null) {
                 $this->column($attendance, $date, $status, $note ?? '', 't1');
             } else if ($attendance->t2 == null) {
-                $this->column($attendance, $date, $status = '', $note ?? '', 't2');
+                $this->column($attendance, $date, $status = 'break', $note ?? '', 't2');
             } elseif ($attendance->t3 == null) {
                 $this->column($attendance, $date, $status, $note ?? '', 't3');
             } elseif ($attendance->t4 == null) {
-                $this->column($attendance, $date, $status = '', $note ?? '', 't4');
+                $this->column($attendance, $date, $status = 'break', $note ?? '', 't4');
             } elseif ($attendance->t5 == null) {
-                $this->column($attendance, $date, $status = '', $note ?? '', 't5');
+                $this->column($attendance, $date, $status = 'overtime', $note ?? '', 't5');
             } elseif ($attendance->t6 == null) {
-                $this->column($attendance, $date, $status = '', $note ?? '', 't6');
+                $this->column($attendance, $date, $status = 'overtime', $note ?? '', 't6');
             }
 
             return $this->show($attendance->id);
@@ -174,7 +184,7 @@ class AttendanceController extends Controller
 
     private function column($constraints, $time, $status, $note, $column)
     {
-        $time = $time;
+
         $attendance_record = new AttendanceRecord();
         $attendance_record->time = Carbon::parse($time)->toTimeString();
         $attendance_record->note = $note;

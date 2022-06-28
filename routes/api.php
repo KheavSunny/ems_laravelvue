@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AttendanceRecordController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\CountryController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\LoanController;
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', function () {
         return request()->user();
     });
+    Route::get('dashboard', [DashboardController::class, 'dashboard']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::resource('employees', EmployeeController::class);
     Route::resource('states', StateController::class);

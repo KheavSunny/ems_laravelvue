@@ -26,34 +26,96 @@
               {{ attendance.employee.firstname }}
             </td>
             <td>{{ attendance.date }}</td>
-            <td
-              :class="
-                attendance.t1 === null
-                  ? ''
-                  : attendance.t1.status == 'late'
-                  ? 'text-red-700'
-                  : ''
-              "
-            >
-              {{ attendance.t1 === null ? "" : attendance.t1.time }}
+            <td v-if="attendance.t1">
+              <div
+                v-if="attendance.t1.status == 'permission'"
+                class="badge badge-sm badge-warning gap-2"
+              >
+                Permission
+              </div>
+              <div
+                v-else-if="attendance.t1.status == 'absent'"
+                class="badge badge-sm badge-error gap-2"
+              >
+                Absent
+              </div>
+              <div
+                v-else
+                :class="
+                  attendance.t1 === null
+                    ? ''
+                    : attendance.t1.status == 'late'
+                    ? 'text-red-700'
+                    : ''
+                "
+              >
+                {{ attendance.t1 === null ? "" : attendance.t1.time }}
+              </div>
             </td>
-            <td>
-              {{ attendance.t2 === null ? "" : attendance.t2.time }}
+            <td v-else></td>
+            <td v-if="attendance.t2">
+              <div
+                v-if="attendance.t1.status == 'permission'"
+                class="badge badge-sm badge-warning"
+              >
+                Permission
+              </div>
+              <div
+                v-else-if="attendance.t1.status == 'absent'"
+                class="badge badge-sm badge-error"
+              >
+                Absent
+              </div>
+              <div v-else>
+                {{ attendance.t2 === null ? "" : attendance.t2.time }}
+              </div>
             </td>
-            <td
-              :class="
-                attendance.t3 === null
-                  ? ''
-                  : attendance.t3.status == 'late'
-                  ? 'text-red-700'
-                  : ''
-              "
-            >
-              {{ attendance.t3 === null ? "" : attendance.t3.time }}
+            <td v-else></td>
+            <td v-if="attendance.t3">
+              <div
+                v-if="attendance.t3.status == 'permission'"
+                class="badge badge-sm badge-warning gap-2"
+              >
+                Permission
+              </div>
+              <div
+                v-else-if="attendance.t3.status == 'absent'"
+                class="badge badge-sm badge-error gap-2"
+              >
+                Absent
+              </div>
+              <div
+                v-else
+                :class="
+                  attendance.t3 === null
+                    ? ''
+                    : attendance.t3.status == 'late'
+                    ? 'text-red-700'
+                    : ''
+                "
+              >
+                {{ attendance.t3 === null ? "" : attendance.t3.time }}
+              </div>
             </td>
-            <td>
-              {{ attendance.t4 === null ? "" : attendance.t4.time }}
+            <td v-else></td>
+            <td v-if="attendance.t4">
+              <div
+                v-if="attendance.t3.status == 'permission'"
+                class="badge badge-sm badge-warning"
+              >
+                Permission
+              </div>
+              <div
+                v-else-if="attendance.t3.status == 'absent'"
+                class="badge badge-sm badge-error"
+              >
+                Absent
+              </div>
+              <div v-else>
+                {{ attendance.t4 === null ? "" : attendance.t4.time }}
+              </div>
             </td>
+            <td v-else></td>
             <td>
               {{ attendance.t5 === null ? "" : attendance.t5.time }}
             </td>

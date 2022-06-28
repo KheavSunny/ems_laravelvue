@@ -38,17 +38,23 @@
           "
         >
           <svg
-            class="w-16 h-16 fill-current mr-4 hidden lg:block"
-            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-16 h-16 mr-4 hidden lg:block"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1"
           >
             <path
-              d="M17.35,2.219h-5.934c-0.115,0-0.225,0.045-0.307,0.128l-8.762,8.762c-0.171,0.168-0.171,0.443,0,0.611l5.933,5.934c0.167,0.171,0.443,0.169,0.612,0l8.762-8.763c0.083-0.083,0.128-0.192,0.128-0.307V2.651C17.781,2.414,17.587,2.219,17.35,2.219M16.916,8.405l-8.332,8.332l-5.321-5.321l8.333-8.332h5.32V8.405z M13.891,4.367c-0.957,0-1.729,0.772-1.729,1.729c0,0.957,0.771,1.729,1.729,1.729s1.729-0.772,1.729-1.729C15.619,5.14,14.848,4.367,13.891,4.367 M14.502,6.708c-0.326,0.326-0.896,0.326-1.223,0c-0.338-0.342-0.338-0.882,0-1.224c0.342-0.337,0.881-0.337,1.223,0C14.84,5.826,14.84,6.366,14.502,6.708"
-            ></path>
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+            />
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-semibold text-3xl">237</p>
-            <p>Products Sold</p>
+            <p class="font-semibold text-3xl">{{ count.users }}</p>
+            <p>Total Users</p>
           </div>
         </div>
       </div>
@@ -69,17 +75,23 @@
           "
         >
           <svg
-            class="w-16 h-16 fill-current mr-4 hidden lg:block"
-            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-16 w-16 mr-4 hidden lg:block"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1"
           >
             <path
-              d="M17.684,7.925l-5.131-0.67L10.329,2.57c-0.131-0.275-0.527-0.275-0.658,0L7.447,7.255l-5.131,0.67C2.014,7.964,1.892,8.333,2.113,8.54l3.76,3.568L4.924,17.21c-0.056,0.297,0.261,0.525,0.533,0.379L10,15.109l4.543,2.479c0.273,0.153,0.587-0.089,0.533-0.379l-0.949-5.103l3.76-3.568C18.108,8.333,17.986,7.964,17.684,7.925 M13.481,11.723c-0.089,0.083-0.129,0.205-0.105,0.324l0.848,4.547l-4.047-2.208c-0.055-0.03-0.116-0.045-0.176-0.045s-0.122,0.015-0.176,0.045l-4.047,2.208l0.847-4.547c0.023-0.119-0.016-0.241-0.105-0.324L3.162,8.54L7.74,7.941c0.124-0.016,0.229-0.093,0.282-0.203L10,3.568l1.978,4.17c0.053,0.11,0.158,0.187,0.282,0.203l4.578,0.598L13.481,11.723z"
-            ></path>
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-semibold text-3xl">177</p>
-            <p>Product Reviews</p>
+            <p class="font-semibold text-3xl">{{ count.employees }}</p>
+            <p>Total Employees</p>
           </div>
         </div>
       </div>
@@ -257,6 +269,10 @@ import store from "../store";
 
 const user = computed(() => store.state.currentUser.data);
 store.dispatch("getOneUser");
+
+store.dispatch("getDashbaord");
+
+const count = computed(() => store.state.dashbaord);
 </script>
 
 <style scoped>

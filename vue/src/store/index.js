@@ -8,6 +8,7 @@ const store = createStore({
             data: {},
             token: sessionStorage.getItem("TOKEN"),
         },
+        dashbaord: {},
         employees: {
             data: [],
             links: [],
@@ -102,6 +103,12 @@ const store = createStore({
             return axiosClient.post("/logout").then((response) => {
                 commit("logout");
                 return response;
+            });
+        },
+        getDashbaord({ commit }) {
+            return axiosClient.get("/dashboard").then((res) => {
+                commit("setDashboard", res.data);
+                return res;
             });
         },
         getOneUser({ commit }) {
@@ -298,6 +305,9 @@ const store = createStore({
                 return res;
             });
         },
+        getPermissionAbsent({}, data) {
+            return axiosClient.post("/attendances/permission_absent", data);
+        },
         getAttendanceRecords({ commit }, { url = null } = {}) {
             url = url || "/attendance-records";
             return axiosClient.get(url).then((res) => {
@@ -413,6 +423,9 @@ const store = createStore({
             state.user.token = null;
             state.user.data = {};
             sessionStorage.removeItem("TOKEN");
+        },
+        setDashboard(state, dashbaord) {
+            state.dashbaord = dashbaord;
         },
         setUser: (state, userData) => {
             state.user.token = userData.token;

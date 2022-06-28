@@ -18,6 +18,7 @@ class AttendanceRecordResource extends JsonResource
         return [
             'id' => $this->id,
             'time' => $this->time,
+            'status' => $this->status,
             'note' => $this->note,
         ];
     }

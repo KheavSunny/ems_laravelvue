@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="createPermissionAbsent">
     <div class="relative z-0 w-full mb-6 group">
       <select
         class="
@@ -142,9 +142,11 @@
 
 <script setup>
 import { computed, ref } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 const store = useStore();
+const router = useRouter();
 
 const attendance = ref({
   employee_id: "",
@@ -156,6 +158,12 @@ const attendance = ref({
 });
 
 store.dispatch("getEmployees");
+
+function createPermissionAbsent() {
+  store.dispatch("getPermissionAbsent", attendance.value).then(() => {
+    router.push({ name: "ViewAttendances" });
+  });
+}
 
 const employees = computed(() => store.state.employees.data);
 </script>
