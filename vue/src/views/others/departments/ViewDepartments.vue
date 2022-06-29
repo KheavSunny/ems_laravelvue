@@ -32,12 +32,10 @@
       <table>
         <thead>
           <tr>
-            <th>Department ID</th>
-            <th>Department Name</th>
-            <th>Action</th>
+            <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="departments.data.length">
           <tr v-for="department in departments.data" :key="department.id">
             <td>{{ department.id }}</td>
             <td class="capitalize">{{ department.name }}</td>
@@ -58,19 +56,18 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td class="text-center" :colspan="theads.length">No Data !!!</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <div v-if="departments.links" class="flex justify-center mt-5 btn-group">
-      <button
-        v-for="(link, i) of departments.links"
-        :key="i"
-        :disabled="!link.url"
-        v-html="link.label"
-        @click.prevent="getForPage(link)"
-        aria-current="page"
-        class="btn"
-        :class="[link.active ? 'btn-active' : '']"
-      ></button>
+    <div v-if="departments.data.length">
+      <pagination
+        :links="departments.links"
+        :dispatch="'getDepartments'"
+      ></pagination>
     </div>
   </div>
 </template>
@@ -78,17 +75,13 @@
 <script setup>
 import { computed } from "@vue/runtime-core";
 import store from "../../../store";
+import Pagination from "../../../components/Pagination.vue";
 
 store.dispatch("getDepartments");
 
-const departments = computed(() => store.state.departments);
+const theads = ["Department Id", "Department Name", "Action"];
 
-function getForPage(link) {
-  if (!link.url || link.active) {
-    return;
-  }
-  store.dispatch("getDepartments", { url: link.url });
-}
+const departments = computed(() => store.state.departments);
 
 function DeleteDepartment(id) {
   if (confirm(`Are you sure to delete this department row ?`)) {

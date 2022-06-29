@@ -128,17 +128,11 @@
         </tbody>
       </table>
     </div>
-    <div v-if="attendances.links" class="flex justify-center mt-5 btn-group">
-      <button
-        v-for="(link, i) of attendances.links"
-        :key="i"
-        :disabled="!link.url"
-        v-html="link.label"
-        @click.prevent="getForPage(link)"
-        aria-current="page"
-        class="btn"
-        :class="[link.active ? 'btn-active' : '']"
-      ></button>
+    <div v-if="attendances.links">
+      <pagination
+        :links="attendances.links"
+        :dispatch="'getAttendances'"
+      ></pagination>
     </div>
   </div>
 </template>
@@ -147,21 +141,13 @@
 import { computed, ref } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import Pagination from "../../components/Pagination.vue";
 
 const store = useStore();
 const router = useRouter();
 store.dispatch("getAttendances");
 
-// let attendances = ref({});
-
 const attendances = computed(() => store.state.attendances);
-
-function getForPage(link) {
-  if (!link.url || link.active) {
-    return;
-  }
-  store.dispatch("getAttendances", { url: link.url });
-}
 
 function attendance_records_edit(id) {
   router.push({ name: "EditAttendanceRecords", params: { id: id } });

@@ -5,15 +5,10 @@
       <table>
         <thead>
           <tr class="text-center">
-            <th>Ref_No</th>
-            <th>Firstname</th>
-            <th>Date From</th>
-            <th>Date To</th>
-            <th>Status</th>
-            <th></th>
+            <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="payments.data.length">
           <tr
             v-for="(payment, index) in payments.data"
             :key="index"
@@ -165,43 +160,38 @@
             </div>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td :colspan="theads.length" class="text-center">No Data !!!</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <div v-if="payments.links" class="flex justify-center mt-5 btn-group">
-      <button
-        v-for="(link, i) of payments.links"
-        :key="i"
-        :disabled="!link.url"
-        v-html="link.label"
-        @click.prevent="getForPage(link)"
-        aria-current="page"
-        class="btn"
-        :class="[link.active ? 'btn-active' : '']"
-      ></button>
+    <div v-if="payments.data.length">
+      <pagination
+        :links="payments.links"
+        :dispatch="'getPayments'"
+      ></pagination>
     </div>
+    <div v-else></div>
   </div>
 </template>
 <script setup>
 import { computed, ref } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import moment from "moment";
+import Pagination from "../../components/Pagination.vue";
 
 function formatDate(date) {
   return moment(date).format("DD/MM/YYYY");
 }
 
+const theads = ["Ref_no", "Name", "Date From", "Date To", "Status", ""];
+
 const store = useStore();
 
 store.dispatch("getPayments");
 const payments = computed(() => store.state.payments);
-
-function getForPage(link) {
-  if (!link.url || link.active) {
-    return;
-  }
-
-  store.dispatch("getPayments", { url: link.url });
-}
 
 function deletePayment(id) {
   store.dispatch("deletePayment", id).then(() => {

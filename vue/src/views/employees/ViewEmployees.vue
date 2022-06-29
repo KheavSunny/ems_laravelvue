@@ -27,12 +27,8 @@
             <td>
               {{ employee.lastname }}
             </td>
-            <td v-if="employee.time_work == '08:00:00'">
-              Office
-            </td>
-            <td v-else>
-              Industry
-            </td>
+            <td v-if="employee.time_work == '08:00:00'">Office</td>
+            <td v-else>Industry</td>
             <td>
               {{ employee.phone }}
             </td>
@@ -55,17 +51,11 @@
         </tbody>
       </table>
     </div>
-    <div v-if="employees.links" class="flex justify-center mt-5 btn-group">
-      <button
-        v-for="(link, i) of employees.links"
-        :key="i"
-        :disabled="!link.url"
-        v-html="link.label"
-        @click.prevent="getForPage(link)"
-        aria-current="page"
-        class="btn"
-        :class="[link.active ? 'btn-active' : '']"
-      ></button>
+    <div v-if="employees.links">
+      <pagination
+        :links="employees.links"
+        :dispatch="'getEmployees'"
+      ></pagination>
     </div>
   </div>
 </template>
@@ -73,19 +63,21 @@
 <script setup>
 import { computed } from "@vue/runtime-core";
 import store from "../../store";
+import Pagination from "../../components/Pagination.vue";
 
 store.dispatch("getEmployees");
 
 const employees = computed(() => store.state.employees);
 
-const theads = ["ID", "Firstname", "Lastname","Type", "Phone", "Address", "Salary"];
-
-function getForPage(link) {
-  if (!link.url || link.active) {
-    return;
-  }
-  store.dispatch("getEmployees", { url: link.url });
-}
+const theads = [
+  "ID",
+  "Firstname",
+  "Lastname",
+  "Type",
+  "Phone",
+  "Address",
+  "Salary",
+];
 
 function deleteEmployee(id) {
   store.dispatch("deleteEmployee", id).then(() => {

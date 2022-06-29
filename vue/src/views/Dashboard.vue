@@ -53,7 +53,7 @@
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-semibold text-3xl">{{ count.users }}</p>
+            <p class="font-semibold text-3xl">{{ dashbaord.users }}</p>
             <p>Total Users</p>
           </div>
         </div>
@@ -90,7 +90,7 @@
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-semibold text-3xl">{{ count.employees }}</p>
+            <p class="font-semibold text-3xl">{{ dashbaord.employees }}</p>
             <p>Total Employees</p>
           </div>
         </div>
@@ -157,10 +157,59 @@
 
     <div class="flex flex-wrap -mx-3">
       <div class="w-full xl:w-1/3 px-3">
-        <p class="text-xl font-semibold mb-4">Recent Sales</p>
+        <p class="text-xl font-semibold mb-4">Recent Employees</p>
 
-        <div class="w-full bg-white border rounded-lg p-4 mb-8 xl:mb-0">
-          <canvas id="buyers-chart" width="600" height="400"></canvas>
+        <div
+          class="
+            w-full
+            bg-white
+            border
+            rounded-lg
+            pr-6
+            pt-6
+            pl-6
+            pb-10
+            mb-8
+            xl:mb-0
+          "
+        >
+          <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
+            <table>
+              <thead>
+                <tr>
+                  <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
+                </tr>
+              </thead>
+              <tbody v-if="dashbaord.employee_lists">
+                <tr
+                  v-for="employee in dashbaord.employee_lists"
+                  :key="employee.id"
+                >
+                  <td>{{ employee.id }}</td>
+                  <td class="capitalize">
+                    {{ employee.lastname }} {{ employee.firstname }}
+                  </td>
+                  <td>
+                    {{
+                      employee.time_work == "08:00:00" ? "Office" : "Industry"
+                    }}
+                  </td>
+                  <td>{{ employee.created_at }}</td>
+                </tr>
+              </tbody>
+              <tbody v-else>
+                <tr>
+                  <td
+                    v-if="theads.length"
+                    :colspan="theads.length"
+                    class="text-center"
+                  >
+                    No Data !!!
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -270,9 +319,11 @@ import store from "../store";
 const user = computed(() => store.state.currentUser.data);
 store.dispatch("getOneUser");
 
+const theads = ["ID", "Name", "Type", "Join Date"];
+
 store.dispatch("getDashbaord");
 
-const count = computed(() => store.state.dashbaord);
+const dashbaord = computed(() => store.state.dashbaord);
 </script>
 
 <style scoped>

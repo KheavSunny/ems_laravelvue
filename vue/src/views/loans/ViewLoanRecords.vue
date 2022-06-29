@@ -8,14 +8,10 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Action</th>
+            <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="loans.data.length">
           <tr v-for="loan in loans.data" :key="loan.id">
             <td>{{ loan.id }}</td>
             <td v-if="loan.employee">{{ loan.employee.firstname }}</td>
@@ -38,38 +34,29 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td :colspan="theads.length" class="text-center">No Data !!!</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <div v-if="loans.links" class="flex justify-center mt-5 btn-group">
-      <button
-        v-for="(link, i) of loans.links"
-        :key="i"
-        :disabled="!link.url"
-        v-html="link.label"
-        @click.prevent="getForPage(link)"
-        aria-current="page"
-        class="btn"
-        :class="[link.active ? 'btn-active' : '']"
-      ></button>
+    <div v-if="loans.data.length">
+      <pagination :links="loans.links" :dispatch="'getLoans'"></pagination>
     </div>
   </div>
 </template>
 <script setup>
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
+import Pagination from "../../components/Pagination.vue";
 
+const theads = ["Id", "Name", "Amount", "Date", "Action"];
 const store = useStore();
 
 store.dispatch("getLoans");
 
 const loans = computed(() => store.state.loans);
-
-function getForPage(link) {
-  if (!link.url || link.active) {
-    return;
-  }
-  store.dispatch("getLoans", { url: link.url });
-}
 
 function deleteLoan(id) {
   store.dispatch("deleteLoan", id).then(() => {

@@ -19,7 +19,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::orderBy('id')->paginate(10);
+        $employees = Employee::orderBy('id')->paginate(5);
 
         return EmployeeResource::collection($employees);
     }
@@ -43,10 +43,10 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
         $data = $request->validated();
-        
-        if($data['time_work'] == 'office'){
+
+        if ($data['time_work'] == 'office') {
             $data['time_work'] = '08:00:00';
-        }elseif($data['time_work'] == 'industry'){
+        } elseif ($data['time_work'] == 'industry') {
             $data['time_work'] = '07:00:00';
         }
 

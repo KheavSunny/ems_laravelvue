@@ -8,7 +8,8 @@
             border-2 border-blue-400
             focus:outline-none focus:border-blue-600
             w-full
-          " required
+          "
+          required
           v-model="attendance.employee_id"
         >
           <option disabled selected value="">Select Employees</option>
@@ -31,7 +32,8 @@
             focus:outline-none focus:border-blue-600
             cursor-pointer
             w-full
-          " required
+          "
+          required
           v-model="attendance.date"
         />
       </div>
@@ -112,6 +114,4 @@ function createAttendance() {
     router.push({ name: "ViewAttendances" });
   });
 }
-
-
 </script>

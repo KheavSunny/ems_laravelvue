@@ -32,13 +32,10 @@
       <table>
         <thead>
           <tr>
-            <th>City ID</th>
-            <th>State Name</th>
-            <th>City Name</th>
-            <th>Action</th>
+            <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="cities.data.length">
           <tr v-for="city in cities.data" :key="city.id">
             <td>{{ city.id }}</td>
             <td v-if="city.state" class="capitalize">{{ city.state.name }}</td>
@@ -58,19 +55,15 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td class="text-center" :colspan="theads.length">No Data !!!</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <div v-if="cities.links" class="flex justify-center mt-5 btn-group">
-      <button
-        v-for="(link, i) of cities.links"
-        :key="i"
-        :disabled="!link.url"
-        v-html="link.label"
-        @click.prevent="getForPage(link)"
-        aria-current="page"
-        class="btn"
-        :class="[link.active ? 'btn-active' : '']"
-      ></button>
+    <div v-if="cities.data.length">
+      <pagination :links="cities.links" :dispatch="'getCities'"></pagination>
     </div>
   </div>
 </template>
@@ -78,15 +71,12 @@
 <script setup>
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
+import Pagination from "../../../components/Pagination.vue";
 
 const store = useStore();
+const theads = ["City Id", "State Name", "City Name", "Action"];
 const cities = computed(() => store.state.cities);
-function getForPage(link) {
-  if (!link.url || link.active) {
-    return;
-  }
-  store.dispatch("getCities", { url: link.url });
-}
+
 store.dispatch("getCities");
 
 function deleteCity(id) {
