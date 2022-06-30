@@ -26,6 +26,7 @@ import CreateCity from "../views/others/city/CreateCity.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Nothing from "../components/Nothing.vue";
+import MultipleSelect from "../views/MultipleSelect.vue";
 
 const routes = [{
         path: "/",
@@ -37,6 +38,11 @@ const routes = [{
                 path: "/dashboard",
                 name: "Dashboard",
                 component: Dashboard,
+            },
+            {
+                path: "/multiple_select",
+                name: "MultipleSelect",
+                component: MultipleSelect,
             },
             {
                 path: "/employees",
