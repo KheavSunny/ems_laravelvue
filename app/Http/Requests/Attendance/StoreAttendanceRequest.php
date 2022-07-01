@@ -24,7 +24,7 @@ class StoreAttendanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required|numeric',
+            'employee_id' => 'required|array',
             'date' => 'required|string',
             'status' => 'in:absent,permission',
             'note' => 'nullable',

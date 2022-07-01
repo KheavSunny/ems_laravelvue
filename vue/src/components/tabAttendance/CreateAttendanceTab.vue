@@ -1,5 +1,6 @@
 <template>
   <div>
+    <pre>{{ attendance.employee_id }}</pre>
     <div class="tabs mb-6 flex justify-center w-auto">
       <a
         class="tab text-black"
@@ -24,6 +25,7 @@
               focus:outline-none focus:border-blue-600
               w-full
             "
+            multiple
             :class="{
               hidden: selectEmployee !== 1,
               block: selectEmployee === 1,
@@ -43,7 +45,6 @@
           <multiselect
             v-model="selected"
             label="firstname"
-            track-by="id"
             open-direction="top"
             placeholder="Type to search employees"
             :options="employees"
@@ -155,7 +156,7 @@ function selectTab(howmany) {
 }
 
 const attendance = ref({
-  employee_id: "",
+  employee_id: [],
   date: "",
   note: "",
 });

@@ -49,29 +49,57 @@ class AttendanceController extends Controller
 
         $time = Carbon::parse($data['date'])->toTimeString();
 
-        $employee = Employee::whereId($data['employee_id'])->first();
+        $results = [];
 
-        $time15minutes = date('H:i:s', strtotime('+15 minutes', strtotime($employee->time_work)));
+        foreach (request()->employee_id as $key => $value) {
 
-        $time4hours = date('H:i:s', strtotime('+4 hours', strtotime($employee->time_work)));
+            // return $key;
 
-        if (!request()->status) {
-            if ($time > $time15minutes && $time <= $time4hours) {
-                $data['status'] = 'late';
-            } elseif ($time > '13:15:00') {
-                $data['status'] = 'late';
-            } else {
-                $data['status'] = 'present';
+            // $employee = Employee::whereId($data['employee_id'])->first();
+
+            // $time15minutes = date('H:i:s', strtotime('+15 minutes', strtotime($employee->time_work)));
+
+            // $time4hours = date('H:i:s', strtotime('+4 hours', strtotime($employee->time_work)));
+
+            // if (!request()->status) {
+            //     if ($time > $time15minutes && $time <= $time4hours) {
+            //         $data['status'] = 'late';
+            //     } elseif ($time > '13:15:00') {
+            //         $data['status'] = 'late';
+            //     } else {
+            //         $data['status'] = 'present';
+            //     }
+            // }
+
+            // return $this->createAttendance($employee->id, $data['date'], $data['status'], $data['note'] ?? '');
+            $employee = Employee::whereId($value)->first();
+
+            $time15minutes = date('H:i:s', strtotime('+15 minutes', strtotime($employee->time_work)));
+
+            $time4hours = date('H:i:s', strtotime('+4 hours', strtotime($employee->time_work)));
+
+            if (!request()->status) {
+                if ($time > $time15minutes && $time <= $time4hours) {
+                    $data['status'] = 'late';
+                } elseif ($time > '13:15:00') {
+                    $data['status'] = 'late';
+                } else {
+                    $data['status'] = 'present';
+                }
             }
+
+            // $results[] = $employee->id;
+
+            $results[] = $this->createAttendance($employee->id, $data['date'], $data['status'], $data['note'] ?? '');
         }
 
-        return $this->createAttendance($employee->id, $data['date'], $data['status'], $data['note'] ?? '');
+        return $results;
     }
 
     public function store_permission_absent(StorePermissionAbsentRequest $request)
     {
         $data = $request->validated();
-        $employee = Employee::whereId($data['employee_id'])->first();
+        $employee = Employee::whereId($data['employee_id'])->get();
         $date_from = strtotime($data['date_from']);
         $date_to = strtotime($data['date_to']);
 

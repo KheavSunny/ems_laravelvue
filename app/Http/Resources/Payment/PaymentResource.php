@@ -4,6 +4,7 @@ namespace App\Http\Resources\Payment;
 
 use App\Models\Attendance;
 use App\Models\Employee;
+use App\Models\LoanDetails;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
@@ -45,6 +46,7 @@ class PaymentResource extends JsonResource
     {
         $sum = $this->attendanceWorkingDay($this->date_from, $this->date_to, $this->employee_id);
         $employee = Employee::whereId($this->employee_id)->first()->makeHidden(['created_at', 'updated_at', 'delete_at']);
+        $loan_limit = LoanDetails::where('employee_id', $this->employee_id)->first('remain');
         return [
             'id' => $this->id,
             'ref_no' => $this->ref_no,
@@ -56,7 +58,8 @@ class PaymentResource extends JsonResource
             'overtime' => $this->attendanceOvertime($this->date_from, $this->date_to, $this->employee_id)->sum,
             'working_day' => $sum->sum,
             'subtotal' => $sum->sum * $employee->salary - $this->loan_repay,
-            'employee' => $employee
+            'employee' => $employee,
+            'loan_limit' => $loan_limit->remain ?? 0
         ];
     }
 }
