@@ -88,8 +88,6 @@ class AttendanceController extends Controller
                 }
             }
 
-            // $results[] = $employee->id;
-
             $results[] = $this->createAttendance($employee->id, $data['date'], $data['status'], $data['note'] ?? '');
         }
 
@@ -99,25 +97,32 @@ class AttendanceController extends Controller
     public function store_permission_absent(StorePermissionAbsentRequest $request)
     {
         $data = $request->validated();
-        $employee = Employee::whereId($data['employee_id'])->get();
+
         $date_from = strtotime($data['date_from']);
         $date_to = strtotime($data['date_to']);
 
-        if ($data['half_or_full'] == 2) {
-            for ($i = 1; $i <= 2; $i++) {
-                for ($current = $date_from; $current <= $date_to; $current += (86400)) {
-                    $date = date('Y-m-d', $current);
-                    $this->createAttendance($employee->id, $date, $data['status'], $data['note'] ?? '');
+        $results = [];
+        foreach ($data['employee_id'] as $key => $value) {
+
+            $employee = Employee::whereId($value)->first();
+            if ($data['half_or_full'] == 2) {
+                for ($i = 1; $i <= 2; $i++) {
+                    for ($current = $date_from; $current <= $date_to; $current += (86400)) {
+                        $date = date('Y-m-d', $current);
+                        $results = $this->createAttendance($employee->id, $date, $data['status'], $data['note'] ?? '');
+                    }
                 }
-            }
-        } else {
-            for ($i = 1; $i <= 4; $i++) {
-                for ($current = $date_from; $current <= $date_to; $current += (86400)) {
-                    $date = date('Y-m-d', $current);
-                    $this->createAttendance($employee->id, $date, $data['status'], $data['note'] ?? '');
+            } else {
+                for ($i = 1; $i <= 4; $i++) {
+                    for ($current = $date_from; $current <= $date_to; $current += (86400)) {
+                        $date = date('Y-m-d', $current);
+                        $results = $this->createAttendance($employee->id, $date, $data['status'], $data['note'] ?? '');
+                    }
                 }
             }
         }
+
+        return $results;
     }
 
     /**

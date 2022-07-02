@@ -24,7 +24,7 @@ class StorePermissionAbsentRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required|numeric|array',
+            'employee_id' => 'required',
             'date_from' => 'required|string',
             'date_to' => 'required|string',
             'note' => 'nullable',

@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="createPermissionAbsent">
-    <div class="relative z-0 w-full mb-6 group">
+    <!-- <div class="relative z-0 w-full mb-6 group">
       <select
         class="
           select
@@ -19,7 +19,33 @@
           {{ employee.firstname }}
         </option>
       </select>
-    </div>
+    </div> -->
+    <multiselect
+      v-model="selected"
+      label="firstname"
+      track-by="id"
+      placeholder="Type to search employees"
+      open-direction="bottom"
+      :options="employees"
+      :multiple="true"
+      :searchable="selected.length === employees.length ? false : true"
+      :internal-search="true"
+      :clear-on-select="true"
+      :close-on-select="false"
+      :limit="3"
+      :max-height="300"
+      :limitText="limitText"
+      :hide-selected="true"
+      class="
+        w-full
+        border-2 border-blue-400
+        rounded
+        focus:outline-none focus:border-blue-600
+        mb-6
+      "
+      :required="true"
+    >
+    </multiselect>
     <div class="relative z-0 w-full mb-6 group">
       <select
         class="
@@ -144,9 +170,20 @@
 import { computed, ref } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import multiselect from "vue-multiselect";
 
 const store = useStore();
 const router = useRouter();
+
+const selected = ref([]);
+
+function limitText(count) {
+  return `and ${count} other employees`;
+}
+
+function clearAll() {
+  selected = ref([]);
+}
 
 const attendance = ref({
   employee_id: "",
@@ -157,13 +194,13 @@ const attendance = ref({
   note: "",
 });
 
+attendance.value.employee_id = computed(() => selected.value.map((e) => e.id));
 store.dispatch("getEmployees");
+const employees = computed(() => store.state.employees.data);
 
 function createPermissionAbsent() {
   store.dispatch("getPermissionAbsent", attendance.value).then(() => {
     router.push({ name: "ViewAttendances" });
   });
 }
-
-const employees = computed(() => store.state.employees.data);
 </script>

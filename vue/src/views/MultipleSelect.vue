@@ -22,13 +22,13 @@
         >Oops! No elements found. Consider changing the search query.</span
       >
     </multiselect>
-    <pre v-for="select in selected" :key="select.id">{{ select.lastname }}</pre>
+    <pre>{{ result }}</pre>
   </div>
 </template>
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { computed } from "@vue/runtime-core";
+import { computed, onMounted } from "@vue/runtime-core";
 import multiselect from "vue-multiselect";
 import { useStore } from "vuex";
 
@@ -38,6 +38,23 @@ store.dispatch("getEmployees");
 
 const selected = ref([]);
 const employees = computed(() => store.state.employees.data);
+
+console.log(selected.value);
+
+const ages = [
+  { id: 1, name: "s1" },
+  { id: 2, name: "s2" },
+  { id: 3, name: "s3" },
+  { id: 4, name: "s4" },
+];
+
+// console.log(selected.value);
+
+const result = computed(() => selected.value.map((e) => e.id));
+
+function button() {
+  console.log(result.value);
+}
 
 function limitText(count) {
   return `and ${count} other employees`;

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <pre>{{ attendance.employee_id }}</pre>
-    <div class="tabs mb-6 flex justify-center w-auto">
+    <!-- <div class="tabs mb-6 flex justify-center w-auto">
       <a
         class="tab text-black"
         :class="{ 'bg-blue-400 rounded-md': selectEmployee == 1 }"
@@ -14,61 +13,35 @@
         @click="selectTab(2)"
         >Many Attendances</a
       >
-    </div>
+    </div> -->
     <form @submit.prevent="createAttendance">
       <div class="grid xl:gap-6">
-        <div class="relative z-0 w-full mb-6 group">
-          <select
-            class="
-              select
-              border-2 border-blue-400
-              focus:outline-none focus:border-blue-600
-              w-full
-            "
-            multiple
-            :class="{
-              hidden: selectEmployee !== 1,
-              block: selectEmployee === 1,
-            }"
-            required
-            v-model="attendance.employee_id"
-          >
-            <option disabled selected value="">Select Employees</option>
-            <option
-              v-for="employee in employees"
-              :key="employee.id"
-              :value="employee.id"
-            >
-              {{ employee.firstname }}
-            </option>
-          </select>
-          <multiselect
-            v-model="selected"
-            label="firstname"
-            open-direction="top"
-            placeholder="Type to search employees"
-            :options="employees"
-            :multiple="true"
-            :searchable="selected.length === employees.length ? false : true"
-            :internal-search="true"
-            :clear-on-select="true"
-            :close-on-select="false"
-            :limit="3"
-            :max-height="600"
-            :limitText="limitText"
-            :hide-selected="true"
-            class="
-              border border-blue-400
-              rounded
-              focus:outline-none focus:border-blue-600
-            "
-            :class="{
-              hidden: selectEmployee !== 2,
-              block: selectEmployee === 2,
-            }"
-          >
-          </multiselect>
-        </div>
+        <multiselect
+          v-model="selected"
+          label="firstname"
+          track-by="id"
+          placeholder="Type to search employees"
+          open-direction="bottom"
+          :options="employees"
+          :multiple="true"
+          :searchable="selected.length === employees.length ? false : true"
+          :internal-search="true"
+          :clear-on-select="true"
+          :close-on-select="false"
+          :limit="3"
+          :max-height="300"
+          :limitText="limitText"
+          :hide-selected="true"
+          class="
+            w-full
+            border-2 border-blue-400
+            rounded
+            focus:outline-none focus:border-blue-600
+            mb-6
+          "
+          :required="true"
+        >
+        </multiselect>
         <div class="relative z-0 w-full mb-6 group">
           <input
             type="datetime-local"
@@ -148,7 +121,16 @@ import multiselect from "vue-multiselect";
 const store = useStore();
 const router = useRouter();
 
-const selected = ref([]);
+let selected = ref([]);
+
+function limitText(count) {
+  return `and ${count} other employees`;
+}
+
+function clearAll() {
+  selected = ref([]);
+}
+
 let selectEmployee = ref(1);
 
 function selectTab(howmany) {
@@ -156,10 +138,12 @@ function selectTab(howmany) {
 }
 
 const attendance = ref({
-  employee_id: [],
+  employee_id: "",
   date: "",
   note: "",
 });
+
+attendance.value.employee_id = computed(() => selected.value.map((e) => e.id));
 
 store.dispatch("getEmployees");
 
@@ -170,14 +154,4 @@ function createAttendance() {
     router.push({ name: "ViewAttendances" });
   });
 }
-
-function limitText(count) {
-  return `and ${count} other employees`;
-}
-
-function clearAll() {
-  selected = ref([]);
-}
 </script>
-
-<style src="vue-multiselect/dist/vue-multiselect.css"></style>
