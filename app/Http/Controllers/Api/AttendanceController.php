@@ -175,6 +175,15 @@ class AttendanceController extends Controller
         $attendance = Attendance::whereId($id)->first();
         if ($attendance) {
             $attendance->delete();
+
+            AttendanceRecord::orWhere('id', $attendance->t1)
+                ->orWhere('id', $attendance->t2)
+                ->orWhere('id', $attendance->t3)
+                ->orWhere('id', $attendance->t4)
+                ->orWhere('id', $attendance->t5)
+                ->orWhere('id', $attendance->t6)
+                ->delete();
+
             return response(['message' => 'Attendance ' . $attendance->id . ' has been deleted']);
         } else {
             return response(['message' => 'No data founded!!']);

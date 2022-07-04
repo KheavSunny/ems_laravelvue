@@ -49,6 +49,8 @@
             class="input input-accent focus:input-primary w-full"
             v-model="payment.loan_repay"
             required
+            min="0"
+            :max="payment.loan_limit"
           />
         </div>
         <div class="text-right">
