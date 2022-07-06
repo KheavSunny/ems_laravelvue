@@ -5,15 +5,10 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th class="w-2/10">Employee Name</th>
-            <th>Date</th>
-            <th v-for="num in 6" :key="num">T{{ num }}</th>
-            <th>Total</th>
-            <th>Overtimes</th>
+            <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
           </tr>
         </thead>
-        <tbody v-if="attendances">
+        <tbody v-if="attendances.data.length">
           <tr
             v-for="attendance in attendances.data"
             :key="attendance.id"
@@ -126,9 +121,14 @@
             <td>{{ attendance.overtime }}</td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td class="text-center" :colspan="theads.length">No Data !!!</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <div v-if="attendances.links">
+    <div v-if="attendances.data.length">
       <pagination
         :links="attendances.links"
         :dispatch="'getAttendances'"
@@ -143,6 +143,19 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Pagination from "../../components/Pagination.vue";
 
+const theads = [
+  "Id",
+  "Employee Name",
+  "Date",
+  "T1",
+  "T2",
+  "T3",
+  "T4",
+  "T5",
+  "T6",
+  "Total",
+  "overtime",
+];
 const store = useStore();
 const router = useRouter();
 store.dispatch("getAttendances");

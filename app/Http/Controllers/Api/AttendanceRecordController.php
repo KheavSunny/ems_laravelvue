@@ -22,7 +22,7 @@ class AttendanceRecordController extends Controller
      */
     public function index()
     {
-        $attendance_records = AttendanceRecord::orderBy('id', 'desc')->paginate(10);
+        $attendance_records = AttendanceRecord::orderBy('id', 'desc')->paginate(5);
 
         return AttendanceRecordResource::collection($attendance_records);
     }

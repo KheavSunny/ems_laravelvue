@@ -5,14 +5,10 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Note</th>
-            <th>Action</th>
+            <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="attendance_records.data.length">
           <tr
             v-for="attendance in attendance_records.data"
             :key="attendance.id"
@@ -95,6 +91,11 @@
             <!-- / Modal Update -->
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td class="text-center" :colspan="theads.length">No Data !!!</td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div v-if="attendance_records.data.length">
@@ -111,6 +112,8 @@ import { computed, ref, watch } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Pagination from "../../components/Pagination.vue";
+
+const theads = ["id", "time", "status", "note", "action"];
 
 const store = useStore();
 const route = useRoute();
