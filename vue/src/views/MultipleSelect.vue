@@ -36,7 +36,7 @@ const store = useStore();
 
 store.dispatch("getEmployees");
 
-const selected = ref([]);
+let selected = ref([]);
 const employees = computed(() => store.state.employees.data);
 
 console.log(selected.value);

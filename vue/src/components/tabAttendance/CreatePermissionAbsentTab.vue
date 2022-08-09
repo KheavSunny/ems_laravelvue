@@ -175,7 +175,7 @@ import multiselect from "vue-multiselect";
 const store = useStore();
 const router = useRouter();
 
-const selected = ref([]);
+let selected = ref([]);
 
 function limitText(count) {
   return `and ${count} other employees`;
