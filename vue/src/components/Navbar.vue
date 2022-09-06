@@ -92,7 +92,7 @@
           />
         </svg>
         <img
-          src="https://a7sas.net/wp-content/uploads/2019/07/4060.jpeg"
+          src="https://rb.gy/roopwd"
           class="w-12 h-12 rounded-full shadow-lg"
           @click="dropDownOpen = !dropDownOpen"
         />

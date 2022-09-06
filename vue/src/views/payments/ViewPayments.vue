@@ -78,7 +78,7 @@
               :id="`mymodal${payment.id}`"
             >
               <form
-                @submit="paid(payment.id)"
+                @submit.prevent="paid(payment.id)"
                 class="w-full flex justify-center"
               >
                 <div class="modal-box bg-base-300">
@@ -132,7 +132,7 @@
                       >
                         <div class="text-lg">
                           Loan Repay
-                          <small class="text-warning"
+                          <small v-if="payment.status == false" class="text-warning"
                             >({{ payment.loan_limit }})</small
                           >
                           :
