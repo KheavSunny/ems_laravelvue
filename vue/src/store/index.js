@@ -8,7 +8,7 @@ const store = createStore({
             data: {},
             token: sessionStorage.getItem("TOKEN"),
         },
-        dashbaord: {},
+        dashboard: {},
         employees: {
             data: [],
             links: [],
@@ -105,7 +105,7 @@ const store = createStore({
                 return response;
             });
         },
-        getDashbaord({ commit }) {
+        getdashboard({ commit }) {
             return axiosClient.get("/dashboard").then((res) => {
                 commit("setDashboard", res.data);
                 return res;
@@ -424,8 +424,8 @@ const store = createStore({
             state.user.data = {};
             sessionStorage.removeItem("TOKEN");
         },
-        setDashboard(state, dashbaord) {
-            state.dashbaord = dashbaord;
+        setDashboard(state, dashboard) {
+            state.dashboard = dashboard;
         },
         setUser: (state, userData) => {
             state.user.token = userData.token;
