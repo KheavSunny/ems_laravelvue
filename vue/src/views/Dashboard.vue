@@ -53,7 +53,7 @@
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-semibold text-3xl">{{ dashbaord.users }}</p>
+            <p class="font-semibold text-3xl">{{ dashboard.users }}</p>
             <p>Total Users</p>
           </div>
         </div>
@@ -90,7 +90,7 @@
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-semibold text-3xl">{{ dashbaord.employees }}</p>
+            <p class="font-semibold text-3xl">{{ dashboard.employees }}</p>
             <p>Total Employees</p>
           </div>
         </div>
@@ -180,9 +180,9 @@
                   <th v-for="thead in theads" :key="thead.id">{{ thead }}</th>
                 </tr>
               </thead>
-              <tbody v-if="dashbaord.employee_lists">
+              <tbody v-if="dashboard.employee_lists">
                 <tr
-                  v-for="employee in dashbaord.employee_lists"
+                  v-for="employee in dashboard.employee_lists"
                   :key="employee.id"
                 >
                   <td>{{ employee.id }}</td>
@@ -313,17 +313,20 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/runtime-core";
-import store from "../store";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+onMounted( async () => {
+    await store.dispatch("getOneUser");
+    await store.dispatch("getDashboard");
+});
 
 const user = computed(() => store.state.currentUser.data);
-store.dispatch("getOneUser");
-
 const theads = ["ID", "Name", "Type", "Join Date"];
-
-store.dispatch("getDashbaord");
-
-const dashbaord = computed(() => store.state.dashbaord);
+const dashboard = computed(() => store.state.dashboard);
+    
 </script>
 
 <style scoped>
